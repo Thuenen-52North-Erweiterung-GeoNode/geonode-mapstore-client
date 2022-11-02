@@ -106,10 +106,16 @@ function GeneralSettings({
         title,
         description = '',
         tooltipOptions = 'title',
-        tooltipPlacement = 'top'
+        tooltipPlacement = 'top',
+        exclusiveLayer = false,
     } = node || {};
 
     const currentTitle = isString(title) ? title : _getTitle(title, currentLocale) ?? title?.default ?? '';
+
+    const exclusiveLayerOptions = [
+        { value: true, label: "Ja" },
+        { value: false, label: "Nein" },
+    ];
 
     return (
         <>
@@ -130,7 +136,9 @@ function GeneralSettings({
                     onBlur={(event) => onChange({ description: event.target.value })}/>
             </FormGroup>
             {nodeType === 'layer'
-                ? <FormGroup>
+                ? 
+                <>
+                <FormGroup>
                     <ControlLabel><Message msgId="layerProperties.group" /></ControlLabel>
                     <SelectGroup
                         node={node}
@@ -139,6 +147,17 @@ function GeneralSettings({
                         currentLocale={currentLocale}
                     />
                 </FormGroup>
+                <FormGroup>
+                        <ControlLabel>Wechselseitiger Ausschluss</ControlLabel>
+                        <Select
+                            clearable={false}
+                            key="exclusiveLayer-dropdown"
+                            options={exclusiveLayerOptions}
+                            value = {exclusiveLayerOptions.find(({ value }) => value === exclusiveLayer)}
+                            onChange={({ value }) => onChange({ exclusiveLayer: value || false })}
+                        />
+                    </FormGroup>
+                </>
                 : null}
             {showTooltipOptions &&
             <>
