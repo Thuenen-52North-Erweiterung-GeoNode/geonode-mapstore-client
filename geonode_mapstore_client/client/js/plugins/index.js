@@ -104,6 +104,10 @@ function splitLazyAndStaticPlugins(pluginsDefinition) {
 // provides a way to import dynamically plugins similar to extensions
 
 export const plugins = {
+    LayerTitleTocLineBreakerPlugin: toLazyPlugin(
+        'LayerTitleTocLineBreaker',
+        () => import(/* webpackChunkName: 'plugins/line-breaker-plugin' */ '@js/plugins/LayerTitleTocLineBreaker')
+    ),
     LayerDownloadPlugin: toLazyPlugin(
         'LayerDownload',
         () => import(/* webpackChunkName: 'plugins/layer-download' */ '@mapstore/framework/plugins/LayerDownload'),

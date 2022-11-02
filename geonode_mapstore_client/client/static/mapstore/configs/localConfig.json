@@ -535,6 +535,9 @@
                 }
             },
             {
+                "name": "LayerTitleTocLineBreaker"
+            },
+            {
                 "name": "Identify",
                 "cfg": {
                     "showInMapPopup": true,
@@ -591,6 +594,9 @@
                         }
                     }
                 }
+            },
+            {
+                "name": "LayerTitleTocLineBreaker"
             },
             {
                 "name": "Identify",
@@ -671,6 +677,9 @@
                         }
                     }
                 }
+            },
+            {
+                "name": "LayerTitleTocLineBreaker"
             },
             {
                 "name": "Identify",
@@ -971,6 +980,9 @@
                 "cfg": {
                     "disablePermission": true
                 }
+            },
+            {
+                "name": "LayerTitleTocLineBreaker"
             },
             {
                 "name": "Save",
@@ -1640,6 +1652,9 @@
                         }
                     }
                 }
+            },
+            {
+                "name": "LayerTitleTocLineBreaker"
             },
             {
                 "name": "MapThumbnail"
