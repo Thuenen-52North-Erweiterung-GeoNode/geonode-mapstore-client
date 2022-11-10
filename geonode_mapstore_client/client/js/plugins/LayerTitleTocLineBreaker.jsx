@@ -5,9 +5,6 @@ import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import GroupTitle from '@mapstore/framework/components/TOC/fragments/GroupTitle';
 import GroupChildren from '@mapstore/framework/components/TOC/fragments/GroupChildren';
 import { updateNode } from '@mapstore/framework/actions/layers';
-//import { gnsave } from '@js/reducers/gnsave';
-//import { saveDirectContent } from '@js/actions/gnsave';
-//import gnsaveEpics from '@js/epics/gnsave';
 
 import {layerSelector} from '../selectors/layersSelector';
 
@@ -42,8 +39,7 @@ function LineBreaker(props) {
         if(props.layers.length > 0){
             props.layers.forEach(element => {
                 if (element.tooltipOptions != 'none') {
-                    props.deactivateTooltipOptions(element.id, 'layer', {tooltipOptions: 'none'});
-                    //props.saveTooltip();          
+                    props.deactivateTooltipOptions(element.id, 'layer', {tooltipOptions: 'none'});        
                 }
  
             });
@@ -63,15 +59,8 @@ const LineBreakerPlugin = connect((state) => ({
     layers: layerSelector(state)
 }), {
     deactivateTooltipOptions: updateNode,
-    //saveTooltip: saveDirectContent
 })(LineBreaker);
 
 export default createPlugin('LayerTitleTocLineBreaker', {
     component: LineBreakerPlugin,
-    /*epics: {
-        ...gnsaveEpics
-    },
-    reducers: {
-        gnsave
-    }*/
 });

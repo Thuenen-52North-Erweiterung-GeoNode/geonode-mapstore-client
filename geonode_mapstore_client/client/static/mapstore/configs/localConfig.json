@@ -472,6 +472,9 @@
                 }
             },
             {
+                "name": "LayerTitleTocLineBreaker"
+            },
+            {
                 "name": "Identify",
                 "cfg": {
                     "showInMapPopup": true,
@@ -1426,6 +1429,9 @@
                 }
             },
             {
+                "name": "LayerTitleTocLineBreaker"
+            },
+            {
                 "name": "FeatureEditor",
                 "cfg": {
                     "hideCloseButton": true,
@@ -1568,6 +1574,9 @@
                     "editingAllowedRoles": null,
                     "enableSetDefaultStyle": true
                 }
+            },
+            {
+                "name": "LayerTitleTocLineBreaker"
             },
             {
                 "name": "Identify",
