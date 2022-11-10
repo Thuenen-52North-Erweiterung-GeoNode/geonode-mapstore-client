@@ -28,23 +28,38 @@ Use Cases:
 
 function ExclusiveLayer(props) {
     const [go, toggleGo] = useState(false);
+
     useEffect(() => {
         if (props.layers.length > 0) {
             props.layers.forEach(element => {
+//                console.log(element.visibility)
                 if (element.exclusiveLayer) {
                     props.makeLayerInvisible(element.id, 'layer', {visibility: false});
+                    props.makeLayerInvisible(element.id, 'layer', {title: element.title+' excl.'});
                 }
             })
-
         }
-
-        /*LayersTool.propTypes.onClick = (e) => {
-            if (e.node) {
-                console.log("event", e)
-            }
-    
-        }*/
     }, [go])
+
+    props.layers.forEach(element => {
+        useEffect(() => {
+            console.log("visi changed")
+            if (!element.exclusiveLayer && element.visibility) {
+                props.layers.forEach(layer => {
+                    if (layer.exclusiveLayer) {
+                        props.makeLayerInvisible(layer.id, 'layer', {visibility: false});
+                    }
+                });
+            }
+            if (element.exclusiveLayer && element.visibility) {
+                props.layers.forEach(layer => {
+                    if (layer.id != element.id) {
+                        props.makeLayerInvisible(layer.id, 'layer', {visibility: false});
+                    }
+                })
+            }
+        }, [element.visibility])
+    })
 
     return (
         <div></div>
