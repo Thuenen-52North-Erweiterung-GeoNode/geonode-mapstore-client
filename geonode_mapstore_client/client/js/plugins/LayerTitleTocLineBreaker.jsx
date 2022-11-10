@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { createPlugin } from '../../MapStore2/web/client/utils/PluginsUtils';
-import GroupTitle from '@mapstore/framework/components/TOC/fragments/GroupTitle';
-import GeneralSettings from './layersettings/GeneralSettings';
 import { connect } from 'react-redux';
-import LayerSettings from './LayerSettings';
-import Message from '@mapstore/framework/components/I18N/Message';
+import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 
-//import layerSelector from '@mapstore/framework/plugins/widgetbuilder/enhancers/layerSelector';
+import GroupTitle from '@mapstore/framework/components/TOC/fragments/GroupTitle';
+import GroupChildren from '@mapstore/framework/components/TOC/fragments/GroupChildren';
+import { updateNode } from '@mapstore/framework/actions/layers';
+//import { gnsave } from '@js/reducers/gnsave';
+//import { saveDirectContent } from '@js/actions/gnsave';
+//import gnsaveEpics from '@js/epics/gnsave';
 
+import {layerSelector} from '../selectors/layersSelector';
 
 function LineBreaker(props) {
-    const defaultLayer = document.getElementsByClassName("toc-default-layer-head");
+    const defaultLayers = document.getElementsByClassName("toc-default-layer-head");
     const title = document.getElementsByClassName("toc-title");
-    const [ groupOpen, setGroupOpen] = useState(false);
-    
+    const [layerGroupOpen, toggleLayerGroup] = useState(false);
     useEffect(() => {
-        if (defaultLayer && defaultLayer.length > 0 && title && title.length > 0) {
-            Object.entries(defaultLayer).forEach(element => {
+        if (defaultLayers && defaultLayers.length > 0 && title && title.length > 0) {
+            Object.entries(defaultLayers).forEach(element => {
                 element[1].style.height='auto';
                 element[1].style.display='flow-root';
             });
@@ -28,11 +29,29 @@ function LineBreaker(props) {
                 element[1].style.whiteSpace = 'normal';
             });
         }
-    },[groupOpen]);
-    //To-Do: For each layer, set tooltipOptions to "none"
-    //To-Do: In GeneralSettings, set showTooltipOptions to false
+
+    },[layerGroupOpen]);
+
     GroupTitle.propTypes.onClick = () => {
-        setGroupOpen(!groupOpen);
+        toggleLayerGroup(!layerGroupOpen);
+    }
+
+    const [toggleTooltip, toggleTooltipDeactivator] = useState(true);
+    
+    useEffect(() => {
+        if(props.layers.length > 0){
+            props.layers.forEach(element => {
+                if (element.tooltipOptions != 'none') {
+                    props.deactivateTooltipOptions(element.id, 'layer', {tooltipOptions: 'none'});
+                    //props.saveTooltip();          
+                }
+ 
+            });
+        }
+    }, [toggleTooltip]);
+
+    GroupChildren.propTypes.onSort = () => {
+        toggleTooltipDeactivator(!toggleTooltip)
     }
 
     return (
@@ -40,14 +59,19 @@ function LineBreaker(props) {
     )
 }
 
-/*const LineBreakerPlugin = connect((state => ({
-    layers: layerSelector(state),
+const LineBreakerPlugin = connect((state) => ({
+    layers: layerSelector(state)
 }), {
-    //setTooltipToFalse: 
-})
-)(LineBreaker);*/
+    deactivateTooltipOptions: updateNode,
+    //saveTooltip: saveDirectContent
+})(LineBreaker);
 
 export default createPlugin('LayerTitleTocLineBreaker', {
-    component: LineBreaker,
-    //component: LineBreakerPlugin,
+    component: LineBreakerPlugin,
+    /*epics: {
+        ...gnsaveEpics
+    },
+    reducers: {
+        gnsave
+    }*/
 });
