@@ -134,7 +134,6 @@ function VisualStyleEditor({
     isStyleChanged,
     resourceType
 }) {
-    console.log(layer)
     const [closing, setClosing] = useState(false);
 
     // localstorage for style notification

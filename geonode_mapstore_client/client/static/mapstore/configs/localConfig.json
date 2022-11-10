@@ -1645,6 +1645,9 @@
                 "name": "MapThumbnail"
             },
             {
+                "name": "ExclusiveLayer"
+            },
+            {
                 "name": "ActionNavbar",
                 "cfg": {
                     "containerPosition": "header",
