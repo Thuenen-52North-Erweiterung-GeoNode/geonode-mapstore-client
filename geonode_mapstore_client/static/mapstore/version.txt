@@ -2,6 +2,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 geonode-mapstore-client-v4.0.0-961b49a2bb4e60eca787f817d3989261aaa8c586
 =======
 geonode-mapstore-client-v4.0.0-612b6c7a70b6f6142cf5d886149f84e9d3f4ead2
@@ -15,3 +16,6 @@ geonode-mapstore-client-v4.0.0-722396b23452d289b254d3a2dca6496cc9ddaa36
 =======
 geonode-mapstore-client-v4.0.0-ae6f662a53aa9d9d774c57a5083d9028790600ff
 >>>>>>> cab451e6 ([create-pull-request] automated change (#1300))
+=======
+geonode-mapstore-client-v4.0.0-02f4a7d7f9e66f83bf35b8f6e65cfe0fb80f3a47
+>>>>>>> 3db98d0c ([create-pull-request] automated change (#1301))
