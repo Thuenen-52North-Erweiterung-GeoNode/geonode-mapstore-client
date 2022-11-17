@@ -65,9 +65,9 @@ function LineBreaker(props) {
   useEffect(() => {
     if (props.layers.length > 0) {
       props.layers.forEach((element) => {
-        if (element.tooltipOptions != "none") {
+        if (element.tooltipOptions != "description") {
           props.deactivateTooltipOptions(element.id, "layer", {
-            tooltipOptions: "none",
+            tooltipOptions: "description",
           });
         }
       });
