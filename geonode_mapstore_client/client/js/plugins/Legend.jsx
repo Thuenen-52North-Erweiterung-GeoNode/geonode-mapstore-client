@@ -44,7 +44,7 @@ function Legend({
                 <li className="gn-legend-list-item"><VisibilityCheck key="visibilitycheck"
                     tooltip={layer.loadingError === 'Warning' ? 'toc.toggleLayerVisibilityWarning' : 'toc.toggleLayerVisibility'}
                     node={layer}
-                    propertiesChangeHandler={(id, options) => onUpdateNode(id, 'layers', options)} /><p>{layer.title}</p></li>
+                    propertiesChangeHandler={(id, options) => onUpdateNode(id, 'layers', options)} /><p /* dirtyStuffRightHere  */style={{'whiteSpace':'normal', 'hyphens':'auto', 'wordBreak':'normal'}}>{layer.title}</p></li>
                 <li className="gn-legend-bottom">
                     <OpacitySlider
                         opacity={layer.opacity}
