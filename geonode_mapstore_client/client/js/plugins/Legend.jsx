@@ -75,7 +75,8 @@ function Legend({ layers, onUpdateNode }) {
                     whiteSpace: "normal",
                     hyphens: "auto",
                     wordBreak: "normal",
-                    overfloWrap: "anywhere",
+
+                    overflowWrap: "anywhere",
                   }}
                 >
                   {layer.title}
