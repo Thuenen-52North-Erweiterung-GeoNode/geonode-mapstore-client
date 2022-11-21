@@ -182,6 +182,24 @@ function GeneralSettings(
           onBlur={(event) => onChange({ description: event.target.value })}
         />
       </FormGroup>
+      {nodeType === "group" ? (
+          <>
+          <FormGroup>
+          <ControlLabel>Wechselseitiger Ausschluss</ControlLabel>
+          <Select
+            clearable={false}
+            key="exclusiveLayer-dropdown"
+            options={exclusiveLayerOptions}
+            value={exclusiveLayerOptions.find(
+              ({ value }) => value === exclusiveLayer
+            )}
+            onChange={({ value }) =>
+              onChange({ exclusiveLayer: value || false })
+            }
+          />
+        </FormGroup>
+        </>): null
+      }
       {nodeType === "layer" ? (
         <>
           <FormGroup>
@@ -193,20 +211,6 @@ function GeneralSettings(
               onChange={onChange}
               groups={groups}
               currentLocale={currentLocale}
-            />
-          </FormGroup>
-          <FormGroup>
-            <ControlLabel>Wechselseitiger Ausschluss</ControlLabel>
-            <Select
-              clearable={false}
-              key="exclusiveLayer-dropdown"
-              options={exclusiveLayerOptions}
-              value={exclusiveLayerOptions.find(
-                ({ value }) => value === exclusiveLayer
-              )}
-              onChange={({ value }) =>
-                onChange({ exclusiveLayer: value || false })
-              }
             />
           </FormGroup>
         </>

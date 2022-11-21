@@ -43,7 +43,6 @@ function ExclusiveLayer(props) {
 
     props.layers.forEach(element => {
         useEffect(() => {
-            console.log("visi changed")
             if (!element.exclusiveLayer && element.visibility) {
                 props.layers.forEach(layer => {
                     if (layer.exclusiveLayer) {
