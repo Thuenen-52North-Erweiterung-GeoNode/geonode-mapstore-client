@@ -9,9 +9,7 @@ import { updateNode } from "@mapstore/framework/actions/layers";
 import { layerSelector } from "../selectors/layersSelector";
 
 function LineBreaker(props) {
-  const defaultLayers = document.getElementsByClassName(
-    "toc-default-layer-head"
-  );
+  const defaultLayers = document.getElementsByClassName("toc-default-layer-head");
   const groupLayers = document.getElementsByClassName("toc-default-group-head");
   const title = document.getElementsByClassName("toc-title");
   const groupTitle = document.getElementsByClassName("toc-group-title");
@@ -60,13 +58,14 @@ function LineBreaker(props) {
     toggleLayerGroup(!layerGroupOpen);
   };
 
-  const [toggleTooltip, toggleTooltipDeactivator] = useState(true);
+  const [toggleTooltip, tooltipChanger] = useState(true);
 
   useEffect(() => {
     if (props.layers.length > 0) {
       props.layers.forEach((element) => {
-        if (element.tooltipOptions != "description") {
-          props.deactivateTooltipOptions(element.id, "layer", {
+
+        if (element.tooltipOptions === undefined) {
+          props.setTooltipToDescription(element.id, "layer", {
             tooltipOptions: "description",
           });
         }
@@ -75,7 +74,7 @@ function LineBreaker(props) {
   }, [toggleTooltip]);
 
   GroupChildren.propTypes.onSort = () => {
-    toggleTooltipDeactivator(!toggleTooltip);
+    tooltipChanger(!toggleTooltip);
   };
 
   return <div></div>;
@@ -86,7 +85,7 @@ const LineBreakerPlugin = connect(
     layers: layerSelector(state),
   }),
   {
-    deactivateTooltipOptions: updateNode,
+    setTooltipToDescription: updateNode,
   }
 )(LineBreaker);
 
