@@ -121,7 +121,7 @@ export const getDataPayload = (state, resourceType) => {
     switch (type) {
     case ResourceTypes.MAP: {
         const isMapAvailable = !!mapSelector(state);
-        return isMapAvailable ? mapSaveSelector(state) : null;
+        return isMapAvailable ? mapSaveSelector(state) : null; //step3
     }
     case ResourceTypes.GEOSTORY: {
         return currentStorySelector(state);

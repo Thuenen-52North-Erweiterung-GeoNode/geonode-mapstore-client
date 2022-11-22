@@ -28,8 +28,8 @@ Use Cases:
 
 function ExclusiveLayer(props) {
     const [go, toggleGo] = useState(false);
-
-    useEffect(() => {
+    //props.groups ? console.log(props.groups[0].exclusiveLayer) : null
+    /*useEffect(() => {
         if (props.layers.length > 0) {
             props.layers.forEach(element => {
 //                console.log(element.visibility)
@@ -58,7 +58,7 @@ function ExclusiveLayer(props) {
                 })
             }
         }, [element.visibility])
-    })
+    })*/
 
     return (
         <div></div>

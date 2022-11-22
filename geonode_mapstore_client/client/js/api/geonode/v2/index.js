@@ -556,6 +556,7 @@ export const createMap = (body = {}) => {
 * @return {promise} it returns an object with the success map object response
 */
 export const updateMap = (id, body = {}) => {
+    //console.log("body", body)
     return axios.patch(parseDevHostname(`${endpoints[MAPS]}/${id}/`),
         body,
         {

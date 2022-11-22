@@ -79,17 +79,19 @@ import { setControlProperty } from '@mapstore/framework/actions/controls';
 
 function parseMapBody(body, map) {
     const geoNodeMap = toGeoNodeMapConfig(body.data, map);
+    //console.log(body, map, geoNodeMap)
     return {
         ...body,
         ...geoNodeMap
     };
 }
 
-const SaveAPI = {
+const SaveAPI = { 
     [ResourceTypes.MAP]: (state, id, body) => {
         const map =  mapSelector(state) || {};
+        //console.log("saveAPI", state, id, body)
         return id
-            ? updateMap(id, { ...parseMapBody(body, map), id })
+            ? updateMap(id, { ...parseMapBody(body, map), id }) //step 9
             : createMap(parseMapBody(body, map));
     },
     [ResourceTypes.GEOSTORY]: (state, id, body) => {
@@ -127,14 +129,15 @@ export const gnSaveContent = (action$, store) =>
         .switchMap((action) => {
             const state = store.getState();
             const contentType = state.gnresource?.type || 'map';
-            const data = getDataPayload(state, contentType);
+            const data = getDataPayload(state, contentType); //step 2
             const body = {
                 'title': action.metadata.name,
                 ...(action.metadata.description && { 'abstract': action.metadata.description }),
                 ...(data && { 'data': JSON.parse(JSON.stringify(data)) })
             };
+            //console.log("gnSaveContent", body)
             const currentResource = getResourceData(state);
-            return Observable.defer(() => SaveAPI[contentType](state, action.id, body, action.reload))
+            return Observable.defer(() => SaveAPI[contentType](state, action.id, body, action.reload)) //step 8
                 .switchMap((resource) => {
                     if (action.reload) {
                         window.location.href = parseDevHostname(resource?.detail_url);

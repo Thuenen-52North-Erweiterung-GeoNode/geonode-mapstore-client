@@ -56,6 +56,7 @@ export function resourceLoading() {
 * @param {object} data resource data object
 */
 export function setResource(data) {
+    //console.log("set resource", data)
     return {
         type: SET_RESOURCE,
         data
@@ -67,6 +68,7 @@ export function setResource(data) {
 * @param {object} data resource data object
 */
 export function updateResource(resource) {
+    //console.log("update resource", resource)
     return {
         type: UPDATE_SINGLE_RESOURCE,
         data: resource
