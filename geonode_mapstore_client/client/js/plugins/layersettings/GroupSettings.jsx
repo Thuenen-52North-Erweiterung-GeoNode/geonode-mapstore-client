@@ -13,6 +13,7 @@ import useLocalStorage from '@js/hooks/useLocalStorage';
 import Message from '@mapstore/framework/components/I18N/Message';
 
 function GroupSettings({
+    showTooltipOptions=true,
     node,
     onChange,
     groups,
@@ -36,6 +37,7 @@ function GroupSettings({
             onChange={handleChangeSection.bind(null, 'general')}
         >
             <GeneralSettings
+                showTooltipOptions={showTooltipOptions}
                 node={node}
                 onChange={onChange}
                 nodeType="group"
