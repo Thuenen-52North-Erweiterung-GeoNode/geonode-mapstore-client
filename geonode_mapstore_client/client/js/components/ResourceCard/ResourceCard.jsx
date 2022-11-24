@@ -181,6 +181,7 @@ const ResourceCard = forwardRef(({
                                     >
                                         <Button
                                             variant="primary"
+                                            target={(res?.resource_type === "externalapplication") ? "_blank" : ""}
                                             href={
                                                 resourceCanPreviewed
                                                     ? detailUrl

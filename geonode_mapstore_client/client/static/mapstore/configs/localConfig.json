@@ -1694,6 +1694,9 @@
                 "name": "MapThumbnail"
             },
             {
+                "name": "ExclusiveLayer"
+            },
+            {
                 "name": "ActionNavbar",
                 "cfg": {
                     "containerPosition": "header",
@@ -2156,7 +2159,10 @@
                 }
             },
             {
-                "name": "LayerSettings"
+                "name": "LayerSettings",
+                "cfg": {
+                    "showTooltipOptions": false
+                }
             },
             {
                 "name": "Widgets"

@@ -76,11 +76,11 @@ const EditThumbnail = ({ image, onEdit, thumbnailUpdating }) => (
 );
 
 
-function formatResourceLinkUrl(resourceUrl = '') {
-    if (resourceUrl.indexOf('http') === 0) {
-        return resourceUrl;
+function formatResourceLinkUrl(resource) {
+    if (resource?.uuid) {
+        return window.location.href.replace(/#.+$/, `uuid/${resource.uuid}`);
     }
-    return window.location.href;
+    return window.location.href
 }
 
 function ThumbnailPreview({
@@ -568,14 +568,14 @@ function DetailsPanel({
                                         <FaIcon name="download" />
                                     </Button>}
 
-                                    {detailUrl && <CopyToClipboard
+                                    <CopyToClipboard
                                         tooltipPosition="top"
                                         tooltipId={
                                             copiedResourceLink
                                                 ? 'gnhome.copiedResourceUrl'
                                                 : 'gnhome.copyResourceUrl'
                                         }
-                                        text={formatResourceLinkUrl(detailUrl)}
+                                        text={formatResourceLinkUrl(resource)}
                                     >
                                         <Button
                                             variant="default"
@@ -583,8 +583,9 @@ function DetailsPanel({
                                             <FaIcon name="share-alt" />
                                         </Button>
                                     </CopyToClipboard>
-                                    }
+                                    
                                     {detailUrl && !editThumbnail && <Button
+                                        target={(resource?.resource_type === "externalapplication") ? "_blank" : ""}
                                         variant="primary"
                                         href={(resourceCanPreviewed || canView) ? detailUrl : metadataDetailUrl}
                                         rel="noopener noreferrer">
