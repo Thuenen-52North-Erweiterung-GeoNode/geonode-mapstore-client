@@ -1601,6 +1601,9 @@
         "name": "LayerTitleTocLineBreaker"
       },
       {
+        "name": "ExclusiveLayer"
+      },
+      {
         "name": "MapThumbnail"
       },
       {

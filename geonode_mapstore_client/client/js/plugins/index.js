@@ -108,6 +108,10 @@ export const plugins = {
         'LayerTitleTocLineBreaker',
         () => import(/* webpackChunkName: 'plugins/line-breaker-plugin' */ '@js/plugins/LayerTitleTocLineBreaker')
     ),
+    ExclusiveLayerPlugin: toLazyPlugin(
+        'ExclusiveLayer',
+        () => import(/* webpackChunkName: 'plugins/exclusive-layer' */ '@js/plugins/ExclusiveLayer')
+    ),
     LayerDownloadPlugin: toLazyPlugin(
         'LayerDownload',
         () => import(/* webpackChunkName: 'plugins/layer-download' */ '@mapstore/framework/plugins/LayerDownload'),
