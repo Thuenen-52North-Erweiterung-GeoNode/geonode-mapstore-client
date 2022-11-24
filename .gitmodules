@@ -1,4 +1,5 @@
 [submodule "geonode_mapstore_client/client/MapStore2"]
 	path = geonode_mapstore_client/client/MapStore2
-	url = https://github.com/geosolutions-it/MapStore2.git
-	branch = 2022.01.xx
+	url = https://github.com/Thuenen-52North-Erweiterung-GeoNode/MapStore2.git
+	branch = 2022.02.00
+	
