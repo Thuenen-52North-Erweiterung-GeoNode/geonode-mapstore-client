@@ -47,7 +47,7 @@ function formatResourceLinkUrl(resource) {
     if (resource?.uuid) {
         return window.location.href.replace(/#.+$/, `uuid/${resource.uuid}`);
     }
-    return window.location.href;
+    return window.location.href
 }
 
 const ResourceMessage = ({ type, pathname, formatHref }) => {
@@ -158,6 +158,7 @@ const DetailsPanelTools = ({
             </CopyToClipboard>}
             {detailUrl && !editThumbnail && <Button
                 variant="primary"
+                target={(resource?.resource_type === "externalapplication") ? "_blank" : ""}
                 href={(resourceCanPreviewed || canView) ? detailUrl : metadataDetailUrl}
                 rel="noopener noreferrer">
                 <Message msgId={`gnhome.view${((resourceCanPreviewed) ? name : 'Metadata')}`} />
