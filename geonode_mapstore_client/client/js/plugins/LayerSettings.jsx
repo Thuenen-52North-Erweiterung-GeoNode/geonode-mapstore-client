@@ -6,40 +6,52 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React from 'react';
-import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
-import { connect } from 'react-redux';
-import { createSelector } from 'reselect';
-import isEmpty from 'lodash/isEmpty';
-import { Glyphicon } from 'react-bootstrap';
-import Button from '@js/components/Button';
-import { updateNode, hideSettings } from '@mapstore/framework/actions/layers';
-import { groupsSelector, elementSelector } from '@mapstore/framework/selectors/layers';
-import { mapSelector } from '@mapstore/framework/selectors/map';
-import { currentLocaleSelector, currentLocaleLanguageSelector } from '@mapstore/framework/selectors/locale';
-import { mapLayoutValuesSelector } from '@mapstore/framework/selectors/maplayout';
-import { getTitle } from '@mapstore/framework/utils/TOCUtils';
-import GroupSettings from '@js/plugins/layersettings/GroupSettings';
-import BaseLayerSettings from '@js/plugins/layersettings/BaseLayerSettings';
-import WMSLayerSettings from '@js/plugins/layersettings/WMSLayerSettings';
-import GeoNodeStyleSelector from '@js/plugins/layersettings/GeoNodeStyleSelector';
-import usePluginItems from '@js/hooks/usePluginItems';
-import layersettingsEpics from '@js/epics/layersettings';
+import React from "react";
+import { createPlugin } from "@mapstore/framework/utils/PluginsUtils";
+import { connect } from "react-redux";
+import { createSelector } from "reselect";
+import isEmpty from "lodash/isEmpty";
+import { Glyphicon } from "react-bootstrap";
+import Button from "@js/components/Button";
+import { updateNode, hideSettings } from "@mapstore/framework/actions/layers";
+import {
+  groupsSelector,
+  elementSelector,
+} from "@mapstore/framework/selectors/layers";
+import { mapSelector } from "@mapstore/framework/selectors/map";
+import {
+  currentLocaleSelector,
+  currentLocaleLanguageSelector,
+} from "@mapstore/framework/selectors/locale";
+import { mapLayoutValuesSelector } from "@mapstore/framework/selectors/maplayout";
+import { getTitle } from "@mapstore/framework/utils/TOCUtils";
+import GroupSettings from "@js/plugins/layersettings/GroupSettings";
+import BaseLayerSettings from "@js/plugins/layersettings/BaseLayerSettings";
+import WMSLayerSettings from "@js/plugins/layersettings/WMSLayerSettings";
+import GeoNodeStyleSelector from "@js/plugins/layersettings/GeoNodeStyleSelector";
+import usePluginItems from "@js/hooks/usePluginItems";
+import layersettingsEpics from "@js/epics/layersettings";
+import FindLayerStyle from "./layersettings/LayerStyles";
 
 const settingsForms = {
-    group: GroupSettings,
-    baseLayer: BaseLayerSettings,
-    wms: WMSLayerSettings
+  group: GroupSettings,
+  baseLayer: BaseLayerSettings,
+  wms: WMSLayerSettings,
 };
 
+const ConnectedFindLayerStyle = connect(
+  createSelector([], () => ({})),
+  {}
+)(FindLayerStyle);
+
 const ConnectedGeoNodeStyleSelector = connect(
-    createSelector([], () => ({})),
-    {}
+  createSelector([], () => ({})),
+  {}
 )(GeoNodeStyleSelector);
 
 /**
-* @module plugins/LayerSettings
-*/
+ * @module plugins/LayerSettings
+ */
 
 /**
  * Plugin for layer and groups settings
@@ -49,8 +61,9 @@ const ConnectedGeoNodeStyleSelector = connect(
  *   "name": "LayerSettings",
  * }
  */
-function LayerSettings({
-    showTooltipOptions=true,
+function LayerSettings(
+  {
+    showTooltipOptions = true,
     node,
     onChange,
     style,
@@ -58,125 +71,146 @@ function LayerSettings({
     onClose,
     items = [],
     ...props
-}, context) {
+  },
+  context
+) {
+  const { loadedPlugins } = context;
+  const configuredItems = usePluginItems({ items, loadedPlugins });
 
+  if (isEmpty(node)) {
+    return null;
+  }
 
-    const { loadedPlugins } = context;
-    const configuredItems = usePluginItems({ items, loadedPlugins });
+  const isGroup = !!node?.nodes;
 
-    if (isEmpty(node)) {
-        return null;
-    }
+  const Settings = isGroup
+    ? settingsForms.group
+    : settingsForms[node?.type] || settingsForms.baseLayer;
 
-    const isGroup = !!node?.nodes;
+  const title =
+    (node?.title && getTitle(node.title, props.currentLocale)) || node.name;
 
-    const Settings = isGroup
-        ? settingsForms.group
-        : settingsForms[node?.type] || settingsForms.baseLayer;
+  function handleChange(properties) {
+    onChange(node.id, isGroup ? "groups" : "layers", properties);
+  }
 
-    const title = node?.title && getTitle(node.title, props.currentLocale) || node.name;
-
-    function handleChange(properties) {
-        onChange(node.id, isGroup ? 'groups' : 'layers', properties);
-    }
-
-    return (
-        <div
-            className="gn-layer-settings"
-            style={style}
-        >
-            <div className="gn-layer-settings-head">
-                <div className="gn-layer-settings-title">{title}</div>
-                <Button className="square-button" onClick={() => onClose()}>
-                    <Glyphicon glyph="1-close"/>
-                </Button>
-            </div>
-            <div className="gn-layer-settings-body">
-                <Settings
-                    {...props}
-                    node={node}
-                    showTooltipOptions={showTooltipOptions}
-                    onChange={handleChange}
-                    styleSelectorComponent={<ConnectedGeoNodeStyleSelector
-                        {...props}
-                        node={node}
-                        onChange={handleChange}
-                        buttons={(configuredItems || []).filter(({ target }) => target === 'style-button')}
-                    />}
-                />
-            </div>
-        </div>
-    );
+  return (
+    <div className="gn-layer-settings" style={style}>
+      <div className="gn-layer-settings-head">
+        <div className="gn-layer-settings-title">{title}</div>
+        <Button className="square-button" onClick={() => onClose()}>
+          <Glyphicon glyph="1-close" />
+        </Button>
+      </div>
+      <div className="gn-layer-settings-body">
+        <Settings
+          {...props}
+          node={node}
+          showTooltipOptions={showTooltipOptions}
+          onChange={handleChange}
+          findLayerStyle={
+            <ConnectedFindLayerStyle
+              {...props}
+              node={node}
+              onChange={handleChange}
+            />
+          }
+          styleSelectorComponent={
+            <ConnectedGeoNodeStyleSelector
+              {...props}
+              node={node}
+              onChange={handleChange}
+              buttons={(configuredItems || []).filter(
+                ({ target }) => target === "style-button"
+              )}
+            />
+          }
+        />
+      </div>
+    </div>
+  );
 }
 
 const ConnectedLayerSettings = connect(
-    createSelector([
-        elementSelector,
-        mapSelector,
-        groupsSelector,
-        currentLocaleSelector,
-        currentLocaleLanguageSelector,
-        state => mapLayoutValuesSelector(state, { height: true }),
-        elementSelector
-    ], (node, map, groups, currentLocale, currentLocaleLanguage, style) => ({
-        node,
-        zoom: map?.zoom,
-        projection: map?.projection,
-        groups,
-        currentLocale,
-        currentLocaleLanguage,
-        style
-    })),
-    {
-        onChange: updateNode,
-        onClose: hideSettings
-    }
+  createSelector(
+    [
+      elementSelector,
+      mapSelector,
+      groupsSelector,
+      currentLocaleSelector,
+      currentLocaleLanguageSelector,
+      (state) => mapLayoutValuesSelector(state, { height: true }),
+      elementSelector,
+    ],
+    (node, map, groups, currentLocale, currentLocaleLanguage, style) => ({
+      node,
+      zoom: map?.zoom,
+      projection: map?.projection,
+      groups,
+      currentLocale,
+      currentLocaleLanguage,
+      style,
+    })
+  ),
+  {
+    onChange: updateNode,
+    onClose: hideSettings,
+  }
 )(LayerSettings);
 
 function LayerSettingsButton({
-    status,
-    onToolsActions,
-    selectedLayers,
-    selectedGroups
+  status,
+  onToolsActions,
+  selectedLayers,
+  selectedGroups,
 }) {
-    if (!(status === 'LAYER' || status === 'GROUP')) {
-        return null;
-    }
+  if (!(status === "LAYER" || status === "GROUP")) {
+    return null;
+  }
 
-    function handleClick() {
-        if (status === 'LAYER' || status === 'LAYER_LOAD_ERROR') {
-            onToolsActions.onSettings( selectedLayers[0].id, 'layers', { opacity: parseFloat(selectedLayers[0].opacity !== undefined ? selectedLayers[0].opacity : 1) });
-        } else if (status === 'GROUP') {
-            onToolsActions.onSettings(selectedGroups[selectedGroups.length - 1].id, 'groups', {});
-        }
+  function handleClick() {
+    if (status === "LAYER" || status === "LAYER_LOAD_ERROR") {
+      onToolsActions.onSettings(selectedLayers[0].id, "layers", {
+        opacity: parseFloat(
+          selectedLayers[0].opacity !== undefined
+            ? selectedLayers[0].opacity
+            : 1
+        ),
+      });
+    } else if (status === "GROUP") {
+      onToolsActions.onSettings(
+        selectedGroups[selectedGroups.length - 1].id,
+        "groups",
+        {}
+      );
     }
+  }
 
-    return (
-        <Button
-            variant="primary"
-            className="square-button-md"
-            onClick={handleClick}
-        >
-            <Glyphicon glyph="wrench"/>
-        </Button>
-    );
+  return (
+    <Button
+      variant="primary"
+      className="square-button-md"
+      onClick={handleClick}
+    >
+      <Glyphicon glyph="wrench" />
+    </Button>
+  );
 }
 
-const ConnectedLayerSettingsButton = connect(
-    createSelector([], () => ({}))
-)(LayerSettingsButton);
+const ConnectedLayerSettingsButton = connect(createSelector([], () => ({})))(
+  LayerSettingsButton
+);
 
-
-export default createPlugin('LayerSettings', {
-    component: ConnectedLayerSettings,
-    containers: {
-        TOC: {
-            target: 'toolbar',
-            Component: ConnectedLayerSettingsButton
-        }
+export default createPlugin("LayerSettings", {
+  component: ConnectedLayerSettings,
+  containers: {
+    TOC: {
+      target: "toolbar",
+      Component: ConnectedLayerSettingsButton,
     },
-    epics: {
-        ...layersettingsEpics
-    },
-    reducers: {}
+  },
+  epics: {
+    ...layersettingsEpics,
+  },
+  reducers: {},
 });
