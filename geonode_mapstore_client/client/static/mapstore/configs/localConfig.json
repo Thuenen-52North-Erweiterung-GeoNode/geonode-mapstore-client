@@ -1604,6 +1604,9 @@
         "name": "ExclusiveLayer"
       },
       {
+        "name": "LayerStyleSelect"
+      },
+      {
         "name": "MapThumbnail"
       },
       {
