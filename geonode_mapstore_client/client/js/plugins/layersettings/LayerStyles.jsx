@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FormGroup, ControlLabel } from "react-bootstrap";
 import Message from "@mapstore/framework/components/I18N/Message";
 import Select from "react-select";
-import { getCapabilities } from "@mapstore/framework/api/WMS";
+import { Api } from "@mapstore/framework/api/WMS";
 import axios from "@mapstore/framework/libs/ajax";
 
 /* function parseXmlToJson(xml) {
@@ -19,22 +19,27 @@ import axios from "@mapstore/framework/libs/ajax";
 } */
 
 //const parser = require("xml2json");
+const convert = require("xml-js");
 
 function FindLayerStyle(props) {
   console.log(props);
-  const [gC, setgC] = useState([]);
+  /*   const [gC, setgC] = useState([]);
 
-  const cap = axios
-    .get(props.node.url + "request=GetCapabilities")
-    .then((response) => {
-      return setgC(response.data);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  useEffect(() => {
+    const cap = axios
+      .get(props.node.url + "request=GetCapabilities")
+      .then((response) => {
+        return setgC(convert.xml2js(response.data));
+      })
+      .catch((error) => {
+        console.log(error);
+      });
 
-  console.log(gC);
+    console.log(gC);
+  });
+ */
 
+  console.log(Api.getCapabilities(props.node.url));
   return (
     <FormGroup>
       <Select key="select-style" />
