@@ -471,6 +471,9 @@
         }
       },
       {
+        "name": "CollectiveLegend"
+      },
+      {
         "name": "LayerTitleTocLineBreaker"
       },
       {
@@ -535,6 +538,9 @@
         }
       },
       {
+        "name": "CollectiveLegend"
+      },
+      {
         "name": "LayerTitleTocLineBreaker"
       },
       {
@@ -594,6 +600,9 @@
             }
           }
         }
+      },
+      {
+        "name": "CollectiveLegend"
       },
       {
         "name": "LayerTitleTocLineBreaker"
@@ -677,6 +686,9 @@
             }
           }
         }
+      },
+      {
+        "name": "CollectiveLegend"
       },
       {
         "name": "LayerTitleTocLineBreaker"
@@ -971,6 +983,9 @@
         "cfg": {
           "disablePermission": true
         }
+      },
+      {
+        "name": "CollectiveLegend"
       },
       {
         "name": "LayerTitleTocLineBreaker"
@@ -1596,6 +1611,9 @@
             }
           }
         }
+      },
+      {
+        "name": "CollectiveLegend"
       },
       {
         "name": "LayerTitleTocLineBreaker"
