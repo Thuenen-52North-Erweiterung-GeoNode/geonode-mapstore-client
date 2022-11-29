@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect, createPlugin } from '@mapstore/framework/utils/PluginsUtils';
-import { Glyphicon, Tooltip } from 'react-bootstrap';
-import ResizableModal from '@mapstore/framework/components/misc/ResizableModal';
-import OverlayTrigger from '@mapstore/framework/components/misc/OverlayTrigger';
 import {get} from 'lodash';
 
+import ResizableModal from '@mapstore/framework/components/misc/ResizableModal';
+import WMSLegend from '@mapstore/framework/components/TOC/fragments/WMSLegend';
+import { Glyphicon, Tooltip } from 'react-bootstrap';
+import OverlayTrigger from '@mapstore/framework/components/misc/OverlayTrigger';
 import Button from '../../MapStore2/web/client/components/misc/Button';
 import Message from '@mapstore/framework/components/I18N/Message';
+
 import { layerSelector } from '../selectors/layersSelector';
 import { toggleCollectiveLegend } from './collectiveLegend/collectiveLegendAction';
 import collectiveLegend from './collectiveLegend/collectiveLegendReducer';
-
 import './collectiveLegend/collectiveLegend.css';
-import WMSLegend from '@mapstore/framework/components/TOC/fragments/WMSLegend';
 
 /**
  * Plugin for CollectiveLegend
@@ -23,79 +23,84 @@ import WMSLegend from '@mapstore/framework/components/TOC/fragments/WMSLegend';
  */
 
 function CollectiveLegendModal(props) {
-    //console.log(props)
+
     return ( 
         props.collectiveLegend ? 
-        <React.Fragment>
-            {
-                <ResizableModal
-                    title="Collective Legend"
-                    show={open} 
-                    onClose={()=>props.toggleLegend(false)}
-                    draggable={true}
-                    clickOutEnabled={false}
-                    modal={true}
-                >
-                    <div className='collectiveLegendModal'>
-                        <h1> HEADER </h1>
-                        {props.layers && props.layers.length > 0 ? (props.layers.map((layer)=> (
-                            layer.visibility ?
-                            <WMSLegend node={layer} /> : null
-                        ))) : null}
-                        <div className='closeButton'>
-                            <Button onClick={()=>props.toggleLegend(false)}>
-                                {<Message msgId="close"/>}
-                            </Button>
+            <React.Fragment>
+                {
+                    <ResizableModal
+                        title="Collective Legend"
+                        show={open} 
+                        onClose={()=>props.toggleLegend(false)}
+                        draggable={true}
+                        clickOutEnabled={false}
+                        modal={true}
+                        fitContent={true}
+                    >
+                        <div className='collectiveLegendModal'>
+                            <h1> HEADER </h1>
+                            {props.layers && props.layers.length > 0 ? 
+                                (props.layers.map((layer)=> (
+                                    layer.visibility ?
+                                        <WMSLegend node={layer} /> 
+                                    : null
+                                    )
+                                )) 
+                            : null}
+                            <div className='closeButton'>
+                                <Button onClick={()=>props.toggleLegend(false)}>
+                                    {<Message msgId="close"/>}
+                                </Button>
+                            </div>
                         </div>
-
-                    </div>
-                </ResizableModal>
-            }
-        </React.Fragment> : null
-    );
-}
+                    </ResizableModal>
+                }
+            </React.Fragment> : null
+        );
+    }
 
 const CollectiveLegendConnector = connect(
     (state) => ({
         layers: layerSelector(state),
         collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
     }),{
-    toggleLegend: toggleCollectiveLegend,
-    }
-    )(CollectiveLegendModal);
+        toggleLegend: toggleCollectiveLegend,
+    })(CollectiveLegendModal);
 
 function CollectiveLegendButton(props) {
-    
+
     function handleClick() {
         props.toggleLegend(!props.collectiveLegend)
     }
-    return (props && props.collectiveLegend ?
-        <OverlayTrigger
-            key="collectiveLegend"
-            placement="top"
-            overlay={<Tooltip id="toc-tooltip-collectiveLegend">Hide collective legend</Tooltip>}>
-            <Button 
-                key="collectiveLegend" bsStyle="success" className="square-button-md" onClick={handleClick}>
-                <Glyphicon glyph="list-alt" />
-            </Button>
-        </OverlayTrigger> :
-        <OverlayTrigger
-            key="collectiveLegend"
-            placement="top"
-            overlay={<Tooltip id="toc-tooltip-collectiveLegend">Show collective legend</Tooltip>}>
-            <Button 
-                key="collectiveLegend" bsStyle="primary" className="square-button-md" onClick={handleClick}>
-                <Glyphicon glyph="list-alt" />
-            </Button>
-        </OverlayTrigger>
-    );
-}
+    
+    return (
+        props && props.collectiveLegend ?
+            <OverlayTrigger
+                key="collectiveLegend"
+                placement="top"
+                overlay={<Tooltip id="toc-tooltip-collectiveLegend">Hide collective legend</Tooltip>}>
+                <Button 
+                    key="collectiveLegend" bsStyle="success" className="square-button-md" onClick={handleClick}>
+                    <Glyphicon glyph="list-alt" />
+                </Button>
+            </OverlayTrigger> :
+            <OverlayTrigger
+                key="collectiveLegend"
+                placement="top"
+                overlay={<Tooltip id="toc-tooltip-collectiveLegend">Show collective legend</Tooltip>}>
+                <Button 
+                    key="collectiveLegend" bsStyle="primary" className="square-button-md" onClick={handleClick}>
+                    <Glyphicon glyph="list-alt" />
+                </Button>
+            </OverlayTrigger>
+        );
+    }
 
 const CollectiveLegendButtonConnector = connect(
     (state) => ({
         collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
     }),{
-    toggleLegend: toggleCollectiveLegend,
+        toggleLegend: toggleCollectiveLegend,
 })(CollectiveLegendButton);
 
 export default createPlugin('CollectiveLegend', {
@@ -103,10 +108,10 @@ export default createPlugin('CollectiveLegend', {
     containers: {
         TOC: {
             target: 'toolbar',
-            Component: CollectiveLegendButtonConnector
+            Component: CollectiveLegendButtonConnector,
         }
     },
     reducers: {
-        collectiveLegend
+        collectiveLegend,
     }
 });
