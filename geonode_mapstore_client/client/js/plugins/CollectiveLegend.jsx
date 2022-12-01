@@ -9,10 +9,12 @@ import OverlayTrigger from '@mapstore/framework/components/misc/OverlayTrigger';
 import Button from '../../MapStore2/web/client/components/misc/Button';
 import Message from '@mapstore/framework/components/I18N/Message';
 
-import { layerSelector } from '../selectors/layersSelector';
+import { layerSelector, getStyleInformation } from '../selectors/layersSelector';
 import { toggleCollectiveLegend } from './collectiveLegend/collectiveLegendAction';
 import collectiveLegend from './collectiveLegend/collectiveLegendReducer';
 import './collectiveLegend/collectiveLegend.css';
+import { getStyleCodeByName } from '@mapstore/framework/api/geoserver/Styles';
+import { getNameParts } from '@mapstore/framework/utils/StyleEditorUtils';
 
 /**
  * Plugin for CollectiveLegend
@@ -23,13 +25,24 @@ import './collectiveLegend/collectiveLegend.css';
  */
 
 function CollectiveLegendModal(props) {
+    /*if (props && props.styleInfo && props.styleInfo.service &&props.layers.length >0 ) {
+        console.log(props.styleInfo.service)
+        console.log(props.layers)
+        console.log(getNameParts(props.layers[0].name))
+        getStyleCodeByName({
+            baseUrl: props.styleInfo.service.baseUrl,
+            styleName: props.layers[0].name
+        }).then((res) => {
+            console.log(res)
+        })
+    }*/
 
     return ( 
         props.collectiveLegend ? 
             <React.Fragment>
                 {
                     <ResizableModal
-                        title="Collective Legend"
+                        title="Legend"
                         show={open} 
                         onClose={()=>props.toggleLegend(false)}
                         draggable={true}
@@ -38,14 +51,17 @@ function CollectiveLegendModal(props) {
                         fitContent={true}
                     >
                         <div className='collectiveLegendModal'>
-                            <h1> HEADER </h1>
+                            <h1 style={{marginBottom: "5%"}}><b> Collective Legend of visible layers </b></h1>
                             {props.layers && props.layers.length > 0 ? 
-                                (props.layers.map((layer)=> (
+                                (props.layers.reverse().map((layer)=> (
                                     layer.visibility ?
-                                        <WMSLegend node={layer} /> 
+                                    <div style = {{marginBottom:"5%"}}>
+                                        <b>Layer:</b> {layer.title}
+                                        <WMSLegend node={layer} />
+                                    </div>
                                     : null
                                     )
-                                )) 
+                                ))
                             : null}
                             <div className='closeButton'>
                                 <Button onClick={()=>props.toggleLegend(false)}>
@@ -63,6 +79,7 @@ const CollectiveLegendConnector = connect(
     (state) => ({
         layers: layerSelector(state),
         collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
+        styleInfo: getStyleInformation(state),
     }),{
         toggleLegend: toggleCollectiveLegend,
     })(CollectiveLegendModal);
