@@ -1,7 +1,9 @@
 {
   "proxyUrl": {
     "url": "proxy/?url=",
-    "useCORS": []
+    "useCORS": [
+      
+    ]
   },
   "geoNodeApi": {
     "endpointV1": "/api",
@@ -73,7 +75,9 @@
       "path": "print.capabilities"
     }
   ],
-  "projectionDefs": [],
+  "projectionDefs": [
+    
+  ],
   "supportedLocales": {
     "en": {
       "code": "en-US",
@@ -398,6 +402,19 @@
                   "value": "add_resource"
                 }
               ]
+            },
+            {
+              "labelId": "gnhome.remoteServices",
+              "value": "remote",
+              "type": "link",
+              "href": "/services/?limit=5",
+              "authenticated": true,
+              "perms": [
+                {
+                  "type": "user",
+                  "value": "add_resource"
+                }
+              ]
             }
           ]
         },
@@ -433,7 +450,13 @@
           "action": "copy",
           "labelId": "gnviewer.clone",
           "icon": "copy",
-          "authenticated": true
+          "authenticated": true,
+          "perms": [
+            {
+              "type": "user",
+              "value": "add_resource"
+            }
+          ]
         },
         {
           "type": "button",
@@ -456,7 +479,9 @@
         "name": "Map",
         "cfg": {
           "shouldLoadFont": false,
-          "tools": ["popup"],
+          "tools": [
+            "popup"
+          ],
           "mapOptions": {
             "openlayers": {
               "attribution": {
@@ -469,9 +494,6 @@
             }
           }
         }
-      },
-      {
-        "name": "CollectiveLegend"
       },
       {
         "name": "Identify",
@@ -513,6 +535,12 @@
       },
       {
         "name": "Notifications"
+      },
+      {
+        "name": "Timeline"
+      },
+      {
+        "name": "Playback"
       }
     ],
     "map_preview": [
@@ -520,7 +548,9 @@
         "name": "Map",
         "cfg": {
           "shouldLoadFont": false,
-          "tools": ["popup"],
+          "tools": [
+            "popup"
+          ],
           "mapOptions": {
             "openlayers": {
               "attribution": {
@@ -533,9 +563,6 @@
             }
           }
         }
-      },
-      {
-        "name": "CollectiveLegend"
       },
       {
         "name": "Identify",
@@ -574,6 +601,12 @@
       },
       {
         "name": "FitBounds"
+      },
+      {
+        "name": "Timeline"
+      },
+      {
+        "name": "Playback"
       }
     ],
     "dataset_embed": [
@@ -581,7 +614,9 @@
         "name": "Map",
         "cfg": {
           "shouldLoadFont": false,
-          "tools": [],
+          "tools": [
+            
+          ],
           "mapOptions": {
             "openlayers": {
               "attribution": {
@@ -594,9 +629,6 @@
             }
           }
         }
-      },
-      {
-        "name": "CollectiveLegend"
       },
       {
         "name": "Identify",
@@ -657,6 +689,12 @@
       },
       {
         "name": "Notifications"
+      },
+      {
+        "name": "Timeline"
+      },
+      {
+        "name": "Playback"
       }
     ],
     "map_embed": [
@@ -664,7 +702,9 @@
         "name": "Map",
         "cfg": {
           "shouldLoadFont": false,
-          "tools": [],
+          "tools": [
+            
+          ],
           "mapOptions": {
             "openlayers": {
               "attribution": {
@@ -677,9 +717,6 @@
             }
           }
         }
-      },
-      {
-        "name": "CollectiveLegend"
       },
       {
         "name": "Identify",
@@ -754,6 +791,12 @@
             "width": 350
           }
         }
+      },
+      {
+        "name": "Timeline"
+      },
+      {
+        "name": "Playback"
       }
     ],
     "geostory_embed": [
@@ -764,13 +807,22 @@
             "sourceId": "geonode",
             "mediaTypes": {
               "image": {
-                "sources": ["geostory", "geonode"]
+                "sources": [
+                  "geostory",
+                  "geonode"
+                ]
               },
               "video": {
-                "sources": ["geostory", "geonode"]
+                "sources": [
+                  "geostory",
+                  "geonode"
+                ]
               },
               "map": {
-                "sources": ["geostory", "geonode"]
+                "sources": [
+                  "geostory",
+                  "geonode"
+                ]
               }
             },
             "sources": {
@@ -837,7 +889,7 @@
             {
               "labelId": "gnviewer.save",
               "showPendingChangesIcon": true,
-              "disableIf": "{!state('isNewResource') && !context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !context.canCopyResource(state('gnResourceData'), state('user'))}",
+              "disableIf": "{!state('isNewResource') && !context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && (!context.canCopyResource(state('gnResourceData'), state('user')) || !state('selectedLayerPermissions').includes('download_resourcebase'))}",
               "type": "dropdown",
               "items": [
                 {
@@ -846,7 +898,8 @@
                 },
                 {
                   "type": "plugin",
-                  "name": "SaveAs"
+                  "name": "SaveAs",
+                  "disableIf": "{!state('selectedLayerPermissions').includes('download_resourcebase') || !context.resourceHasPermission(state('gnResourceData'), 'download_resourcebase')}"
                 }
               ]
             },
@@ -973,9 +1026,6 @@
         }
       },
       {
-        "name": "CollectiveLegend"
-      },
-      {
         "name": "Save",
         "cfg": {
           "disablePermission": true
@@ -1004,8 +1054,14 @@
         "name": "Map",
         "cfg": {
           "shouldLoadFont": false,
-          "fonts": [],
-          "tools": ["measurement", "draw", "box"],
+          "fonts": [
+            
+          ],
+          "tools": [
+            "measurement",
+            "draw",
+            "box"
+          ],
           "mapOptions": {
             "openlayers": {
               "attribution": {
@@ -1113,7 +1169,10 @@
           "style": {
             "color": "#000000",
             "weight": 1,
-            "lineDash": [0.5, 4],
+            "lineDash": [
+              0.5,
+              4
+            ],
             "opacity": 0.5
           },
           "frameStyle": {
@@ -1179,73 +1238,97 @@
               "name": "application/json",
               "label": "GeoJSON",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/arcgrid",
               "label": "ArcGrid",
               "type": "raster",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "image/tiff",
               "label": "TIFF",
               "type": "raster",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "image/png",
               "label": "PNG",
               "type": "raster",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "image/jpeg",
               "label": "JPEG",
               "type": "raster",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/wfs-collection-1.0",
               "label": "GML (FeatureCollection)",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/wfs-collection-1.1",
               "label": "GML (WFS 1.1.0 FeatureCollection)",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/zip",
               "label": "Shapefile",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "text/csv",
               "label": "CSV",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/geopackage+sqlite3",
               "label": "GeoPackage",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/geopackage+sqlite3",
               "label": "GeoPackage",
               "type": "raster",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/vnd.google-earth.kml+xml",
               "label": "KML",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             }
           ]
         }
@@ -1310,14 +1393,22 @@
           "editCRS": true,
           "showLabels": true,
           "showToggle": true,
-          "filterAllowedCRS": ["EPSG:4326", "EPSG:3857"],
-          "additionalCRS": {}
+          "filterAllowedCRS": [
+            "EPSG:4326",
+            "EPSG:3857"
+          ],
+          "additionalCRS": {
+            
+          }
         }
       },
       {
         "name": "Search",
         "cfg": {
-          "withToggle": ["max-width: 768px", "min-width: 768px"]
+          "withToggle": [
+            "max-width: 768px",
+            "min-width: 768px"
+          ]
         }
       },
       {
@@ -1360,8 +1451,14 @@
         "name": "Map",
         "cfg": {
           "shouldLoadFont": false,
-          "fonts": [],
-          "tools": ["measurement", "draw", "box"],
+          "fonts": [
+            
+          ],
+          "tools": [
+            "measurement",
+            "draw",
+            "box"
+          ],
           "mapOptions": {
             "openlayers": {
               "attribution": {
@@ -1498,7 +1595,10 @@
         "cfg": {
           "styleService": {
             "baseUrl": "{state('settings') && state('settings').geonodeUrl && state('settings').geonodeUrl + 'gs/' || '/gs/'}",
-            "formats": ["css", "sld"],
+            "formats": [
+              "css",
+              "sld"
+            ],
             "availableUrls": [
               "{state('settings') && state('settings').geoserverUrl || '/geoserver/'}",
               "{state('settings') && state('settings').geonodeUrl && state('settings').geonodeUrl + 'gs/' || '/gs/'}"
@@ -1540,8 +1640,15 @@
         "name": "Map",
         "cfg": {
           "shouldLoadFont": false,
-          "fonts": [],
-          "tools": ["measurement", "draw", "box", "popup"],
+          "fonts": [
+            
+          ],
+          "tools": [
+            "measurement",
+            "draw",
+            "box",
+            "popup"
+          ],
           "mapOptions": {
             "openlayers": {
               "attribution": {
@@ -1576,8 +1683,14 @@
         "name": "Map",
         "cfg": {
           "shouldLoadFont": false,
-          "fonts": [],
-          "tools": ["measurement", "draw", "box"],
+          "fonts": [
+            
+          ],
+          "tools": [
+            "measurement",
+            "draw",
+            "box"
+          ],
           "mapOptions": {
             "openlayers": {
               "attribution": {
@@ -1590,12 +1703,6 @@
             }
           }
         }
-      },
-      {
-        "name": "CollectiveLegend"
-      },
-      {
-        "name": "ExclusiveLayer"
       },
       {
         "name": "MapThumbnail"
@@ -1812,7 +1919,10 @@
           "style": {
             "color": "#000000",
             "weight": 1,
-            "lineDash": [0.5, 4],
+            "lineDash": [
+              0.5,
+              4
+            ],
             "opacity": 0.5
           },
           "frameStyle": {
@@ -1880,73 +1990,97 @@
               "name": "application/json",
               "label": "GeoJSON",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/arcgrid",
               "label": "ArcGrid",
               "type": "raster",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "image/tiff",
               "label": "TIFF",
               "type": "raster",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "image/png",
               "label": "PNG",
               "type": "raster",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "image/jpeg",
               "label": "JPEG",
               "type": "raster",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/wfs-collection-1.0",
               "label": "GML (FeatureCollection)",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/wfs-collection-1.1",
               "label": "GML (WFS 1.1.0 FeatureCollection)",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/zip",
               "label": "Shapefile",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "text/csv",
               "label": "CSV",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/geopackage+sqlite3",
               "label": "GeoPackage",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/geopackage+sqlite3",
               "label": "GeoPackage",
               "type": "raster",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             },
             {
               "name": "application/vnd.google-earth.kml+xml",
               "label": "KML",
               "type": "vector",
-              "validServices": ["wps"]
+              "validServices": [
+                "wps"
+              ]
             }
           ]
         }
@@ -2011,14 +2145,22 @@
           "editCRS": true,
           "showLabels": true,
           "showToggle": true,
-          "filterAllowedCRS": ["EPSG:4326", "EPSG:3857"],
-          "additionalCRS": {}
+          "filterAllowedCRS": [
+            "EPSG:4326",
+            "EPSG:3857"
+          ],
+          "additionalCRS": {
+            
+          }
         }
       },
       {
         "name": "Search",
         "cfg": {
-          "withToggle": ["max-width: 768px", "min-width: 768px"]
+          "withToggle": [
+            "max-width: 768px",
+            "min-width: 768px"
+          ]
         }
       },
       {
@@ -2030,10 +2172,7 @@
         }
       },
       {
-        "name": "LayerSettings",
-        "cfg": {
-          "showTooltipOptions": true
-        }
+        "name": "LayerSettings"
       },
       {
         "name": "Widgets"
@@ -2063,7 +2202,10 @@
         "name": "Locate"
       },
       {
-        "name": "WidgetsBuilder"
+        "name": "WidgetsBuilder",
+        "cfg": {
+          "disablePluginIf": "{!state('selectedLayerPermissions').includes('download_resourcebase')}"
+        }
       },
       {
         "name": "Save",
@@ -2094,7 +2236,10 @@
           "showLayerProperties": true,
           "styleService": {
             "baseUrl": "{state('settings') && state('settings').geonodeUrl && state('settings').geonodeUrl + 'gs/' || '/gs/'}",
-            "formats": ["css", "sld"],
+            "formats": [
+              "css",
+              "sld"
+            ],
             "availableUrls": [
               "{state('settings') && state('settings').geoserverUrl || '/geoserver/'}",
               "{state('settings') && state('settings').geonodeUrl && state('settings').geonodeUrl + 'gs/' || '/gs/'}"
@@ -2212,13 +2357,22 @@
             "sourceId": "geonode",
             "mediaTypes": {
               "image": {
-                "sources": ["geostory", "geonode"]
+                "sources": [
+                  "geostory",
+                  "geonode"
+                ]
               },
               "video": {
-                "sources": ["geostory", "geonode"]
+                "sources": [
+                  "geostory",
+                  "geonode"
+                ]
               },
               "map": {
-                "sources": ["geostory", "geonode"]
+                "sources": [
+                  "geostory",
+                  "geonode"
+                ]
               }
             },
             "sources": {
@@ -2301,7 +2455,7 @@
               "labelId": "gnviewer.save",
               "type": "dropdown",
               "showPendingChangesIcon": true,
-              "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !context.canCopyResource(state('gnResourceData'), state('user'))}",
+              "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && (!context.canCopyResource(state('gnResourceData'), state('user')) || !context.resourceHasPermission(state('gnResourceData'), 'download_resourcebase'))}",
               "items": [
                 {
                   "type": "plugin",
@@ -2309,7 +2463,8 @@
                 },
                 {
                   "type": "plugin",
-                  "name": "SaveAs"
+                  "name": "SaveAs",
+                  "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'download_resourcebase')}"
                 }
               ]
             },
@@ -2430,7 +2585,6 @@
               "type": "plugin",
               "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase')}"
             },
-
             {
               "labelId": "gnviewer.edit",
               "type": "dropdown",
@@ -2562,7 +2716,10 @@
       {
         "name": "Search",
         "cfg": {
-          "withToggle": ["max-width: 768px", "min-width: 768px"]
+          "withToggle": [
+            "max-width: 768px",
+            "min-width: 768px"
+          ]
         }
       },
       {
@@ -2691,7 +2848,10 @@
       {
         "name": "Search",
         "cfg": {
-          "withToggle": ["max-width: 768px", "min-width: 768px"]
+          "withToggle": [
+            "max-width: 768px",
+            "min-width: 768px"
+          ]
         }
       },
       {
@@ -2793,13 +2953,22 @@
             "sourceId": "geonode",
             "mediaTypes": {
               "image": {
-                "sources": ["geostory", "geonode"]
+                "sources": [
+                  "geostory",
+                  "geonode"
+                ]
               },
               "video": {
-                "sources": ["geostory", "geonode"]
+                "sources": [
+                  "geostory",
+                  "geonode"
+                ]
               },
               "map": {
-                "sources": ["geostory", "geonode"]
+                "sources": [
+                  "geostory",
+                  "geonode"
+                ]
               }
             },
             "sources": {
