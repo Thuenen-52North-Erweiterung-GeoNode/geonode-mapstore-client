@@ -482,10 +482,6 @@
                         {
                             "type": "user",
                             "value": "add_resource"
-                        },
-                        {
-                            "type": "resource",
-                            "value": "download_resourcebase"
                         }
                     ]
                 },
