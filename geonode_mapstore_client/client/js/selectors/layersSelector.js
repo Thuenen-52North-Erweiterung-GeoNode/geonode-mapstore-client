@@ -1,10 +1,9 @@
-
 export const layerSelector = (state) => {
     const layers = state.layers.flat.filter(layer => filterLayers(layer));
     return layers;
 };
 
-export const getStyleInformation = (state) => {
+export const getStyleeditor = (state) => {
     return state.styleeditor;
 }
 

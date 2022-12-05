@@ -9,7 +9,7 @@ import OverlayTrigger from '@mapstore/framework/components/misc/OverlayTrigger';
 import Button from '../../MapStore2/web/client/components/misc/Button';
 import Message from '@mapstore/framework/components/I18N/Message';
 
-import { layerSelector, getStyleInformation } from '../selectors/layersSelector';
+import { layerSelector, getStyleeditor } from '../selectors/layersSelector';
 import { toggleCollectiveLegend } from './collectiveLegend/collectiveLegendAction';
 import collectiveLegend from './collectiveLegend/collectiveLegendReducer';
 import './collectiveLegend/collectiveLegend.css';
@@ -25,17 +25,30 @@ import { getNameParts } from '@mapstore/framework/utils/StyleEditorUtils';
  */
 
 function CollectiveLegendModal(props) {
-    /*if (props && props.styleInfo && props.styleInfo.service &&props.layers.length >0 ) {
-        console.log(props.styleInfo.service)
-        console.log(props.layers)
-        console.log(getNameParts(props.layers[0].name))
-        getStyleCodeByName({
-            baseUrl: props.styleInfo.service.baseUrl,
-            styleName: props.layers[0].name
-        }).then((res) => {
-            console.log(res)
+
+    if (props && props.styleeditor && props.styleeditor.service && props.layers.length > 0 ) {
+        const layers = props.layers;
+        const styleeditor = props.styleeditor;
+
+        layers.forEach( layer => {
+            getStyleCodeByName({
+                baseUrl: styleeditor.service.baseUrl,
+                styleName: layer.name
+            }).then((style) => {
+                if ( style.code ) {
+                    const parsedStyleCode = new DOMParser().parseFromString(style.code, "text/xml");
+                    let title = "";
+                    let abstract = "";
+                    if ( parsedStyleCode.querySelectorAll("Title")[0] ) {
+                        title = parsedStyleCode.querySelectorAll("Title")[0].textContent;
+                    }
+                    if ( parsedStyleCode.querySelectorAll("Abstract")[0] ) {
+                        abstract = parsedStyleCode.querySelectorAll("Abstract")[0].textContent;
+                    }          
+                    console.log(layer.title, title, abstract)
+            }})
         })
-    }*/
+    }
 
     return ( 
         props.collectiveLegend ? 
@@ -79,7 +92,7 @@ const CollectiveLegendConnector = connect(
     (state) => ({
         layers: layerSelector(state),
         collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
-        styleInfo: getStyleInformation(state),
+        styleeditor: getStyleeditor(state),
     }),{
         toggleLegend: toggleCollectiveLegend,
     })(CollectiveLegendModal);
