@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import { connect, createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import {get} from 'lodash';
 
@@ -14,7 +14,6 @@ import { toggleCollectiveLegend } from './collectiveLegend/collectiveLegendActio
 import collectiveLegend from './collectiveLegend/collectiveLegendReducer';
 import './collectiveLegend/collectiveLegend.css';
 import { getStyleCodeByName } from '@mapstore/framework/api/geoserver/Styles';
-import { getNameParts } from '@mapstore/framework/utils/StyleEditorUtils';
 
 /**
  * Plugin for CollectiveLegend
@@ -25,31 +24,6 @@ import { getNameParts } from '@mapstore/framework/utils/StyleEditorUtils';
  */
 
 function CollectiveLegendModal(props) {
-
-    if (props && props.styleeditor && props.styleeditor.service && props.layers.length > 0 ) {
-        const layers = props.layers;
-        const styleeditor = props.styleeditor;
-
-        layers.forEach( layer => {
-            getStyleCodeByName({
-                baseUrl: styleeditor.service.baseUrl,
-                styleName: layer.name
-            }).then((style) => {
-                if ( style.code ) {
-                    const parsedStyleCode = new DOMParser().parseFromString(style.code, "text/xml");
-                    let title = "";
-                    let abstract = "";
-                    if ( parsedStyleCode.querySelectorAll("Title")[0] ) {
-                        title = parsedStyleCode.querySelectorAll("Title")[0].textContent;
-                    }
-                    if ( parsedStyleCode.querySelectorAll("Abstract")[0] ) {
-                        abstract = parsedStyleCode.querySelectorAll("Abstract")[0].textContent;
-                    }          
-                    console.log(layer.title, title, abstract)
-            }})
-        })
-    }
-
     return ( 
         props.collectiveLegend ? 
             <React.Fragment>
@@ -69,7 +43,11 @@ function CollectiveLegendModal(props) {
                                 (props.layers.reverse().map((layer)=> (
                                     layer.visibility ?
                                     <div style = {{marginBottom:"5%"}}>
-                                        <b>Layer:</b> {layer.title}
+                                        <p><b>Layer:</b> {layer.title}</p>
+                                        {props.styleeditor && props.styleeditor.service ?
+                                        <StyleInformation layer={layer} editor={props.styleeditor} /> : null
+                                        }
+
                                         <WMSLegend node={layer} />
                                     </div>
                                     : null
@@ -87,6 +65,36 @@ function CollectiveLegendModal(props) {
             </React.Fragment> : null
         );
     }
+
+function StyleInformation(props) {
+    if (props.editor.service) {
+        
+    const [posts, setPosts] = useState([]);
+    useEffect(()=>{
+        getStyleCodeByName({
+            baseUrl: props.editor.service.baseUrl,
+            styleName: props.layer.name,
+        }).then((style) => {
+            
+            if (style.code) {
+                const parsedStyleCode = new DOMParser().parseFromString(style.code, "text/xml");
+                let title = "";
+                if ( parsedStyleCode.querySelectorAll("Title")[0] ) {
+                    title = parsedStyleCode.querySelectorAll("Title")[0].textContent;
+                }
+                setPosts(title);
+            }
+        })
+    })
+    return(
+        <div>
+            <p>Style title: {posts}</p>
+            <p>Style description</p>
+        </div>
+    )} else {
+        return <div>Nein</div>;
+    }
+};
 
 const CollectiveLegendConnector = connect(
     (state) => ({
