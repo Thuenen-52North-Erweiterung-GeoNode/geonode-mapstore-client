@@ -303,7 +303,7 @@ export const ResourceTypesInfos = {
     },
     ["externalapplication"]: {
         icon: 'icon',
-        name: 'External Application',
+        name: 'ExternalApplication',
         canPreviewed: (resource) => resourceHasPermission(resource, 'view_resourcebase'),
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
