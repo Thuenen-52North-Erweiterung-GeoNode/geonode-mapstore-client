@@ -8,3 +8,11 @@
     justify-content: flex-end;
     display: flex;
 }
+
+.collectiveLegendHeader{
+    margin-bottom: 5%;
+}
+
+.legendLayer{
+    margin-bottom:5%
+}
