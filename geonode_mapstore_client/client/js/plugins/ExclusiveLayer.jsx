@@ -7,33 +7,45 @@ import { layerSelector, groupSelector } from '../selectors/layersSelectors';
 import { updateNode } from '@mapstore/framework/actions/layers';
 
 function ExclusiveLayer(props) {
-    //console.log(props.layers)
-    //console.log("start excl. layer")
     const layers = props.layers;
     const groups = props.groups;
-    const previousLayers = useRef("");
-    const [ clicked, setClicked ] = useState(false);
+    const previousLayersAndGroups = useRef("");
+    const [ visible, setVisible ] = useState([]);
     window.onclick = (e) => {
-        if (e.target.className.includes("glyphicon-eye")) {
-            setClicked(true);
+        if (e.target.className.includes("glyphicon-eye-open") || e.target.className.includes("glyphicon-eye-close")) {
+            changeLayer();
+            setVisible(!visible);
         }
     }
 
     useEffect(() => {
-        //console.log("useEffect before init", previousLayers.current)
-        previousLayers.current = {
+        previousLayersAndGroups.current = {
             "layers": layers,
             "groups": groups,
         };
-        //console.log("useEffect after init", previousLayers.current)
-    }, [clicked])
+    }, [visible])
 
-    /*if ( props.layers.length !== previousLayers.current.length && previousLayers.current.length > 0 ) {
-        console.log("uneuqla")
-        //setClicked(false)
+    const changeLayer = () => {
+        if ( props && previousLayersAndGroups.current && layers.length === previousLayersAndGroups.current.layers.length) {
+            const changedLayer = findLayerThatChangedVisibility(layers, previousLayersAndGroups.current.layers);
+            console.log(changedLayer)
+            if ( changedLayer ) {
+                
+                const correspondingGroup = getCorrespondingGroup( props, changedLayer )
+                if ( correspondingGroup && correspondingGroup.exclusiveLayer ) {
+                    const allLayersInCorrespondingGroup = layers.filter((layer) => changedLayer.group === layer.group);
+                    allLayersInCorrespondingGroup.forEach( layer => {
+                        console.log("test")
+                        if ( layer.id !== changedLayer.id ) {
+                            console.log("done")
+                            props.changeLayerVisibility(layer.id, 'layer', {visibility: false});
+                        }
+                    });
+                }
+            }
+        }
     }
-    console.log("layers length check",props.layers.length, previousLayers.current.length, props.layers.length === previousLayers.current.length) // && previous.current*/
-
+/*
     if ( previousLayers.current.groups && groups.length === previousLayers.current.groups.length ) {
         for ( let i=0; i<groups.length; i++ ) {
             if ( groups[i].exclusiveLayer && !previousLayers.current.groups[i].exclusiveLayer ) {
@@ -50,30 +62,19 @@ function ExclusiveLayer(props) {
             }
         }
     }
-
-    if ( clicked && layers.length === previousLayers.current.layers.length ) {
-        //console.log("first if condition", clicked && layers.length === previousLayers.current.length)
-        for ( let i = 0; i < layers.length; i++ ) {
-            if ( layers[i].visibility !== previousLayers.current.layers[i].visibility ) {
-                const correspondingGroup = getCorrespondingGroup( props, layers[i] )
-                //console.log("corresponding group", correspondingGroup )
-                if ( correspondingGroup && correspondingGroup.exclusiveLayer ) {                    
-                    //console.log("second if condition")
-                    const allLayersInCorrespondingGroup = props.layers.filter((layer) => layers[i].group === layer.group);
-                    allLayersInCorrespondingGroup.forEach( layer => {
-                        if ( layer.id != layers[i].id ) {
-                            props.changeLayerVisibility(layer.id, 'layer', {visibility: false});
-                        }
-                    });
-                    setClicked(false);
-                }
-            }
-        }
-    }
+*/
 
     return (
         <div></div>
     )
+}
+
+const findLayerThatChangedVisibility = (newLayers, oldLayers) => {
+    for ( let i = 0; i < newLayers.length; i++ ) {
+        if ( newLayers[i].visibility !== oldLayers[i].visibility ) {
+            return newLayers[i] //not yet working if user changes visibility of entire group
+        }
+    }
 }
 
 const getCorrespondingGroup = ( props, layer ) => {
