@@ -135,7 +135,7 @@ function GeneralSettings({
                     type="text"
                     onBlur={(event) => onChange({ description: event.target.value })}/>
             </FormGroup>
-            {nodeType === "group" ? (
+            {nodeType === "group" && node.id !== "Default" ? (
               <>
               <FormGroup>
                 <ControlLabel>Wechselseitiger Ausschluss</ControlLabel>
