@@ -10,11 +10,19 @@ function ExclusiveLayer(props) {
     const layers = props.layers;
     const groups = props.groups;
     const previousLayersAndGroups = useRef("");
-    const [ visible, setVisible ] = useState([]);
+    const [ prevVals, updatePrevVals ] = useState([]);
+    let onGroup = false;
+
     window.onclick = (e) => {
-        if (e.target.className.includes("glyphicon-eye-open") || e.target.className.includes("glyphicon-eye-close")) {
-            changeLayer();
-            setVisible(!visible);
+        const clickedItem = e.target
+        if ( clickedItem.className.includes("glyphicon-eye-open") || clickedItem.className.includes("glyphicon-eye-close") ) {
+            onGroup = checkIfClickedOnGroup(clickedItem);
+            if ( onGroup.clicked && onGroup.open ) {
+                checkExclusiveGroupsForConsistency(groups, layers);
+            } else {
+                changeLayerVisibility();
+            }
+            updatePrevVals(!prevVals);
         }
     }
 
@@ -23,46 +31,65 @@ function ExclusiveLayer(props) {
             "layers": layers,
             "groups": groups,
         };
-    }, [visible])
+    }, [prevVals])
 
-    const changeLayer = () => {
-        if ( props && previousLayersAndGroups.current && layers.length === previousLayersAndGroups.current.layers.length) {
+    const checkExclusiveGroupsForConsistency = (groups, layers) => {
+        if ( groups ) {
+            groups.forEach(group => {
+                if ( group.exclusiveLayer ) {
+                    let allLayersInGroup = layers.filter((layer) => group.id === layer.group);
+                    //allLayersInGroup = allLayersInGroup.reverse();
+                    let countVisibleLayers = 0;
+                    allLayersInGroup.forEach(layer => {
+                        if ( layer.visibility ) {
+                            countVisibleLayers++;
+                        }
+                    });
+                    if ( countVisibleLayers > 1 ) {
+                        allLayersInGroup = allLayersInGroup.reverse();
+                        props.updateLayerVisibility(allLayersInGroup[0].id, 'layer', {visibility:true});
+                        for ( let i=1; i<allLayersInGroup.length; i++) {
+                            props.updateLayerVisibility(allLayersInGroup[i].id, 'layer', {visibility:false});
+                        }
+                    }
+                }
+            })
+        }
+    }
+
+    const changeLayerVisibility = () => {
+        if ( props && previousLayersAndGroups.current && layers.length === previousLayersAndGroups.current.layers.length ) {
             const changedLayer = findLayerThatChangedVisibility(layers, previousLayersAndGroups.current.layers);
-            console.log(changedLayer)
             if ( changedLayer ) {
-                
                 const correspondingGroup = getCorrespondingGroup( props, changedLayer )
                 if ( correspondingGroup && correspondingGroup.exclusiveLayer ) {
                     const allLayersInCorrespondingGroup = layers.filter((layer) => changedLayer.group === layer.group);
                     allLayersInCorrespondingGroup.forEach( layer => {
-                        console.log("test")
                         if ( layer.id !== changedLayer.id ) {
-                            console.log("done")
-                            props.changeLayerVisibility(layer.id, 'layer', {visibility: false});
+                            props.updateLayerVisibility(layer.id, 'layer', {visibility: false});
                         }
                     });
                 }
             }
         }
     }
-/*
-    if ( previousLayers.current.groups && groups.length === previousLayers.current.groups.length ) {
+
+    if ( previousLayersAndGroups.current.groups && groups.length === previousLayersAndGroups.current.groups.length ) {
         for ( let i=0; i<groups.length; i++ ) {
-            if ( groups[i].exclusiveLayer && !previousLayers.current.groups[i].exclusiveLayer ) {
-                const layersInGroup = props.layers.filter((layer) => groups[i].id === layer.group);
+            if ( groups[i].exclusiveLayer && !previousLayersAndGroups.current.groups[i].exclusiveLayer ) {
+              const layersInGroup = props.layers.filter(( layer ) => groups[i].id === layer.group);
                 let countVisibleLayers = 0;
-                layersInGroup.forEach((layer) => {
-                    if (layer.visibility) countVisibleLayers++;
+                layersInGroup.forEach(( layer ) => {
+                    if ( layer.visibility ) countVisibleLayers++;
                 });
-                if (countVisibleLayers>1) {
-                    layersInGroup.forEach((layer) => {
-                        props.changeLayerVisibility(layer.id, 'layer', {visibility: false});
+                if ( countVisibleLayers>1 ) {
+                    layersInGroup.forEach(( layer ) => {
+                        props.updateLayerVisibility(layer.id, 'layer', {visibility: false});
                     })
                 }
             }
         }
     }
-*/
 
     return (
         <div></div>
@@ -72,7 +99,36 @@ function ExclusiveLayer(props) {
 const findLayerThatChangedVisibility = (newLayers, oldLayers) => {
     for ( let i = 0; i < newLayers.length; i++ ) {
         if ( newLayers[i].visibility !== oldLayers[i].visibility ) {
-            return newLayers[i] //not yet working if user changes visibility of entire group
+            return newLayers[i];
+        }
+    }
+}
+
+const findGroupThatChangedVisibility = (newGroups, oldGroups) => {
+    for ( let i = 0; i < newGroups.length; i++ ) {
+        if ( newGroups[i].visibility !== oldGroups[i].visibility ) {
+            return newGroups[i];
+        }
+    }
+}
+
+const checkIfClickedOnGroup = (click) =>{
+    if ( click.parentElement.attributes.class.nodeValue.includes("toc-default-group-head") ) {
+        if ( click.className.includes("glyphicon-eye-open") ) {
+            return {
+                "clicked": true,
+                "open": true,
+            }
+        } else {
+            return {
+                "clicked": true,
+                "open": false,
+            }
+        }                
+    } else {
+        return {
+            "clicked": false,
+            "open": null,
         }
     }
 }
@@ -90,7 +146,7 @@ const ExclusiveLayerPlugin = connect((state) => ({
     layers: layerSelector(state),
     groups: groupSelector(state),
 }), {
-    changeLayerVisibility: updateNode,
+    updateLayerVisibility: updateNode,
 })(ExclusiveLayer);
 
 export default createPlugin('ExclusiveLayer', {
