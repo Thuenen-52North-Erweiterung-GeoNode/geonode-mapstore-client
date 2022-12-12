@@ -3,6 +3,10 @@ export const layerSelector = (state) => {
     return layers;
 };
 
+export const getStyleeditor = (state) => {
+    return state.styleeditor;
+}
+
 function filterLayers(layer) {
     if (layer.group != 'background') {
         return layer;

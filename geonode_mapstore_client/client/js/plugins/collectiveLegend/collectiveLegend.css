@@ -1,0 +1,18 @@
+.collectiveLegendModal{
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.closeButton{
+    justify-content: flex-end;
+    display: flex;
+}
+
+.collectiveLegendHeader{
+    margin-bottom: 5%;
+}
+
+.legendLayer{
+    margin-bottom:5%
+}
