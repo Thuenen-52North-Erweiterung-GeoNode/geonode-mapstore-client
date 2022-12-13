@@ -11,47 +11,35 @@ import { layerSelector } from "../selectors/layersSelector";
 function LineBreaker(props) {
   const defaultLayers = document.getElementsByClassName("toc-default-layer-head");
   const groupLayers = document.getElementsByClassName("toc-default-group-head");
-  const title = document.getElementsByClassName("toc-title");
-  const groupTitle = document.getElementsByClassName("toc-group-title");
+  const titles = document.getElementsByClassName("toc-title");
+  const groupTitles = document.getElementsByClassName("toc-group-title");
   const [layerGroupOpen, toggleLayerGroup] = useState(false);
+
+  const applyNewBlockFormatOn = (tocItems = []) => {
+    Object.entries(tocItems).forEach((item) => {
+      item[1].style.height = "auto";
+      item[1].style.display = "flow-root";
+    });
+  }
+
+  const enableLineBreakOn = (titles = []) => {
+    Object.entries(titles).forEach((title) => {
+      title[1].style.wordBreak = "normal";
+      title[1].style.overflowWrap = "anywhere";
+      title[1].style.hyphens = "auto";
+      title[1].style.height = "fit-content";
+      title[1].style.width = "65%";
+      title[1].style.maxWidth = "100%";
+      title[1].style.whiteSpace = "normal";
+    });
+  }
+
   useEffect(() => {
-    if (
-      defaultLayers &&
-      defaultLayers.length > 0 &&
-      title &&
-      title.length > 0 &&
-      groupLayers &&
-      groupLayers.length > 0 &&
-      groupTitle &&
-      groupTitle.length > 0
-    ) {
-      Object.entries(defaultLayers).forEach((element) => {
-        element[1].style.height = "auto";
-        element[1].style.display = "flow-root";
-      });
-      Object.entries(groupLayers).forEach((element) => {
-        element[1].style.height = "auto";
-        element[1].style.display = "flow-root";
-      });
-      Object.entries(title).forEach((element) => {
-        element[1].style.wordBreak = "normal";
-        element[1].style.overflowWrap = "anywhere";
-        element[1].style.hyphens = "auto";
-        element[1].style.height = "fit-content";
-        element[1].style.width = "65%";
-        element[1].style.maxWidth = "100%";
-        element[1].style.whiteSpace = "normal";
-      });
-      Object.entries(groupTitle).forEach((element) => {
-        element[1].style.wordBreak = "normal";
-        element[1].style.overflowWrap = "anywhere";
-        element[1].style.hyphens = "auto";
-        element[1].style.height = "fit-content";
-        element[1].style.width = "65%";
-        element[1].style.maxWidth = "100%";
-        element[1].style.whiteSpace = "normal";
-      });
-    }
+    applyNewBlockFormatOn(defaultLayers);
+    applyNewBlockFormatOn(groupLayers);
+    enableLineBreakOn(titles);
+    enableLineBreakOn(groupTitles);
+
   }, [layerGroupOpen]);
 
   GroupTitle.propTypes.onClick = () => {
