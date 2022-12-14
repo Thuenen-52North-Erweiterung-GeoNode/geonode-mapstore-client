@@ -108,10 +108,6 @@ export const plugins = {
         'CollectiveLegend',
         () => import(/* webpackChunkName: 'plugins/collective-legend-plugin' */ '@js/plugins/CollectiveLegend')
     ),
-    LayerTitleTocLineBreakerPlugin: toLazyPlugin(
-        'LayerTitleTocLineBreaker',
-        () => import(/* webpackChunkName: 'plugins/line-breaker-plugin' */ '@js/plugins/LayerTitleTocLineBreaker')
-    ),
     ExclusiveLayerPlugin: toLazyPlugin(
         'ExclusiveLayer',
         () => import(/* webpackChunkName: 'plugins/exclusive-layer' */ '@js/plugins/ExclusiveLayer')
