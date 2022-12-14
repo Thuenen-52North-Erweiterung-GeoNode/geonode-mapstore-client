@@ -474,9 +474,6 @@
         "name": "CollectiveLegend"
       },
       {
-        "name": "LayerTitleTocLineBreaker"
-      },
-      {
         "name": "Identify",
         "cfg": {
           "showInMapPopup": true,
@@ -541,9 +538,6 @@
         "name": "CollectiveLegend"
       },
       {
-        "name": "LayerTitleTocLineBreaker"
-      },
-      {
         "name": "Identify",
         "cfg": {
           "showInMapPopup": true,
@@ -603,9 +597,6 @@
       },
       {
         "name": "CollectiveLegend"
-      },
-      {
-        "name": "LayerTitleTocLineBreaker"
       },
       {
         "name": "Identify",
@@ -689,9 +680,6 @@
       },
       {
         "name": "CollectiveLegend"
-      },
-      {
-        "name": "LayerTitleTocLineBreaker"
       },
       {
         "name": "Identify",
@@ -986,9 +974,6 @@
       },
       {
         "name": "CollectiveLegend"
-      },
-      {
-        "name": "LayerTitleTocLineBreaker"
       },
       {
         "name": "Save",
@@ -1391,9 +1376,6 @@
         }
       },
       {
-        "name": "LayerTitleTocLineBreaker"
-      },
-      {
         "name": "FeatureEditor",
         "cfg": {
           "hideCloseButton": true,
@@ -1535,9 +1517,6 @@
         }
       },
       {
-        "name": "LayerTitleTocLineBreaker"
-      },
-      {
         "name": "Identify",
         "cfg": {
           "showInMapPopup": true,
@@ -1614,9 +1593,6 @@
       },
       {
         "name": "CollectiveLegend"
-      },
-      {
-        "name": "LayerTitleTocLineBreaker"
       },
       {
         "name": "ExclusiveLayer"
