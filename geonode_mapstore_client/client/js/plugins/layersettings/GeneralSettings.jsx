@@ -105,7 +105,7 @@ function GeneralSettings({
     const {
         title,
         description = '',
-        tooltipOptions = 'title',
+        tooltipOptions = 'description',
         tooltipPlacement = 'top'
     } = node || {};
 
