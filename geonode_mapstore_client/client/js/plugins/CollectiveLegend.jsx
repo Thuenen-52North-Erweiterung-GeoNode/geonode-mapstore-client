@@ -13,7 +13,7 @@ import { layerSelector, getStyleeditor } from '../selectors/layersSelectors';
 import { toggleCollectiveLegend } from './collectiveLegend/collectiveLegendAction';
 import collectiveLegend from './collectiveLegend/collectiveLegendReducer';
 import './collectiveLegend/collectiveLegend.css';
-import { getStyleCodeByName } from '@mapstore/framework/api/geoserver/Styles';
+//import { getStyleCodeByName } from '@mapstore/framework/api/geoserver/Styles'; Only needed if style information is needed, see commented code below
 import { updateCollectiveLegend } from '@mapstore/framework/actions/map';
 
 /**
@@ -31,7 +31,7 @@ function CollectiveLegendModal(props) {
                 {
                     <ResizableModal
                         className="modal"
-                        title="Legend"
+                        title="Gemeinsame Legende aller sichbarer Layer"
                         show={open} 
                         onClose={() => props.toggleLegend(false)}
                         draggable={true}
@@ -40,12 +40,10 @@ function CollectiveLegendModal(props) {
                         fitContent={true}
                     >
                         <div className='collectiveLegendModal'>
-                            <h1 className='collectiveLegendHeader'><b>Collective Legend of visible layers</b></h1>
                             {props.layers.length > 0 ? 
                                 (props.layers.reverse().map((layer)=> (
                                     layer.visibility ?
                                     <div className='legendLayer'>
-                                        <p><b>Layer:</b> {layer.title}</p>
                                         {props.styleeditor && props.styleeditor.service ?
                                         <StyleInformation layer={layer} editor={props.styleeditor} /> : null
                                         }
@@ -68,10 +66,11 @@ function CollectiveLegendModal(props) {
     }
 
 function StyleInformation(props) {
+    const layer = props.layer;
     return(
         <div>
-            <p><b>Style title:</b> Styletitel</p>
-            <p><b>Style description:</b> Description</p>
+            <p><b>{layer.title}</b></p>
+            <p>{layer.description}</p>
         </div>)
     /*if (props.editor.service) {
         const [styleInfo, setStyleInfo] = useState([]);
