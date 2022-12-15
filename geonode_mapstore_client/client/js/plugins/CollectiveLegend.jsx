@@ -9,11 +9,12 @@ import OverlayTrigger from '@mapstore/framework/components/misc/OverlayTrigger';
 import Button from '../../MapStore2/web/client/components/misc/Button';
 import Message from '@mapstore/framework/components/I18N/Message';
 
-import { layerSelector, getStyleeditor } from '../selectors/layersSelector';
+import { layerSelector, getStyleeditor } from '../selectors/layersSelectors';
 import { toggleCollectiveLegend } from './collectiveLegend/collectiveLegendAction';
 import collectiveLegend from './collectiveLegend/collectiveLegendReducer';
 import './collectiveLegend/collectiveLegend.css';
 import { getStyleCodeByName } from '@mapstore/framework/api/geoserver/Styles';
+import { updateCollectiveLegend } from '@mapstore/framework/actions/map';
 
 /**
  * Plugin for CollectiveLegend
@@ -66,7 +67,12 @@ function CollectiveLegendModal(props) {
     }
 
 function StyleInformation(props) {
-    if (props.editor.service) {
+    return(
+        <div>
+            <p><b>Style title:</b> Styletitel</p>
+            <p><b>Style description:</b> Description</p>
+        </div>)
+    /*if (props.editor.service) {
         const [styleInfo, setStyleInfo] = useState([]);
         useEffect(()=>{
             getStyleCodeByName({
@@ -97,13 +103,14 @@ function StyleInformation(props) {
             </div>
     )} else {
         return null;
-    }
+    }*/
 };
 
 const CollectiveLegendConnector = connect(
     (state) => ({
         layers: layerSelector(state),
-        collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
+        //collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
+        collectiveLegend: get(state, 'map.present.collectiveLegend'),
         styleeditor: getStyleeditor(state),
     }),{
         toggleLegend: toggleCollectiveLegend,
@@ -112,7 +119,8 @@ const CollectiveLegendConnector = connect(
 function CollectiveLegendButton(props) {
 
     function handleClick() {
-        props.toggleLegend(!props.collectiveLegend)
+        props.toggleLegend(!props.collectiveLegend);
+        props.saveLegend(!props.collectiveLegend);
     }
     
     return (
@@ -140,9 +148,11 @@ function CollectiveLegendButton(props) {
 
 const CollectiveLegendButtonConnector = connect(
     (state) => ({
-        collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
+        //collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
+        collectiveLegend: get(state, 'map.present.collectiveLegend'),
     }),{
         toggleLegend: toggleCollectiveLegend,
+        saveLegend: updateCollectiveLegend,
 })(CollectiveLegendButton);
 
 export default createPlugin('CollectiveLegend', {
