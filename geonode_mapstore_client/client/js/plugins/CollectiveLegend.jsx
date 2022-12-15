@@ -10,7 +10,7 @@ import Button from '../../MapStore2/web/client/components/misc/Button';
 import Message from '@mapstore/framework/components/I18N/Message';
 
 import { layerSelector, getStyleeditor } from '../selectors/layersSelectors';
-import { toggleCollectiveLegend } from './collectiveLegend/collectiveLegendAction';
+//import { toggleCollectiveLegend } from './collectiveLegend/collectiveLegendAction';
 import collectiveLegend from './collectiveLegend/collectiveLegendReducer';
 import './collectiveLegend/collectiveLegend.css';
 //import { getStyleCodeByName } from '@mapstore/framework/api/geoserver/Styles'; Only needed if style information is needed, see commented code below
@@ -33,7 +33,7 @@ function CollectiveLegendModal(props) {
                         className="modal"
                         title="Gemeinsame Legende aller sichbarer Layer"
                         show={open} 
-                        onClose={() => props.toggleLegend(false)}
+                        onClose={() => props.saveLegend(!props.collectiveLegend)}
                         draggable={true}
                         clickOutEnabled={false}
                         modal={true}
@@ -54,7 +54,7 @@ function CollectiveLegendModal(props) {
                                 ))
                             : null}
                             <div className='closeButton'>
-                                <Button onClick={ () => props.toggleLegend(false)}>
+                                <Button onClick={ () => props.saveLegend(!props.collectiveLegend)}>
                                     {<Message msgId="close"/>}
                                 </Button>
                             </div>
@@ -113,13 +113,14 @@ const CollectiveLegendConnector = connect(
         collectiveLegend: get(state, 'map.present.collectiveLegend'),
         styleeditor: getStyleeditor(state),
     }),{
-        toggleLegend: toggleCollectiveLegend,
+        //toggleLegend: toggleCollectiveLegend,
+        saveLegend: updateCollectiveLegend,
     })(CollectiveLegendModal);
 
 function CollectiveLegendButton(props) {
 
     function handleClick() {
-        props.toggleLegend(!props.collectiveLegend);
+        //props.toggleLegend(!props.collectiveLegend);
         props.saveLegend(!props.collectiveLegend);
     }
     
@@ -151,7 +152,7 @@ const CollectiveLegendButtonConnector = connect(
         //collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
         collectiveLegend: get(state, 'map.present.collectiveLegend'),
     }),{
-        toggleLegend: toggleCollectiveLegend,
+        //toggleLegend: toggleCollectiveLegend,
         saveLegend: updateCollectiveLegend,
 })(CollectiveLegendButton);
 
