@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback} from 'react';
+import React from 'react';
 import { connect, createPlugin } from '@mapstore/framework/utils/PluginsUtils';
 import { get } from 'lodash';
 import { Glyphicon, Tooltip } from 'react-bootstrap';
@@ -10,18 +10,13 @@ import Button from '../../MapStore2/web/client/components/misc/Button';
 import Message from '@mapstore/framework/components/I18N/Message';
 
 import { layerSelector, getStyleeditor } from '../selectors/layersSelectors';
-//import { toggleCollectiveLegend } from './collectiveLegend/collectiveLegendAction';
-import collectiveLegend from './collectiveLegend/collectiveLegendReducer';
 import './collectiveLegend/collectiveLegend.css';
-//import { getStyleCodeByName } from '@mapstore/framework/api/geoserver/Styles'; Only needed if style information is needed, see commented code below
 import { updateCollectiveLegend } from '@mapstore/framework/actions/map';
 
 /**
  * Plugin for CollectiveLegend
  * @name CollectiveLegend
- * @class
  * @memberof plugins
- * @example
  */
 
 function CollectiveLegendModal(props) {
@@ -71,56 +66,22 @@ function StyleInformation(props) {
         <div>
             <p><b>{layer.title}</b></p>
             <p>{layer.description}</p>
-        </div>)
-    /*if (props.editor.service) {
-        const [styleInfo, setStyleInfo] = useState([]);
-        useEffect(()=>{
-            getStyleCodeByName({
-                baseUrl: props.editor.service.baseUrl,
-                styleName: props.layer.name,
-            }).then((style) => {
-                if (style.code) {
-                    const parsedStyleCode = new DOMParser().parseFromString(style.code, "text/xml");
-                    let title = "";
-                    let abstract = "";
-                    if ( parsedStyleCode.querySelectorAll("Title")[0] ) {
-                        title = parsedStyleCode.querySelectorAll("Title")[0].textContent;
-                    }
-                    if ( parsedStyleCode.querySelectorAll("Abstract")[0] ) {
-                        abstract = parsedStyleCode.querySelectorAll("Abstract")[0].textContent;
-                    }
-                    setStyleInfo({
-                        "title": title,
-                        "abstract": abstract,
-                    });
-                }
-            })
-        })
-        return(
-            <div>
-                <p><b>Style title:</b> {styleInfo.title}</p>
-                <p><b>Style description:</b> {styleInfo.abstract}</p>
-            </div>
-    )} else {
-        return null;
-    }*/
+        </div>
+    )
 };
 
 const CollectiveLegendConnector = connect(
     (state) => ({
         layers: layerSelector(state),
-        //collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
         collectiveLegend: get(state, 'map.present.collectiveLegend'),
         styleeditor: getStyleeditor(state),
     }),{
-        //toggleLegend: toggleCollectiveLegend,
         saveLegend: updateCollectiveLegend,
     })(CollectiveLegendModal);
 
 function CollectiveLegendButton(props) {
 
     function handleClick() {
-        //props.toggleLegend(!props.collectiveLegend);
         props.saveLegend(!props.collectiveLegend);
     }
     
@@ -149,10 +110,8 @@ function CollectiveLegendButton(props) {
 
 const CollectiveLegendButtonConnector = connect(
     (state) => ({
-        //collectiveLegend: get(state, 'collectiveLegend.collectiveLegend'),
         collectiveLegend: get(state, 'map.present.collectiveLegend'),
     }),{
-        //toggleLegend: toggleCollectiveLegend,
         saveLegend: updateCollectiveLegend,
 })(CollectiveLegendButton);
 
@@ -163,8 +122,5 @@ export default createPlugin('CollectiveLegend', {
             target: 'toolbar',
             Component: CollectiveLegendButtonConnector,
         }
-    },
-    reducers: {
-        collectiveLegend,
     }
 });
