@@ -30,9 +30,10 @@ function CollectiveLegendModal(props) {
             <React.Fragment>
                 {
                     <ResizableModal
+                        className="modal"
                         title="Legend"
                         show={open} 
-                        onClose={()=>props.toggleLegend(false)}
+                        onClose={() => props.toggleLegend(false)}
                         draggable={true}
                         clickOutEnabled={false}
                         modal={true}
@@ -55,7 +56,7 @@ function CollectiveLegendModal(props) {
                                 ))
                             : null}
                             <div className='closeButton'>
-                                <Button onClick={()=>props.toggleLegend(false)}>
+                                <Button onClick={ () => props.toggleLegend(false)}>
                                     {<Message msgId="close"/>}
                                 </Button>
                             </div>
