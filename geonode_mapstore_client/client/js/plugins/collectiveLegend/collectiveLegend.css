@@ -18,7 +18,7 @@
 }
 
 .floaty {
-  position: absolute !important;
-  left: 10% !important;
-  top: -15% !important;
+  position: absolute;
+  left: 1%;
+  top: -5%;
 }
