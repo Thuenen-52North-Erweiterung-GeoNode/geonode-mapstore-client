@@ -1,18 +1,24 @@
-.collectiveLegendModal{
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
+.collectiveLegendModal {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
-.closeButton{
-    justify-content: flex-end;
-    display: flex;
+.closeButton {
+  justify-content: flex-end;
+  display: flex;
 }
 
-.collectiveLegendHeader{
-    margin-bottom: 5%;
+.collectiveLegendHeader {
+  margin-bottom: 5%;
 }
 
-.legendLayer{
-    margin-bottom:5%
+.legendLayer {
+  margin-bottom: 5%;
+}
+
+#ms-resizable-modal {
+  position: absolute;
+  left: 1%;
+  top: -5%;
 }

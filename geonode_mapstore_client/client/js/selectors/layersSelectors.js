@@ -34,3 +34,7 @@ const returnGroup = (groups) => {
         return [];
     }
 }
+
+export const getStyleeditor = (state) => {
+    return state.styleeditor;
+}
