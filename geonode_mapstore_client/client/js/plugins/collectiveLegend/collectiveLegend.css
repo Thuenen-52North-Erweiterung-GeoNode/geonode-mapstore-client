@@ -14,11 +14,9 @@
 }
 
 .legendLayer{
-    margin-bottom:5%
+    margin-bottom:5%;
 }
 
 .modal{
-    position: absolute;
-    top:-26%;
-    margin-left: 36%;
+
 }

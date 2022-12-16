@@ -22,11 +22,10 @@ import { updateCollectiveLegend } from '@mapstore/framework/actions/map';
 function CollectiveLegendModal(props) {
     return ( 
         props.collectiveLegend && props.layers ? 
-            <React.Fragment>
+            <React.Fragment className="modal">
                 {
                     <ResizableModal
-                        className="modal"
-                        title="Gemeinsame Legende aller sichbarer Layer"
+                        title="Gemeinsame Legende aller sichtbarer Layer"
                         show={open} 
                         onClose={() => props.saveLegend(!props.collectiveLegend)}
                         draggable={true}
