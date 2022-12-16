@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { connect, createPlugin } from "@mapstore/framework/utils/PluginsUtils";
 import { get } from "lodash";
 import { Glyphicon, Tooltip } from "react-bootstrap";
@@ -31,6 +31,7 @@ function CollectiveLegendModal(props) {
           clickOutEnabled={false}
           modal={true}
           fitContent={true}
+          dialogClassName={"floaty"}
         >
           <div className="collectiveLegendModal">
             {props.layers.length > 0

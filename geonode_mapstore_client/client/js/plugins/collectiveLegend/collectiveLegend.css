@@ -17,8 +17,8 @@
   margin-bottom: 5%;
 }
 
-#ms-resizable-modal {
-  position: absolute;
-  left: 1%;
-  top: -5%;
+.floaty {
+  position: absolute !important;
+  left: 1% !important;
+  top: -5% !important;
 }
