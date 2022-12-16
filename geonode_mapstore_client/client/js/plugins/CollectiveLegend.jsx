@@ -20,19 +20,6 @@ import { updateCollectiveLegend } from "@mapstore/framework/actions/map";
  */
 
 function CollectiveLegendModal(props) {
-  /*   const [floatBoi, setfloatBoi] = useState(true);
-  const floaty = document.getElementsByClassName("floaty");
-  useEffect(() => {
-    if (floaty.length > 0) {
-      Object.entries(floaty).forEach((e) => {
-        //console.log(e[1]);
-        e[1].style.postion = "absolute";
-        e[1].style.left = "10%";
-        e[1].style.top = "-15%";
-      });
-    }
-  }, [floatBoi]); */
-
   return props.collectiveLegend && props.layers ? (
     <React.Fragment className="modal">
       {
@@ -45,7 +32,6 @@ function CollectiveLegendModal(props) {
           modal={true}
           fitContent={true}
           dialogClassName={"floaty"}
-          ///id={"markuskonk"}
         >
           <div className="collectiveLegendModal">
             {props.layers.length > 0
