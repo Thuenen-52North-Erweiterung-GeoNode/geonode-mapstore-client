@@ -104,6 +104,14 @@ function splitLazyAndStaticPlugins(pluginsDefinition) {
 // provides a way to import dynamically plugins similar to extensions
 
 export const plugins = {
+    CollectiveLegendPlugin: toLazyPlugin(
+        'CollectiveLegend',
+        () => import(/* webpackChunkName: 'plugins/collective-legend-plugin' */ '@js/plugins/CollectiveLegend')
+    ),
+    ExclusiveLayerPlugin: toLazyPlugin(
+        'ExclusiveLayer',
+        () => import(/* webpackChunkName: 'plugins/exclusive-layer' */ '@js/plugins/ExclusiveLayer')
+    ),
     LayerDownloadPlugin: toLazyPlugin(
         'LayerDownload',
         () => import(/* webpackChunkName: 'plugins/layer-download' */ '@mapstore/framework/plugins/LayerDownload'),
