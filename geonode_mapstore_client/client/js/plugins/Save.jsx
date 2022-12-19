@@ -132,7 +132,7 @@ const ConnectedSaveButton = connect(
         })
     ),
     {
-        onClick: saveDirectContent,
+        onClick: saveDirectContent, //step 1
         onStorePendingChanges: setControlProperty.bind(null, 'pendingChanges', 'value')
     }
 )((withRouter(SaveButton)));

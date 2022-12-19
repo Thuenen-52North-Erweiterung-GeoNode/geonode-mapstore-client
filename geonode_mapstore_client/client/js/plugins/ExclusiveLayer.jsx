@@ -7,6 +7,7 @@ import { layerSelector, groupSelector } from '../selectors/layersSelectors';
 import { updateNode } from '@mapstore/framework/actions/layers';
 
 function ExclusiveLayer(props) {
+
     const layers = props.layers;
     const groups = props.groups;
     const previousLayersAndGroups = useRef("");

@@ -15,7 +15,8 @@ import { layersSelector } from '@mapstore/framework/selectors/layers';
  */
 export const mapSaveSelector = (state) => {
     const layersState = layersSelector(state);
-    const { map, ...data } = msMapSaveSelector(state);
+    const { map, ...data } = msMapSaveSelector(state); //step 4
+    //console.log("mapSave", state, map, data )
     return {
         ...data,
         map: {
