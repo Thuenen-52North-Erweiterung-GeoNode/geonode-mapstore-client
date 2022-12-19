@@ -105,11 +105,17 @@ function GeneralSettings({
     const {
         title,
         description = '',
-        tooltipOptions = 'title',
-        tooltipPlacement = 'top'
+        tooltipOptions = 'description',
+        tooltipPlacement = 'top',
+        exclusiveLayer = false,
     } = node || {};
 
     const currentTitle = isString(title) ? title : _getTitle(title, currentLocale) ?? title?.default ?? '';
+
+    const exclusiveLayerOptions = [
+      { value: true, label: "Ja" },
+      { value: false, label: "Nein" },
+    ];
 
     return (
         <>
@@ -129,6 +135,24 @@ function GeneralSettings({
                     type="text"
                     onBlur={(event) => onChange({ description: event.target.value })}/>
             </FormGroup>
+            {nodeType === "group" && node.id !== "Default" ? (
+              <>
+              <FormGroup>
+                <ControlLabel>Wechselseitiger Ausschluss</ControlLabel>
+                <Select
+                  clearable={false}
+                  key="exclusiveLayer-dropdown"
+                  options={exclusiveLayerOptions}
+                  value={exclusiveLayerOptions.find(
+                    ({ value }) => value === exclusiveLayer
+                  )}
+                  onChange={({ value }) =>
+                    onChange({ exclusiveLayer: value || false })
+                  }
+                />
+              </FormGroup>
+              </>): null
+            }
             {nodeType === 'layer'
                 ? <FormGroup>
                     <ControlLabel><Message msgId="layerProperties.group" /></ControlLabel>

@@ -471,7 +471,7 @@
         }
       },
       {
-        "name": "LayerTitleTocLineBreaker"
+        "name": "CollectiveLegend"
       },
       {
         "name": "Identify",
@@ -535,7 +535,7 @@
         }
       },
       {
-        "name": "LayerTitleTocLineBreaker"
+        "name": "CollectiveLegend"
       },
       {
         "name": "Identify",
@@ -596,7 +596,7 @@
         }
       },
       {
-        "name": "LayerTitleTocLineBreaker"
+        "name": "CollectiveLegend"
       },
       {
         "name": "Identify",
@@ -679,7 +679,7 @@
         }
       },
       {
-        "name": "LayerTitleTocLineBreaker"
+        "name": "CollectiveLegend"
       },
       {
         "name": "Identify",
@@ -973,7 +973,7 @@
         }
       },
       {
-        "name": "LayerTitleTocLineBreaker"
+        "name": "CollectiveLegend"
       },
       {
         "name": "Save",
@@ -1376,9 +1376,6 @@
         }
       },
       {
-        "name": "LayerTitleTocLineBreaker"
-      },
-      {
         "name": "FeatureEditor",
         "cfg": {
           "hideCloseButton": true,
@@ -1520,9 +1517,6 @@
         }
       },
       {
-        "name": "LayerTitleTocLineBreaker"
-      },
-      {
         "name": "Identify",
         "cfg": {
           "showInMapPopup": true,
@@ -1598,7 +1592,10 @@
         }
       },
       {
-        "name": "LayerTitleTocLineBreaker"
+        "name": "CollectiveLegend"
+      },
+      {
+        "name": "ExclusiveLayer"
       },
       {
         "name": "MapThumbnail"

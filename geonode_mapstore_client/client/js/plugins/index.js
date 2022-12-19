@@ -104,9 +104,13 @@ function splitLazyAndStaticPlugins(pluginsDefinition) {
 // provides a way to import dynamically plugins similar to extensions
 
 export const plugins = {
-    LayerTitleTocLineBreakerPlugin: toLazyPlugin(
-        'LayerTitleTocLineBreaker',
-        () => import(/* webpackChunkName: 'plugins/line-breaker-plugin' */ '@js/plugins/LayerTitleTocLineBreaker')
+    CollectiveLegendPlugin: toLazyPlugin(
+        'CollectiveLegend',
+        () => import(/* webpackChunkName: 'plugins/collective-legend-plugin' */ '@js/plugins/CollectiveLegend')
+    ),
+    ExclusiveLayerPlugin: toLazyPlugin(
+        'ExclusiveLayer',
+        () => import(/* webpackChunkName: 'plugins/exclusive-layer' */ '@js/plugins/ExclusiveLayer')
     ),
     LayerDownloadPlugin: toLazyPlugin(
         'LayerDownload',
