@@ -157,6 +157,11 @@ store information of the resource in use</p>
 <dd><p>Actions for GeoNode resource featured items
 set new Featured Resources includes data, page, links</p>
 </dd>
+<dt><a href="#module_api/geonode/v2">api/geonode/v2</a></dt>
+<dd><p>Actions for GeoNode save workflow</p>
+</dd>
+<dt><a href="#module_components/Menu">components/Menu</a></dt>
+<dd></dd>
 <dt><a href="#module_epics/datasetcatalog">epics/datasetcatalog</a></dt>
 <dd></dd>
 <dt><a href="#module_epics/index">epics/index</a></dt>
@@ -169,9 +174,9 @@ set new Featured Resources includes data, page, links</p>
 <dd></dd>
 <dt><a href="#module_plugins/MediaViewer">plugins/MediaViewer</a></dt>
 <dd></dd>
-<dt><a href="#module_plugins/SaveAs">plugins/SaveAs</a></dt>
-<dd></dd>
 <dt><a href="#module_plugins/Save">plugins/Save</a></dt>
+<dd></dd>
+<dt><a href="#module_plugins/SaveAs">plugins/SaveAs</a></dt>
 <dd></dd>
 <dt><a href="#module_plugins/Sync">plugins/Sync</a></dt>
 <dd></dd>
@@ -219,6 +224,9 @@ set new Featured Resources includes data, page, links</p>
 </dd>
 <dt><a href="#getNotificationInfo">getNotificationInfo(errors, successes)</a> ⇒ <code>Object</code></dt>
 <dd><p>Get notification title, leve, and message for showNotification</p>
+</dd>
+<dt><a href="#getImageDimensions">getImageDimensions(src)</a> ⇒ <code>Promise</code></dt>
+<dd><p>Get promise of Image dimensions</p>
 </dd>
 </dl>
 
@@ -512,6 +520,40 @@ Reduce total count of resouces after deletion
 Increase total count of resouces after deletion
 
 **Kind**: static method of [<code>actions/gnsearch</code>](#module_actions/gnsearch)  
+<a name="module_api/geonode/v2"></a>
+
+## api/geonode/v2
+Actions for GeoNode save workflow
+
+<a name="module_api/geonode/v2.getEndpoints"></a>
+
+### api/geonode/v2.getEndpoints
+get all thw endpoints available from API V2
+
+**Kind**: static constant of [<code>api/geonode/v2</code>](#module_api/geonode/v2)  
+<a name="module_components/Menu"></a>
+
+## components/Menu
+<a name="module_components/Menu..Menu"></a>
+
+### components/Menu~Menu
+Menu component
+
+**Kind**: inner property of [<code>components/Menu</code>](#module_components/Menu)  
+**Properties**
+
+| Name | Type | Description |
+| --- | --- | --- |
+| items | <code>array</code> | list of menu item |
+| containerClass | <code>string</code> | css class of list container |
+| childrenClass | <code>string</code> | css class of item in list |
+| query | <code>string</code> | string to build the query url in case of link item |
+| formatHref | <code>function</code> | function to format the href in case of link item |
+
+**Example**  
+```js
+<Menu items={items} />
+```
 <a name="module_epics/datasetcatalog"></a>
 
 ## epics/datasetcatalog
@@ -610,15 +652,6 @@ Plugin for Media Viewer
 | cfg.gltf.environmentFiles | <code>string</code> | path to an hdr environment file for the 3d scene (format gltf) |
 | cfg.pcd.environmentFiles | <code>string</code> | path to an hdr environment file for the 3d scene (format pcd) |
 
-<a name="module_plugins/SaveAs"></a>
-
-## plugins/SaveAs
-<a name="module_plugins/SaveAs..SaveAs"></a>
-
-### plugins/SaveAs~SaveAs
-Plugin for SaveAs modal
-
-**Kind**: inner property of [<code>plugins/SaveAs</code>](#module_plugins/SaveAs)  
 <a name="module_plugins/Save"></a>
 
 ## plugins/Save
@@ -628,6 +661,15 @@ Plugin for SaveAs modal
 Plugin for Save modal
 
 **Kind**: inner property of [<code>plugins/Save</code>](#module_plugins/Save)  
+<a name="module_plugins/SaveAs"></a>
+
+## plugins/SaveAs
+<a name="module_plugins/SaveAs..SaveAs"></a>
+
+### plugins/SaveAs~SaveAs
+Plugin for SaveAs modal
+
+**Kind**: inner property of [<code>plugins/SaveAs</code>](#module_plugins/SaveAs)  
 <a name="module_plugins/Sync"></a>
 
 ## plugins/Sync
@@ -907,4 +949,15 @@ Get notification title, leve, and message for showNotification
 | --- | --- | --- |
 | errors | <code>Number</code> | length of errors array |
 | successes | <code>Number</code> | length of success arra |
+
+<a name="getImageDimensions"></a>
+
+## getImageDimensions(src) ⇒ <code>Promise</code>
+Get promise of Image dimensions
+
+**Kind**: global function  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| src | <code>string</code> | geostory image source (href) |
 
