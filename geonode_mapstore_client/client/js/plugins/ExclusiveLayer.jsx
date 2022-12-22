@@ -10,7 +10,7 @@ function ExclusiveLayer(props) {
     const layers = props.layers;
     const groups = props.groups;
     const previousLayersAndGroups = useRef("");
-    const [ prevVals, updatePrevVals ] = useState([]);
+    const [ prevVals, updatePrevVals ] = useState(false);
     let onGroup = false;
 
     window.onclick = (e) => {
@@ -38,7 +38,6 @@ function ExclusiveLayer(props) {
             groups.forEach(group => {
                 if ( group.exclusiveLayer ) {
                     let allLayersInGroup = layers.filter((layer) => group.id === layer.group);
-                    //allLayersInGroup = allLayersInGroup.reverse();
                     let countVisibleLayers = 0;
                     allLayersInGroup.forEach(layer => {
                         if ( layer.visibility ) {
@@ -73,24 +72,43 @@ function ExclusiveLayer(props) {
             }
         }
     }
+/*
+    const doit = (group) => {
+        console.log("test")
+        const layersInGroup = props.layers.filter(( layer ) => group.id === layer.group);
+        let countVisibleLayers = 0;
+        layersInGroup.forEach(( layer ) => {
+            if ( layer.visibility ) countVisibleLayers++;
+        });
+        if ( countVisibleLayers>1 ) {
+            layersInGroup.forEach(( layer ) => {
+                props.updateLayerVisibility(layer.id, 'layer', {visibility: false});
+            })
+        }
+        //updatePrevVals(!prevVals);
+    }
 
     if ( previousLayersAndGroups.current.groups && groups.length === previousLayersAndGroups.current.groups.length ) {
         for ( let i=0; i<groups.length; i++ ) {
+            //check if a group was changed from non-exclusive to exclusive
+            //console.log(groups[i].exclusiveLayer, previousLayersAndGroups.current.groups[i].exclusiveLayer)
             if ( groups[i].exclusiveLayer && !previousLayersAndGroups.current.groups[i].exclusiveLayer ) {
-              const layersInGroup = props.layers.filter(( layer ) => groups[i].id === layer.group);
-                let countVisibleLayers = 0;
-                layersInGroup.forEach(( layer ) => {
-                    if ( layer.visibility ) countVisibleLayers++;
-                });
-                if ( countVisibleLayers>1 ) {
-                    layersInGroup.forEach(( layer ) => {
-                        props.updateLayerVisibility(layer.id, 'layer', {visibility: false});
-                    })
-                }
+                //console.log("go")
+                
+                //doit(groups[i]);
+                //break;
             }
+//            updatePrevVals(!prevVals);
         }
     }
+                }
+                //check if a layer was moved from one group to another. If so, check if the target group is exclusive and act accordingly
+                if ( groups[i].nodes.length !== previousLayersAndGroups.current.groups[i].nodes.length) {
+                    checkExclusiveGroupsForConsistency( groups, layers );
+                }
 
+    },[])
+*/
     return (
         <div></div>
     )
@@ -100,14 +118,6 @@ const findLayerThatChangedVisibility = (newLayers, oldLayers) => {
     for ( let i = 0; i < newLayers.length; i++ ) {
         if ( newLayers[i].visibility !== oldLayers[i].visibility ) {
             return newLayers[i];
-        }
-    }
-}
-
-const findGroupThatChangedVisibility = (newGroups, oldGroups) => {
-    for ( let i = 0; i < newGroups.length; i++ ) {
-        if ( newGroups[i].visibility !== oldGroups[i].visibility ) {
-            return newGroups[i];
         }
     }
 }
