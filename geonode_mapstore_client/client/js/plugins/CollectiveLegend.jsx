@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { connect, createPlugin } from "@mapstore/framework/utils/PluginsUtils";
 import { get } from "lodash";
 import { Glyphicon, Tooltip } from "react-bootstrap";
@@ -11,7 +11,7 @@ import Message from "@mapstore/framework/components/I18N/Message";
 
 import { layerSelector, getStyleeditor } from "../selectors/layersSelectors";
 import "./collectiveLegend/collectiveLegend.css";
-import { updateCollectiveLegend } from "@mapstore/framework/actions/map";
+import { updateCollectiveLegend, updateLegendPosition } from "@mapstore/framework/actions/map";
 console.log(typeof updateCollectiveLegend)
 /**
  * Plugin for CollectiveLegend
@@ -20,6 +20,20 @@ console.log(typeof updateCollectiveLegend)
  */
 
 function CollectiveLegendModal(props) {
+ 
+  let x, y, ytemp3;
+  if ( props && props.legendPosition ) {
+    const mapContainer = document.getElementById("ms-container");   
+    const windowX = mapContainer.clientWidth-500;
+    const windowY = mapContainer.clientHeight; 
+    const windowYSpanBottomTop = windowY * 0.285;
+    x = props.legendPosition.xratio * windowX - windowX/2;
+    let ytemp1 = ((props.legendPosition.yratio - 0.117)/(0.402 - 0.117)) 
+    let ytemp2 = ytemp1 * windowYSpanBottomTop
+    ytemp3 = ytemp2 - windowYSpanBottomTop/2;
+  }
+
+
   return props.collectiveLegend && props.layers ? (
     <React.Fragment className="modal">
       {
@@ -32,6 +46,8 @@ function CollectiveLegendModal(props) {
           modal={true}
           fitContent={true}
           dialogClassName={"floaty"}
+          handleDrag={()=>{handleDrag(props)}}
+          start={{x:x, y:ytemp3}}
         >
           <div className="collectiveLegendModal">
             {props.layers.length > 0
@@ -61,6 +77,22 @@ function CollectiveLegendModal(props) {
   ) : null;
 }
 
+const handleDrag = (props) => {
+  const mapContainer = document.getElementById("ms-container");
+  const windowX = mapContainer.clientWidth-500;
+  const windowY = mapContainer.clientHeight;
+  const legendModal = document.getElementById("ms-resizable-modal");   
+  const sizes = legendModal.getBoundingClientRect();
+  const xratio = sizes.left/windowX;
+  const yratio = sizes.top/windowY;
+  const position = {
+    xratio: xratio,
+    yratio: yratio,
+  }
+  console.log(windowY, sizes.top, yratio)
+  props.saveLegendPosition(position);
+}
+
 function StyleInformation(props) {
   const layer = props.layer;
   return (
@@ -77,10 +109,12 @@ const CollectiveLegendConnector = connect(
   (state) => ({
     layers: layerSelector(state),
     collectiveLegend: get(state, "map.present.collectiveLegend"),
+    legendPosition: get(state, "map.present.legendPosition"),
     styleeditor: getStyleeditor(state),
   }),
   {
     saveLegend: updateCollectiveLegend,
+    saveLegendPosition: updateLegendPosition,
   }
 )(CollectiveLegendModal);
 
