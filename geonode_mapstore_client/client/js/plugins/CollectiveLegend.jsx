@@ -12,7 +12,7 @@ import Message from "@mapstore/framework/components/I18N/Message";
 import { layerSelector, getStyleeditor } from "../selectors/layersSelectors";
 import "./collectiveLegend/collectiveLegend.css";
 import { updateCollectiveLegend } from "@mapstore/framework/actions/map";
-
+console.log(typeof updateCollectiveLegend)
 /**
  * Plugin for CollectiveLegend
  * @name CollectiveLegend
