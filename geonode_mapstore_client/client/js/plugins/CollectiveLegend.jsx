@@ -20,17 +20,29 @@ import { updateCollectiveLegend, updateLegendPosition } from "@mapstore/framewor
  */
 
 function CollectiveLegendModal(props) {
- 
-  let x, y, ytemp3;
+   /*const windowX = mapContainer.clientWidth-legendSizes.width;
+  const windowY = windowSizes.height;
+  const xratio = legendSizes.left/windowX;
+  const yratio = legendSizes.top/windowY;*/
+
+  let x, y;
   if ( props && props.legendPosition ) {
-    const mapContainer = document.getElementById("ms-container");   
-    const windowX = mapContainer.clientWidth-500;
-    const windowY = mapContainer.clientHeight; 
-    const windowYSpanBottomTop = windowY * 0.285;
-    x = props.legendPosition.xratio * windowX - windowX/2;
-    let ytemp1 = ((props.legendPosition.yratio - 0.117)/(0.402 - 0.117)) 
-    let ytemp2 = ytemp1 * windowYSpanBottomTop
-    ytemp3 = ytemp2 - windowYSpanBottomTop/2;
+    const mapContainer = document.getElementById("ms-container");
+    const windowSizes = mapContainer.getBoundingClientRect();
+    const legend = props.legendPosition.legend;
+    const oldWindow = props.legendPosition.window
+
+    const windowX = windowSizes.width-legend.width; 
+    x = legend.x/(oldWindow.width - legend.width) * windowX - windowX/2;
+    
+    const windowY = windowSizes.height-legend.height; 
+    const windowYSpanBottomTop = windowY
+    let ytemp1 = (legend.y/(oldWindow.height-legend.height)) 
+    let ytemp2 = ytemp1 * windowYSpanBottomTop;
+    y = ytemp2 - windowYSpanBottomTop/2;
+  } else {
+    x = 0; 
+    y = 0;
   }
 
 
@@ -46,8 +58,8 @@ function CollectiveLegendModal(props) {
           modal={true}
           fitContent={true}
           dialogClassName={"floaty"}
-          handleDrag={()=>{handleDrag(props)}}
-          start={{x:x, y:ytemp3}}
+          handleDrag={() => handleDrag(props)}
+          start={{x:x, y:y}}
         >
           <div className="collectiveLegendModal">
             {props.layers.length > 0
@@ -79,17 +91,13 @@ function CollectiveLegendModal(props) {
 
 const handleDrag = (props) => {
   const mapContainer = document.getElementById("ms-container");
-  const windowX = mapContainer.clientWidth-500;
-  const windowY = mapContainer.clientHeight;
   const legendModal = document.getElementById("ms-resizable-modal");   
-  const sizes = legendModal.getBoundingClientRect();
-  const xratio = sizes.left/windowX;
-  const yratio = sizes.top/windowY;
+  const legendSizes = legendModal.getBoundingClientRect();
+  const windowSizes = mapContainer.getBoundingClientRect();
   const position = {
-    xratio: xratio,
-    yratio: yratio,
+    legend: legendSizes,
+    window: windowSizes,
   }
-  console.log(windowY, sizes.top, yratio)
   props.saveLegendPosition(position);
 }
 
