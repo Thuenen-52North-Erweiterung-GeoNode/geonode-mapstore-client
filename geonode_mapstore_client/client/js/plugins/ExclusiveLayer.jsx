@@ -7,7 +7,7 @@ import { layerSelector, groupSelector } from '../selectors/layersSelectors';
 import { updateNode } from '@mapstore/framework/actions/layers';
 
 function ExclusiveLayer(props) {
-    
+
     const layers = props.layers;
     const groups = props.groups;
     
@@ -23,7 +23,8 @@ function ExclusiveLayer(props) {
     let onGroup = false;
     window.onclick = (e) => {
         const clickedItem = e.target
-        if ( clickedItem.className.includes("glyphicon-eye-open") || clickedItem.className.includes("glyphicon-eye-close") ) {
+        if ( clickedItem.className.includes("glyphicon-record") || clickedItem.className.includes("glyphicon-unchecked") || 
+                clickedItem.className.includes("glyphicon-eye-open") || clickedItem.className.includes("glyphicon-eye-close")) {
             onGroup = checkIfClickedOnGroup( clickedItem );
             if ( onGroup.clicked && onGroup.open ) {
                 checkExclusiveGroupsForConsistency( groups, layers );
@@ -80,15 +81,18 @@ function ExclusiveLayer(props) {
                         props.updateLayerVisibility( layer.id, 'layer', {visibility: false} );
                     })
                 }
+                //updatePrevVals()
+            }
+            //check if a layer was moved from one group to another. If so, check if the target group is exclusive and act accordingly
+            if ( groups[i].nodes.length !== previousLayersAndGroups.current.groups[i].nodes.length) {
+                checkExclusiveGroupsForConsistency( groups, layers );
             }
         }
     }
 
-/*
-//check if a layer was moved from one group to another. If so, check if the target group is exclusive and act accordingly
-if ( groups[i].nodes.length !== previousLayersAndGroups.current.groups[i].nodes.length) {
-    checkExclusiveGroupsForConsistency( groups, layers );
-}*/
+
+
+
 
     return (
         <div></div>
