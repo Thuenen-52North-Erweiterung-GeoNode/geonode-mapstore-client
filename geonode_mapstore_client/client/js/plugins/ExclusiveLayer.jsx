@@ -55,18 +55,7 @@ function ExclusiveLayer(props) {
 
     const changeLayerVisibility = () => {
         if ( props && previousLayersAndGroups.current && layers.length === previousLayersAndGroups.current.layers.length ) {
-            const changedLayer = findLayerThatChangedVisibility( layers, previousLayersAndGroups.current.layers );
-            if ( changedLayer ) {
-                const correspondingGroup = getCorrespondingGroup( props, changedLayer );
-                if ( correspondingGroup && correspondingGroup.exclusiveLayer ) {
-                    const allLayersInCorrespondingGroup = getLayersInGroup( layers, changedLayer.group );
-                    allLayersInCorrespondingGroup.forEach( layer => {
-                        if ( layer.id !== changedLayer.id ) {
-                            props.updateLayerVisibility( layer.id, 'layer', {visibility: false} );
-                        }
-                    });
-                }
-            }
+            findLayerThatChangedVisibility( layers, previousLayersAndGroups.current.layers, props );
         }
     }
 
@@ -89,11 +78,6 @@ function ExclusiveLayer(props) {
             }
         }
     }
-
-
-
-
-
     return (
         <div></div>
     )
@@ -111,10 +95,22 @@ const countVisibleLayers = (layers) => {
     return visibleLayers;
 }
 
-const findLayerThatChangedVisibility = (newLayers, oldLayers) => {
+const findLayerThatChangedVisibility = ( newLayers, oldLayers, props ) => {
+    let changedLayers=[];
     for ( let i = 0; i < newLayers.length; i++ ) {
         if ( newLayers[i].visibility !== oldLayers[i].visibility ) {
-            return newLayers[i];
+            changedLayers.push(newLayers[i])
+        }
+    }
+    if ( changedLayers.length === 1 ) {
+        const correspondingGroup = getCorrespondingGroup( props, changedLayers[0] ); 
+        if ( correspondingGroup && correspondingGroup.exclusiveLayer ) {
+            const allLayersInCorrespondingGroup = getLayersInGroup( newLayers, changedLayers[0].group );
+            allLayersInCorrespondingGroup.forEach( layer => {
+                if ( layer.id !== changedLayers[0].id ) {
+                    props.updateLayerVisibility( layer.id, 'layer', {visibility: false} );
+                }
+            });
         }
     }
 }
