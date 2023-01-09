@@ -35,10 +35,13 @@ function ExclusiveLayer(props) {
         }
     }
 
-    if ( previousLayersAndGroups.current.groups && groups.length === previousLayersAndGroups.current.groups.length ) {
+//  if ( previousLayersAndGroups.current.groups && groups.length === previousLayersAndGroups.current.groups.length ) {
+    if ( previousLayersAndGroups.current.groups && groups ) {
         for ( let i=0; i<groups.length; i++ ) {
+            const oldGroup = previousLayersAndGroups.current.groups.filter((curr_gr) => groups[i].id === curr_gr.id)[0];
+            if ( oldGroup ) {
             //check if a group was changed from non-exclusive to exclusive
-            if ( groups[i].exclusiveLayer && !previousLayersAndGroups.current.groups[i].exclusiveLayer ) {
+            if ( groups[i].exclusiveLayer && !oldGroup.exclusiveLayer ) {
                 const layersInGroup = getLayersInGroup( layers, groups[i].id );
                 const visibleLayers = countVisibleLayers( layersInGroup );
                 if ( visibleLayers>1 ) {
@@ -48,7 +51,8 @@ function ExclusiveLayer(props) {
                 }
             }
             //check if a layer was moved from one group to another. If so, check if the target group is exclusive and act accordingly
-            checkIfLayerMoved( groups[i], previousLayersAndGroups.current.groups[i], layers, props, );
+            checkIfLayerMoved( groups[i], oldGroup, layers, props );
+            }
         }
     }
     return (
@@ -69,7 +73,7 @@ const countVisibleLayers = (layers) => {
 }
 
 const changeLayerVisibility = (props, previousLayersAndGroups, layers) => {
-    if ( props && previousLayersAndGroups.current && layers.length === previousLayersAndGroups.current.layers.length ) {
+    if ( props && previousLayersAndGroups.current ) {
         findLayerThatChangedVisibility( layers, previousLayersAndGroups.current.layers, props );
     }
 }
