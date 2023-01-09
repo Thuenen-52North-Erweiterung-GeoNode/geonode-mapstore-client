@@ -29,15 +29,9 @@ function ExclusiveLayer(props) {
             if ( onGroup.clicked && onGroup.open ) {
                 checkExclusiveGroupsForConsistency( groups, layers, props );
             } else {
-                changeLayerVisibility();
+                changeLayerVisibility( props, previousLayersAndGroups, layers );
             }
             updatePrevVals( !prevVals );
-        }
-    }
-
-    const changeLayerVisibility = () => {
-        if ( props && previousLayersAndGroups.current && layers.length === previousLayersAndGroups.current.layers.length ) {
-            findLayerThatChangedVisibility( layers, previousLayersAndGroups.current.layers, props );
         }
     }
 
@@ -72,6 +66,12 @@ const countVisibleLayers = (layers) => {
         if ( layer.visibility ) visibleLayers++;
     });
     return visibleLayers;
+}
+
+const changeLayerVisibility = (props, previousLayersAndGroups, layers) => {
+    if ( props && previousLayersAndGroups.current && layers.length === previousLayersAndGroups.current.layers.length ) {
+        findLayerThatChangedVisibility( layers, previousLayersAndGroups.current.layers, props );
+    }
 }
 
 const checkIfLayerMoved = ( newGroup, oldGroup, newLayers, props ) => {
