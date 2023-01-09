@@ -7,10 +7,8 @@ import { layerSelector, groupSelector } from '../selectors/layersSelectors';
 import { updateNode } from '@mapstore/framework/actions/layers';
 
 function ExclusiveLayer(props) {
-
     const layers = props.layers;
-    const groups = props.groups;
-    
+    const groups = props.groups.filter((group) => group.id !== "Default");
     const previousLayersAndGroups = useRef("");
     const [ prevVals, updatePrevVals ] = useState(false);
     useEffect(() => {
@@ -51,7 +49,7 @@ function ExclusiveLayer(props) {
                 }
             }
             //check if a layer was moved from one group to another. If so, check if the target group is exclusive and act accordingly
-            checkIfLayerMoved( groups[i], oldGroup, layers, props );
+            checkIfLayerMoved( groups[i], oldGroup, layers, previousLayersAndGroups.current.layers, props );
             }
         }
     }
@@ -78,14 +76,22 @@ const changeLayerVisibility = (props, previousLayersAndGroups, layers) => {
     }
 }
 
-const checkIfLayerMoved = ( newGroup, oldGroup, newLayers, props ) => {
+const checkIfLayerMoved = ( newGroup, oldGroup, newLayers, oldLayers, props ) => {
     if ( ( newGroup.nodes.length - oldGroup.nodes.length ) === 1 ) { //if this is true, newGroup is the group where the layer was moved to.
         if ( newGroup.exclusiveLayer ) {
             const layersInNewGroup = getLayersInGroup( newLayers, newGroup.id );
+            const oldLayersInGroup = getLayersInGroup( oldLayers, newGroup.id);
             const visibleLayers = countVisibleLayers(layersInNewGroup)
             if ( visibleLayers > 1 ) {
                 for ( let i=0; i<layersInNewGroup.length; i++ ) {
-                    props.updateLayerVisibility( layersInNewGroup[i].id, 'layer', {visibility:false} );
+                    const tmpLyr = oldLayersInGroup.filter((ol)=>ol.id===layersInNewGroup[i].id)[0];
+                    if ( tmpLyr && tmpLyr.visibility ) {
+                        props.updateLayerVisibility( layersInNewGroup[i].id, 'layer', {visibility:false} );
+                    }
+                    if ( tmpLyr === undefined) { //if tmpLayer is undefined, it means that an older 'version' of the layer does not exist, meaning it was just added.
+                        const visible = layersInNewGroup[i].visibility;
+                        props.updateLayerVisibility( layersInNewGroup[i].id, 'layer', {visibility:!visible});
+                    }
                 }
             }
         }
@@ -114,7 +120,7 @@ const findLayerThatChangedVisibility = ( newLayers, oldLayers, props ) => {
     let changedLayers=[];
     for ( let i = 0; i < newLayers.length; i++ ) {
         const tmpOldLayer = oldLayers.filter( ( oldLayer ) => newLayers[i].id === oldLayer.id )[0];
-        if ( newLayers[i].visibility && !tmpOldLayer.visibility ) {
+        if ( tmpOldLayer && newLayers[i].visibility && !tmpOldLayer.visibility ) {
             changedLayers.push( newLayers[i] )
         }
     }
