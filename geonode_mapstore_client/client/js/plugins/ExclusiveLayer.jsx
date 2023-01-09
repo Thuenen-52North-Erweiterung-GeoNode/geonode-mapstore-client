@@ -22,7 +22,6 @@ function ExclusiveLayer(props) {
 
     let onGroup = false;
     window.onclick = (e) => {
-        updatePrevVals( !prevVals );
         const clickedItem = e.target
         if ( clickedItem.className.includes("glyphicon-record") || clickedItem.className.includes("glyphicon-unchecked") || 
                 clickedItem.className.includes("glyphicon-eye-open") || clickedItem.className.includes("glyphicon-eye-close")) {
