@@ -124,10 +124,6 @@ export const plugins = {
             }
         }
     ),
-    ExclusiveLayerPlugin: toLazyPlugin(
-        'ExclusiveLayer',
-        () => import(/* webpackChunkName: 'plugins/exclusive-layer' */ '@js/plugins/ExclusiveLayer')
-    ),
     SwipePlugin: toLazyPlugin(
         'Swipe',
         () => import(/* webpackChunkName: 'plugins/swipe' */ '@mapstore/framework/plugins/Swipe')
