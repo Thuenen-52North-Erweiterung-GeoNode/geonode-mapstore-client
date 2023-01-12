@@ -321,7 +321,11 @@ export const getDatasetByPk = (pk) => {
 };
 
 export const getDocumentByPk = (pk) => {
-    return axios.get(parseDevHostname(`${endpoints[DOCUMENTS]}/${pk}`))
+    return axios.get(parseDevHostname(`${endpoints[DOCUMENTS]}/${pk}`), {
+        params: {
+            include: ['executions']
+        }
+    })
         .then(({ data }) => data.document);
 };
 
@@ -556,6 +560,7 @@ export const createMap = (body = {}) => {
 * @return {promise} it returns an object with the success map object response
 */
 export const updateMap = (id, body = {}) => {
+    //console.log("body", body)
     return axios.patch(parseDevHostname(`${endpoints[MAPS]}/${id}/`),
         body,
         {
@@ -780,6 +785,7 @@ export const getPendingExecutionRequests = () => {
     return axios.get(parseDevHostname(endpoints[EXECUTIONREQUEST]), {
         params: {
             'filter{action}': 'import',
+            'filter{source}': 'upload',
             'page': 1,
             'page_size': 99999
         }

@@ -134,7 +134,6 @@ function VisualStyleEditor({
     isStyleChanged,
     resourceType
 }) {
-
     const [closing, setClosing] = useState(false);
 
     // localstorage for style notification
@@ -334,6 +333,7 @@ function StyleEditorTocButton({
             {...btnProps}
             onClick={handleClick}
             onMouseDown={handleMouseDown}
+            tooltipId={<Message msgId={`gnviewer.editStyle`} />}
         >
             <Glyphicon glyph="dropper"/>
         </Button>
