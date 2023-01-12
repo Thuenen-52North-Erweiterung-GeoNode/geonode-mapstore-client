@@ -496,9 +496,6 @@
         }
       },
       {
-        "name": "CollectiveLegend"
-      },
-      {
         "name": "Identify",
         "cfg": {
           "showInMapPopup": true,
@@ -568,9 +565,6 @@
         }
       },
       {
-        "name": "CollectiveLegend"
-      },
-      {
         "name": "Identify",
         "cfg": {
           "showInMapPopup": true,
@@ -635,9 +629,6 @@
             }
           }
         }
-      },
-      {
-        "name": "CollectiveLegend"
       },
       {
         "name": "Identify",
@@ -726,9 +717,6 @@
             }
           }
         }
-      },
-      {
-        "name": "CollectiveLegend"
       },
       {
         "name": "Identify",
@@ -1036,9 +1024,6 @@
         "cfg": {
           "disablePermission": true
         }
-      },
-      {
-        "name": "CollectiveLegend"
       },
       {
         "name": "Save",
@@ -1718,9 +1703,6 @@
             }
           }
         }
-      },
-      {
-        "name": "CollectiveLegend"
       },
       {
         "name": "ExclusiveLayer"
