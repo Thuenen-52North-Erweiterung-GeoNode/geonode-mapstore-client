@@ -1956,6 +1956,11 @@
                     "description": "Erstellen Sie ein Liniendiagramm, um es der Karte hinzuzufügen",
                     "caption": "line"
                 },
+                "sunburst": {
+                    "title": "Sunburst",
+                    "description": "Sunny burner",
+                    "caption": "sunburst"
+                },
                 "gauge": {
                     "title": "Messuhr",
                     "description": "Erstellen Sie ein Messdiagramm, um es der Karte hinzuzufügen.",
@@ -1982,7 +1987,8 @@
                 "bar": "X-Attribut",
                 "gauge": "Gruppiere nach",
                 "counter": "Gruppiere nach",
-                "default": "Gruppiere nach"
+                "default": "Gruppiere nach",
+                "sunburst": "Innen"
             },
             "aggregationAttribute": {
                 "line": "Y-Attribut",
@@ -1990,7 +1996,11 @@
                 "bar": "Y-Attribut",
                 "gauge": "Benutzen",
                 "counter": "Benutzen",
+                "sunburst": "Benutzen",
                 "default": "Benutzen"
+            },
+            "idAttribute": {
+                "sunburst": "ID"
             },
             "aggregateFunction": {
                 "line": "Operation",
@@ -1998,6 +2008,7 @@
                 "bar": "Operation",
                 "gauge": "Operation",
                 "counter": "Operation",
+                "sunburst": "Operation",
                 "default": "Operation"
             },
             "colorRamp": {
@@ -2006,6 +2017,7 @@
                 "bar": "Farbe",
                 "gauge": "Farbe",
                 "counter": "Farbe",
+                "sunburst": "Farbe",
                 "default": "Farbe"
             },
             "uom": {
