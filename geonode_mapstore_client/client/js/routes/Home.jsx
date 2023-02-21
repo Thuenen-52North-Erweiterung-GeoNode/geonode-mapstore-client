@@ -40,10 +40,12 @@ import Notifications from '@mapstore/framework/plugins/Notifications';
 import { processResources, downloadResource } from '@js/actions/gnresource';
 import { setControlProperty } from '@mapstore/framework/actions/controls';
 import { featuredResourceDownload } from '@js/selectors/resourceservice';
+import SyncResource from '@js/plugins/SyncResource';
 
 const { DeleteResourcePlugin } = DeleteResource;
 const { SaveAsPlugin } = SaveAs;
 const { NotificationsPlugin } = Notifications;
+const { SyncResourcePlugin } = SyncResource
 
 const ConnectedFeatureList = connect(
     createSelector([
@@ -75,7 +77,7 @@ function Home({
     fetchFeaturedResources = () => {},
     loading
 }) {
-
+    console.log(config)
     const cataloguePage = '/catalogue/';
 
     const {
@@ -163,6 +165,7 @@ function Home({
             <DeleteResourcePlugin redirectTo={false} />
             <SaveAsPlugin closeOnSave labelId="gnviewer.clone" />
             <NotificationsPlugin />
+            <SyncResourcePlugin />
         </div>
     );
 }

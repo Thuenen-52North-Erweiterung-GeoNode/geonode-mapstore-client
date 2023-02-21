@@ -17,6 +17,7 @@ import { actionButtons } from '@js/utils/ResourceServiceUtils';
 import { generalResourceDownload } from '@js/selectors/resourceservice';
 
 const CardGridWithMessageId = ({ query, user, isFirstRequest, ...props }) => {
+    console.log(props)
     const hasResources = props.resources?.length > 0;
     const hasFilter = Object.keys(query || {}).filter(key => key !== 'sort').length > 0;
     const isLoggedIn = !!user;

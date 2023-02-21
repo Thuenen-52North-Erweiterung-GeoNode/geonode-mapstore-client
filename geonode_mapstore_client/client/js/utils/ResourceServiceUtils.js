@@ -6,12 +6,14 @@
  * LICENSE file in the root directory of this source tree.
 */
 
+
 import flatten from 'lodash/flatten';
 
 export const ProcessTypes = {
     DELETE_RESOURCE: 'deleteResource',
     COPY_RESOURCE: 'copyResource',
-    PERMISSIONS_RESOURCE: 'permissionsResource'
+    PERMISSIONS_RESOURCE: 'permissionsResource',
+    SYNC_RESOURCE: 'syncResource'
 };
 
 export const ProcessStatus = {
@@ -24,7 +26,8 @@ export const ProcessStatus = {
 export const ProcessInterval = {
     [ProcessTypes.DELETE_RESOURCE]: 5000,
     [ProcessTypes.COPY_RESOURCE]: 1000,
-    [ProcessTypes.PERMISSIONS_RESOURCE]: 1000
+    [ProcessTypes.PERMISSIONS_RESOURCE]: 1000,
+    [ProcessTypes.SYNC_RESOURCE]: 666
 };
 
 export const actionButtons = {
@@ -34,6 +37,10 @@ export const actionButtons = {
     },
     'copy': {
         processType: ProcessTypes.COPY_RESOURCE,
+        isControlled: true
+    },
+    'sync': {
+        processType: ProcessTypes.SYNC_RESOURCE,
         isControlled: true
     }
 };

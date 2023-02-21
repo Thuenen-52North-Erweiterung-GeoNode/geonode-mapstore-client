@@ -408,6 +408,10 @@ export const plugins = {
         'DeleteResource',
         () => import(/* webpackChunkName: 'plugins/delete-resource-plugin' */ '@js/plugins/DeleteResource')
     ),
+    SyncResourcePlugin: toLazyPlugin(
+        'SyncResource',
+        () => import(/* webpackChunkName: 'plugins/sync-resource-plugin' */ '@js/plugins/SyncResource')
+    ),
     DownloadResourcePlugin: toLazyPlugin(
         'DownloadResource',
         () => import(/* webpackChunkName: 'plugins/download-resource-plugin' */ '@js/plugins/DownloadResource')

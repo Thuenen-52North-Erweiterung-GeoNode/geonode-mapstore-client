@@ -476,6 +476,10 @@
   "plugins": {
     "dataset_preview": [
       {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
+      {
         "name": "Map",
         "cfg": {
           "shouldLoadFont": false,
@@ -545,6 +549,10 @@
     ],
     "map_preview": [
       {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
+      {
         "name": "Map",
         "cfg": {
           "shouldLoadFont": false,
@@ -610,6 +618,10 @@
       }
     ],
     "dataset_embed": [
+      {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
       {
         "name": "Map",
         "cfg": {
@@ -698,6 +710,10 @@
       }
     ],
     "map_embed": [
+      {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
       {
         "name": "Map",
         "cfg": {
@@ -801,6 +817,10 @@
     ],
     "geostory_embed": [
       {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
+      {
         "name": "GeoStory",
         "cfg": {
           "mediaEditorSettings": {
@@ -863,6 +883,10 @@
     ],
     "dashboard_embed": [
       {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
+      {
         "name": "Dashboard",
         "cfg": {
           "minLayoutWidth": 768
@@ -871,10 +895,18 @@
     ],
     "document_embed": [
       {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
+      {
         "name": "MediaViewer"
       }
     ],
     "dataset_viewer": [
+      {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
       {
         "name": "ActionNavbar",
         "cfg": {
@@ -969,6 +1001,7 @@
               "name": "DeleteResource",
               "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'delete_resourcebase')}"
             },
+
             {
               "type": "divider",
               "authenticated": true
@@ -1434,6 +1467,10 @@
     ],
     "dataset_edit_data_viewer": [
       {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
+      {
         "name": "ActionNavbar",
         "cfg": {
           "containerPosition": "header",
@@ -1571,6 +1608,10 @@
     ],
     "dataset_edit_style_viewer": [
       {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
+      {
         "name": "ActionNavbar",
         "cfg": {
           "containerPosition": "header",
@@ -1679,6 +1720,10 @@
       }
     ],
     "map_viewer": [
+      {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
       {
         "name": "Map",
         "cfg": {
@@ -2266,6 +2311,10 @@
     ],
     "geostory_viewer": [
       {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
+      {
         "name": "ActionNavbar",
         "cfg": {
           "containerPosition": "header",
@@ -2447,6 +2496,10 @@
     ],
     "document_viewer": [
       {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
+      {
         "name": "ActionNavbar",
         "cfg": {
           "containerPosition": "header",
@@ -2559,6 +2612,10 @@
       }
     ],
     "dashboard_viewer": [
+      {
+        "type": "plugin",
+        "name": "SyncResource"
+      },
       {
         "name": "ActionNavbar",
         "cfg": {

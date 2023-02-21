@@ -28,7 +28,22 @@ function ActionButtons({
     buildHrefByTemplate,
     onDownload
 }) {
+
+options.push({
+    "type": "button",
+    "action": "sync",
+    "labelId": "gnhome.pendingApproval",
+    "icon": "share",
+    "authenticated": true,
+    "perms": [
+        {
+            "type": "resource",
+            "value": "delete_resourcebase"
+        }
+    ]
+})
 console.log(resource)
+console.log(actions, "XXXXXXX")
     const containerNode = useRef();
     const dropdownClassName = 'gn-card-dropdown';
     const dropdownNode = containerNode?.current?.querySelector(`.${dropdownClassName}`);
