@@ -1720,10 +1720,7 @@
       }
     ],
     "map_viewer": [
-      {
-        "type": "plugin",
-        "name": "SyncResource"
-      },
+
       {
         "name": "Map",
         "cfg": {
@@ -1818,6 +1815,11 @@
               "type": "plugin",
               "name": "DeleteResource",
               "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'delete_resourcebase')}"
+            },
+            {
+              "type": "plugin",
+              "name": "SyncResource"
+              
             },
             {
               "type": "divider",
