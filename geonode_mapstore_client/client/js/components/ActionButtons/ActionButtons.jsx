@@ -28,7 +28,7 @@ function ActionButtons({
     buildHrefByTemplate,
     onDownload
 }) {
-
+console.log(resource)
     const containerNode = useRef();
     const dropdownClassName = 'gn-card-dropdown';
     const dropdownNode = containerNode?.current?.querySelector(`.${dropdownClassName}`);

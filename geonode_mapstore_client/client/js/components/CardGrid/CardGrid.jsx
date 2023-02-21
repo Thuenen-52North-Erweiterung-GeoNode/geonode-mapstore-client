@@ -30,7 +30,6 @@ const Cards = withResizeDetector(({
     onDownload,
     downloading
 }) => {
-
     const width = containerWidth || detectedWidth;
     const margin = 24;
     const size = 320;

@@ -15,7 +15,7 @@ import { getResourceTypesInfo, getMetadataDetailUrl } from '@js/utils/ResourceUt
 import ResourceStatus from '@js/components/ResourceStatus';
 import ALink from '@js/components/ALink';
 import AuthorInfo from '@js/components/AuthorInfo/AuthorInfo';
-import ActionButtons from '@js/components/ActionButtons';
+import ActionButtons from '@js/components/ActionButtons/ActionButtons';
 
 
 const ResourceCard = forwardRef(({
@@ -36,6 +36,7 @@ const ResourceCard = forwardRef(({
     downloading,
     onDownload
 }, ref) => {
+    console.log(options)
     const res = data;
     const types = getTypesInfo();
     const { icon } = types[res.subtype] || types[res.resource_type] || {};
