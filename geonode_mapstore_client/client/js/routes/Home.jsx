@@ -165,7 +165,7 @@ function Home({
             <DeleteResourcePlugin redirectTo={false} />
             <SaveAsPlugin closeOnSave labelId="gnviewer.clone" />
             <NotificationsPlugin />
-            <SyncResourcePlugin />
+            <SyncResourcePlugin  />
         </div>
     );
 }

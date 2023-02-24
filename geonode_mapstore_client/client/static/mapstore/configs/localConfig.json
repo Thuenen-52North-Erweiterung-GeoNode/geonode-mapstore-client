@@ -882,10 +882,7 @@
       }
     ],
     "dashboard_embed": [
-      {
-        "type": "plugin",
-        "name": "SyncResource"
-      },
+
       {
         "name": "Dashboard",
         "cfg": {
@@ -1001,7 +998,11 @@
               "name": "DeleteResource",
               "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'delete_resourcebase')}"
             },
-
+            {
+              "type": "plugin",
+              "name": "SyncResource"
+              
+            },
             {
               "type": "divider",
               "authenticated": true
@@ -1082,6 +1083,11 @@
       },
       {
         "name": "DeleteResource"
+      },
+      {
+        
+        "name": "SyncResource"
+        
       },
       {
         "name": "Map",
@@ -1856,6 +1862,11 @@
         "name": "DeleteResource"
       },
       {
+        
+        "name": "SyncResource"
+        
+      },
+      {
         "name": "DetailViewer",
         "cfg": {
           "containerPosition": "rightOverlay"
@@ -2384,6 +2395,11 @@
               "type": "plugin",
               "name": "DeleteResource",
               "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'delete_resourcebase')}"
+            },
+            {
+              "type": "plugin",
+              "name": "SyncResource"
+              
             }
           ],
           "rightMenuItems": [
@@ -2406,6 +2422,11 @@
       },
       {
         "name": "DeleteResource"
+      },
+      {
+        
+        "name": "SyncResource"
+        
       },
       {
         "name": "GeoStory",
@@ -2570,6 +2591,11 @@
               "type": "plugin",
               "name": "DeleteResource",
               "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'delete_resourcebase')}"
+            },
+            {
+              "type": "plugin",
+              "name": "SyncResource"
+              
             }
           ],
           "rightMenuItems": [
@@ -2598,6 +2624,11 @@
         "name": "DeleteResource"
       },
       {
+        
+        "name": "SyncResource"
+        
+      },
+      {
         "name": "Save"
       },
       {
@@ -2614,10 +2645,7 @@
       }
     ],
     "dashboard_viewer": [
-      {
-        "type": "plugin",
-        "name": "SyncResource"
-      },
+
       {
         "name": "ActionNavbar",
         "cfg": {
@@ -2686,6 +2714,11 @@
               "type": "plugin",
               "name": "DeleteResource",
               "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'delete_resourcebase')}"
+            },
+            {
+              "type": "plugin",
+              "name": "SyncResource"
+              
             }
           ],
           "rightMenuItems": [
@@ -2708,6 +2741,11 @@
       },
       {
         "name": "DeleteResource"
+      },
+      {
+        
+        "name": "SyncResource"
+        
       },
       {
         "name": "Save"
