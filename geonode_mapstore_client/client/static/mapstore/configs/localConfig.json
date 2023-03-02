@@ -469,7 +469,20 @@
               "value": "download_resourcebase"
             }
           ]
-        }
+        },
+        {
+          "type": "button",
+          "action": "sync",
+          "labelId": "gnhome.pendingApproval",
+          "icon": "share",
+          "authenticated": true,
+          "perms": [
+              {
+                  "type": "resource",
+                  "value": "delete_resourcebase"
+              }
+          ]
+      }
       ]
     }
   },
