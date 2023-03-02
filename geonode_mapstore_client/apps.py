@@ -66,7 +66,9 @@ def run_setup_hooks(*args, **kwargs):
         url(r'^catalogue/', TemplateView.as_view(template_name='geonode-mapstore-client/catalogue.html')),
         # required, otherwise will raise no-lookup errors to be analysed
         url(r'^api/v2/', include(router.urls)),
-        url(r'^geostory_resources_page/', TemplateView.as_view(template_name='geonode-mapstore-client/geostory_resources_page.html')),
+        #url(r'^geostory_resources_page/', TemplateView.as_view(template_name='geonode-mapstore-client/geostory_resources_page.html')),
+        
+        url('geostory_resources_page', view=TemplateView.as_view(template_name='geonode-mapstore-client/geostory_resources_page.html'))
     ]
 
     # adding default format for metadata schema validation

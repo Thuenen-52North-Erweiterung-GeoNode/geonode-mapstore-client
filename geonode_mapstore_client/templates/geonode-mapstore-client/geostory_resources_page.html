@@ -1,34 +1,31 @@
-{% extends "page.html" %}
-
-{% block container %}
-<div class="gn-container">
-    Täxt
-</div>
+{% extends "page.html" %} {% block container %}
+<div class="gn-container">Täxthuhuuh</div>
 <script>
-    console.log("event")
-    window.addEventListener('mapstore:ready', function(event) {
-        console.log("event")
-        const msAPI = event.detail;
-        msAPI.setPluginsConfig([
-            {
-                name: 'ResourcesGrid',
-                cfg: {
-                    targetSelector: '#custom-resources-grid',
-                    containerSelector: '.gn-container',
-                    menuItems: [],
-                    filtersFormItems: [],
-                    defaultQuery: {
-                        f: 'dashboard'
-                    },
-                    pagination: true
-                }
-            },
-            { name: 'SaveAs', cfg: { closeOnSave: true } },
-            { name: 'DeleteResource' },
-            { name: 'DownloadResource' },
-            { name: 'Notifications' }
-        ]);
-    });
+  console.log("event");
+  window.addEventListener("mapstore:ready", function (event) {
+    console.log("test");
+    const msAPI = event.detail;
+    msAPI.setPluginsConfig([
+      {
+        name: "ResourcesGrid",
+        cfg: {
+          targetSelector: "#custom-resources-grid",
+          containerSelector: ".gn-container",
+          menuItems: [],
+          filtersFormItems: [],
+          defaultQuery: {
+            f: "dashboard",
+          },
+          pagination: true,
+        },
+      },
+      { name: "SaveAs", cfg: { closeOnSave: true } },
+      { name: "DeleteResource" },
+      { name: "DownloadResource" },
+      { name: "Notifications" },
+      { name: "DatasetsCatalog" },
+    ]);
+  });
 </script>
 
 {% endblock %}
