@@ -405,6 +405,19 @@
                                     "value": "add_resource"
                                 }
                             ]
+                        },
+                        {
+                            "labelId": "gnhome.remoteServices",
+                            "value": "remote",
+                            "type": "link",
+                            "href": "/services/?limit=5",
+                            "authenticated": true,
+                            "perms": [
+                                {
+                                    "type": "user",
+                                    "value": "add_resource"
+                                }
+                            ]
                         }
                     ]
                 },
@@ -440,7 +453,13 @@
                     "action": "copy",
                     "labelId": "gnviewer.clone",
                     "icon": "copy",
-                    "authenticated": true
+                    "authenticated": true,
+                    "perms": [
+                        {
+                            "type": "user",
+                            "value": "add_resource"
+                        }
+                    ]
                 },
                 {
                     "type": "button",
@@ -519,6 +538,12 @@
             },
             {
                 "name": "Notifications"
+            },
+            {
+                "name": "Timeline"
+            },
+            {
+                "name": "Playback"
             }
         ],
         "map_preview": [
@@ -579,6 +604,12 @@
             },
             {
                 "name": "FitBounds"
+            },
+            {
+                "name": "Timeline"
+            },
+            {
+                "name": "Playback"
             }
         ],
         "dataset_embed": [
@@ -659,6 +690,12 @@
             },
             {
                 "name": "Notifications"
+            },
+            {
+                "name": "Timeline"
+            },
+            {
+                "name": "Playback"
             }
         ],
         "map_embed": [
@@ -753,7 +790,14 @@
                         "width": 350
                     }
                 }
+            },
+            {
+                "name": "Timeline"
+            },
+            {
+                "name": "Playback"
             }
+            
         ],
         "geostory_embed": [
             {
@@ -845,7 +889,7 @@
                         {
                             "labelId": "gnviewer.save",
                             "showPendingChangesIcon": true,
-                            "disableIf": "{!state('isNewResource') && !context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !context.canCopyResource(state('gnResourceData'), state('user'))}",
+                            "disableIf": "{!state('isNewResource') && !context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && (!context.canCopyResource(state('gnResourceData'), state('user')) || !state('selectedLayerPermissions').includes('download_resourcebase'))}",
                             "type": "dropdown",
                             "items": [
                                 {
@@ -854,7 +898,8 @@
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "SaveAs"
+                                    "name": "SaveAs",
+                                    "disableIf": "{!state('selectedLayerPermissions').includes('download_resourcebase') || !context.resourceHasPermission(state('gnResourceData'), 'download_resourcebase')}"
                                 }
                             ]
                         },
@@ -2145,7 +2190,10 @@
                 "name": "Locate"
             },
             {
-                "name": "WidgetsBuilder"
+                "name": "WidgetsBuilder",
+                "cfg": {
+                    "disablePluginIf": "{!state('selectedLayerPermissions').includes('download_resourcebase')}"
+                }
             },
             {
                 "name": "Save",
@@ -2395,7 +2443,7 @@
                             "labelId": "gnviewer.save",
                             "type": "dropdown",
                             "showPendingChangesIcon": true,
-                            "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && !context.canCopyResource(state('gnResourceData'), state('user'))}",
+                            "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'change_resourcebase') && (!context.canCopyResource(state('gnResourceData'), state('user')) || !context.resourceHasPermission(state('gnResourceData'), 'download_resourcebase'))}",
                             "items": [
                                 {
                                     "type": "plugin",
@@ -2403,7 +2451,8 @@
                                 },
                                 {
                                     "type": "plugin",
-                                    "name": "SaveAs"
+                                    "name": "SaveAs",
+                                    "disableIf": "{!context.resourceHasPermission(state('gnResourceData'), 'download_resourcebase')}"
                                 }
                             ]
                         },

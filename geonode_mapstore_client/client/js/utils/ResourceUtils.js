@@ -15,6 +15,7 @@ import { ProcessTypes, ProcessStatus } from '@js/utils/ResourceServiceUtils';
 import { bboxToPolygon } from '@js/utils/CoordinatesUtils';
 import { uniqBy, orderBy, isString, isObject, pick, difference } from 'lodash';
 import { excludeGoogleBackground, extractTileMatrixFromSources } from '@mapstore/framework/utils/LayersUtils';
+import { determineResourceType } from '@js/utils/FileUtils';
 
 /**
 * @module utils/ResourceUtils
@@ -280,10 +281,12 @@ export const getResourceTypesInfo = () => ({
     [ResourceTypes.DOCUMENT]: {
         icon: 'file',
         name: 'Document',
-        canPreviewed: (resource) => resourceHasPermission(resource, 'download_resourcebase'),
+        canPreviewed: (resource) => resourceHasPermission(resource, 'download_resourcebase') && !!(determineResourceType(resource.extension) !== 'unsupported'),
+        hasPermission: (resource) => resourceHasPermission(resource, 'download_resourcebase'),
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
-        formatMetadataUrl: (resource) => (`/documents/${resource.pk}/metadata`)
+        formatMetadataUrl: (resource) => (`/documents/${resource.pk}/metadata`),
+        metadataPreviewUrl: (resource) => (`/documents/${resource.pk}/metadata_detail?preview`)
     },
     [ResourceTypes.GEOSTORY]: {
         icon: 'book',
@@ -582,13 +585,19 @@ export const parseMapConfig = (mapResponse, resource = {}) => {
     };
 };
 
-/**
-* Util to check if resosurce can be cloned (Save As)
+/*
+* Util to check if resource can be cloned (Save As)
 * Requirements for copying are 'add_resource' permission and is_copyable property on resource
+* the dataset and document need also the download_resourcebase permission
 */
 export const canCopyResource = (resource, user) => {
     const canAdd = user?.perms?.includes('add_resource');
     const canCopy = resource?.is_copyable;
+    const resourceType = resource?.resource_type;
+    if ([ResourceTypes.DATASET, ResourceTypes.DOCUMENT].includes(resourceType)) {
+        const canDownload = !!resource?.perms?.includes('download_resourcebase');
+        return (canAdd && canCopy && canDownload) ? true : false;
+    }
     return (canAdd && canCopy) ? true : false;
 };
 
