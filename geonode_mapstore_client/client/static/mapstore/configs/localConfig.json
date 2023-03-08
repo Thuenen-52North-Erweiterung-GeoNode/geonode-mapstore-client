@@ -190,6 +190,14 @@
                   "query": {
                     "filter{subtype.in}": "vector_time"
                   }
+                },
+                {
+                  "id": "store-tabular",
+                  "labelId": "gnhome.tabular",
+                  "type": "filter",
+                  "query": {
+                      "filter{subtype.in}": "tabular"
+                  }
                 }
               ]
             },
