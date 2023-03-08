@@ -169,9 +169,9 @@ set new Featured Resources includes data, page, links</p>
 <dd></dd>
 <dt><a href="#module_plugins/MediaViewer">plugins/MediaViewer</a></dt>
 <dd></dd>
-<dt><a href="#module_plugins/Save">plugins/Save</a></dt>
-<dd></dd>
 <dt><a href="#module_plugins/SaveAs">plugins/SaveAs</a></dt>
+<dd></dd>
+<dt><a href="#module_plugins/Save">plugins/Save</a></dt>
 <dd></dd>
 <dt><a href="#module_plugins/Sync">plugins/Sync</a></dt>
 <dd></dd>
@@ -610,15 +610,6 @@ Plugin for Media Viewer
 | cfg.gltf.environmentFiles | <code>string</code> | path to an hdr environment file for the 3d scene (format gltf) |
 | cfg.pcd.environmentFiles | <code>string</code> | path to an hdr environment file for the 3d scene (format pcd) |
 
-<a name="module_plugins/Save"></a>
-
-## plugins/Save
-<a name="module_plugins/Save..Save"></a>
-
-### plugins/Save~Save
-Plugin for Save modal
-
-**Kind**: inner property of [<code>plugins/Save</code>](#module_plugins/Save)  
 <a name="module_plugins/SaveAs"></a>
 
 ## plugins/SaveAs
@@ -628,6 +619,15 @@ Plugin for Save modal
 Plugin for SaveAs modal
 
 **Kind**: inner property of [<code>plugins/SaveAs</code>](#module_plugins/SaveAs)  
+<a name="module_plugins/Save"></a>
+
+## plugins/Save
+<a name="module_plugins/Save..Save"></a>
+
+### plugins/Save~Save
+Plugin for Save modal
+
+**Kind**: inner property of [<code>plugins/Save</code>](#module_plugins/Save)  
 <a name="module_plugins/Sync"></a>
 
 ## plugins/Sync
