@@ -72,7 +72,8 @@ function toLazyPlugin(name, implFunc, overrides) {
                     containers: impl.containers || {}
                 }, overrides)
             };
-        });
+        },
+        (error) => console.error(error));
     };
     getLazyPlugin.isGNLazyWrapper = true;
     return getLazyPlugin;
@@ -439,6 +440,10 @@ export const plugins = {
     DublinCoreDownloadPlugin: toLazyPlugin(
         'DublinCoreDownload',
         () => import(/* webpackChunkName: 'plugins/iso-download-plugin' */ '@js/plugins/downloads/DublinCoreDownload')
+    ),
+    TabularPreviewPlugin: toLazyPlugin(
+        'TabularPreview',
+        () => import(/* webpackChunkName: 'plugins/tabular-preview-plugin' */ '@js/plugins/TabularPreview')
     )
 };
 
