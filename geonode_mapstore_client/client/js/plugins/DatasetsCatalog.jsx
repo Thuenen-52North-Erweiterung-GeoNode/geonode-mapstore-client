@@ -76,7 +76,8 @@ function DatasetsCatalog({
             })
                 .then((response) => {
                     if (isMounted.current) {
-                        const newEntries = responseToEntries(response);
+                        const newEntries = responseToEntries(response)
+                                            .filter(e => e.subtype != 'tabular');
                         setIsNextPageAvailable(response.isNextPageAvailable);
                         setEntries(options.page === 1 ? newEntries : [...entries, ...newEntries]);
                         setLoading(false);
