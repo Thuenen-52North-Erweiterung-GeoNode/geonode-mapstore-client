@@ -112,6 +112,16 @@ const routes = [
         component: ViewerRoute
     },
     {
+        name: 'tabular_viewer',
+        path: [
+            '/tabular/:pk'
+        ],
+        pageConfig: {
+            resourceType: 'tabular'
+        },
+        component: ViewerRoute
+    },
+    {
         name: 'dataset_edit_data_viewer',
         path: [
             '/dataset/:pk/edit/data'

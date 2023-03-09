@@ -1035,47 +1035,7 @@
         "name": "DeleteResource"
       },
       {
-        "name": "MapLoading",
-        "override": {
-          "Toolbar": {
-            "alwaysVisible": true
-          }
-        }
-      },
-      {
         "name": "FullScreen"
-      },
-      {
-        "name": "Print",
-        "cfg": {
-          "useFixedScales": true,
-          "mapWidth": 256
-        }
-      },
-      {
-        "name": "PrintOutputFormat",
-        "cfg": {
-          "allowedFormats": [
-            {
-              "value": "pdf",
-              "name": "PDF"
-            },
-            {
-              "value": "png",
-              "name": "PNG"
-            },
-            {
-              "value": "jpg",
-              "name": "JPEG"
-            }
-          ]
-        },
-        "override": {
-          "Print": {
-            "target": "left-panel",
-            "position": 3
-          }
-        }
       },
       {
         "name": "IsoDownload"
@@ -1197,6 +1157,9 @@
       },
       {
         "name": "Notifications"
+      },
+      {
+        "name": "TabularPreview"
       }
     ],
     "dataset_viewer": [

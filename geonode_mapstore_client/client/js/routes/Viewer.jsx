@@ -70,10 +70,6 @@ function ViewerRoute({
     loadingConfig,
     configError
 }) {
-    // mark subtype tabular
-    resourceType = resource && resource.subtype === 'tabular' ? 'tabular' : resourceType;
-    name = resource && resource.subtype === 'tabular' ? 'tabular_viewer' : name;
-
     const { pk } = match.params || {};
     const pluginsConfig = getPluginsConfiguration(name, propPluginsConfig);
 
@@ -149,7 +145,8 @@ function ViewerRoute({
 }
 
 ViewerRoute.propTypes = {
-    onUpdate: PropTypes.func
+    onUpdate: PropTypes.func,
+    onCreate: PropTypes.func
 };
 
 const ConnectedViewerRoute = connect(
