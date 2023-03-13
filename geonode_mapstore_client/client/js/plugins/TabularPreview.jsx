@@ -1,24 +1,89 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
+
 import { createPlugin } from '@mapstore/framework/utils/PluginsUtils';
+import { describeFeatureType, getFeatureSimple } from '@mapstore/framework/api/WFS';
 
 import Table from '@js/components/Table';
-import gnresource from '@js/reducers/gnresource';
+import resourceReducer from '@js/reducers/gnresource';
 
-function TableComponent(props) {
-    const style = {position: "absolute", top: "100px", left: "100px", zIndex: 10000000};
-    const head = [{value: "hello", key: "col1"}]
-    const body = [{col1: "value"}]
+function propertyToKey(property, index) {
+    return `${property}`;
+};
+
+function headerFromFeatures(data) {
+    const feature = data.features[0] || []
+    const properties = feature.properties;
+    return Object.keys(properties).map((p, index) => ({ value: p, key: propertyToKey(p, index) }));
+};
+
+function rowsFromFeatures(data) {
+    const features = data.features || []
+    // [{col1: "value"}]
+    return features.map((feature, index) => {
+        const row = {}
+        const properties = feature.properties
+        Object.keys(properties)
+              .forEach(name => Object.assign(row, { [propertyToKey(name, index)]: properties[name] }))
+        return row;
+    });
+};
+
+
+
+
+function TableComponent({ owsUrl, typeName }) {
+
+    const [header, setHeader] = useState();
+    const [rows, setRows] = useState();
+    const [error, setError] = useState();
+    useEffect(() => {
+        const getFeatures = async () => {
+            try {
+                const data = await getFeatureSimple(owsUrl, { typeName });
+                setHeader(headerFromFeatures(data));
+                setRows(rowsFromFeatures(data));
+            } catch(error) {
+                setError(error)
+            }
+        }
+        getFeatures()
+    }, [])
+
+    if (error) {
+        console.error(error);
+    }
+    if (!header) {
+        return <div>No header data available!</div>
+    }
     return (
-        <Table head={head} body={body} />
+        <div id="tabular-preview" class="tableFixHead" style={{ overflow:"auto" }}>
+            <Table head={header} body={rows} />
+        </div>
     );
-}
+
+};
+
+TableComponent.propTypes = {
+    header: PropTypes.array,
+    rows: PropTypes.array,
+    error: PropTypes.string
+};
 
 const TabularPreviewPlugin = connect(
-    createSelector([], () => ({})),
-    {}
+    createSelector([
+        (state) => state?.gnsettings?.geoserverUrl,
+        (state) => state?.gnresource?.data
+    ], (geoserverUrl, resource) => { 
+        if (!resource.subtype || !geoserverUrl) {
+            return {}
+        }
+        const owsUrl = `${geoserverUrl}ows`
+        const typeName = resource.alternate
+        return { owsUrl, typeName };
+    })
 )(TableComponent);
 
 export default createPlugin('TabularPreview', {
@@ -26,6 +91,6 @@ export default createPlugin('TabularPreview', {
     containers: {},
     epics: {},
     reducers: {
-        gnresource
+        resourceReducer
     }
 });
