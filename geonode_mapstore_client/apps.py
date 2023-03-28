@@ -68,9 +68,7 @@ def run_setup_hooks(*args, **kwargs):
         # required, otherwise will raise no-lookup errors to be analysed
         url(r'^api/v2/', include(router.urls)),
         url(r'^atlas_list/(?P<slug>[-\w]+)$', AtlasDetail.as_view(template_name='geonode-mapstore-client/atlas_detail.html')),
-        url(r'^atlas_list/', AtlasView.as_view(template_name='geonode-mapstore-client/atlas_list.html')),
-        
-        #url(r'^atlas_list/test', AtlasDetail.as_view(template_name='geonode-mapstore-client/atlas_detail.html')),
+        url(r'^atlas_list/', AtlasView.as_view(template_name='geonode-mapstore-client/atlas_list.html'))
     ]
 
     # adding default format for metadata schema validation
