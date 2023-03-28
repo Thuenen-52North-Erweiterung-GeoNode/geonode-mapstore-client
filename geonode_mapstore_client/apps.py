@@ -25,6 +25,7 @@ def run_setup_hooks(*args, **kwargs):
         OWNER_PERMISSIONS
     )
     from geonode.groups.conf import settings as groups_settings
+    from atlas.views import AtlasView, AtlasDetail
 
     LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
     settings.TEMPLATES[0]["DIRS"].insert(0, os.path.join(LOCAL_ROOT, "templates"))
@@ -66,7 +67,10 @@ def run_setup_hooks(*args, **kwargs):
         url(r'^catalogue/', TemplateView.as_view(template_name='geonode-mapstore-client/catalogue.html')),
         # required, otherwise will raise no-lookup errors to be analysed
         url(r'^api/v2/', include(router.urls)),
-        url(r'^geostory_resources_page/', TemplateView.as_view(template_name='geonode-mapstore-client/geostory_resources_page.html')),
+        url(r'^atlas_list/(?P<slug>[-\w]+)$', AtlasDetail.as_view(template_name='geonode-mapstore-client/atlas_detail.html')),
+        url(r'^atlas_list/', AtlasView.as_view(template_name='geonode-mapstore-client/atlas_list.html')),
+        
+        #url(r'^atlas_list/test', AtlasDetail.as_view(template_name='geonode-mapstore-client/atlas_detail.html')),
     ]
 
     # adding default format for metadata schema validation

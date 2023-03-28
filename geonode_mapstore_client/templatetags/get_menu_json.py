@@ -62,6 +62,11 @@ def get_base_left_topbar_menu(context):
             "type": "link",
             "href": "/catalogue/#/search/?f=featured",
             "label": "Featured"
+        },
+        {
+            "type": "link",
+            "href": "/atlas_list/#/",
+            "label": "Atlas"
         }
     ]
 
