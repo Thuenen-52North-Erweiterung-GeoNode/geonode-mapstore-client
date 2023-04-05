@@ -6,12 +6,17 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Message from '@mapstore/framework/components/I18N/Message';
 import moment from 'moment';
 import castArray from 'lodash/castArray';
 import Button from '@js/components/Button';
 import { Tabs, Tab } from "react-bootstrap";
+import Table from '@js/components/Table';
+
+import {
+    getDatasetByPk
+} from '@js/api/geonode/v2'
 
 const replaceTemplateString = (properties, str) => {
     return Object.keys(properties).reduce((updatedStr, key) => {
@@ -135,13 +140,39 @@ const parseTabItems = (items) => {
     });
 };
 
+const parseAttributeData = (dataset) => {
+    if (dataset?.attribute_set) {
+        const header = [{
+            value: "Name",
+            key: "name"
+        }, {
+            value: "Label",
+            key: "label"
+        }, {
+            value: "Description",
+            key: "description"
+        }]
+
+        const rows = dataset.attribute_set.map(attribute => ({
+            name: attribute.attribute,
+            label: attribute.attribute_label || "",
+            description: attribute.description || "",
+        }));
+
+        return { header, rows };
+    }
+
+    return {header: [], rows: [] };
+};
+
 function DetailsInfo({
     tabs = [],
+    resource,
     formatHref
 }) {
     const filteredTabs = tabs
-        .map((tab) => ({ ...tab, items: parseTabItems(tab?.items) }))
-        .filter(tab => tab?.items?.length > 0);
+        .map((tab) => ({ ...tab, items: tab.type === "attribute_table" ? tab.items : parseTabItems(tab?.items) }))
+        //.filter(tab => tab?.items?.length > 0);
     const selectedTabId = filteredTabs?.[0]?.id;
     return (
         <Tabs
@@ -149,11 +180,28 @@ function DetailsInfo({
             bsStyle="pills"
             className="gn-details-info tabs-underline"
         >
-            {filteredTabs.map((tab, idx) => (
-                <Tab key={idx} eventKey={tab?.id} title={<DetailInfoFieldLabel field={tab} />}>
-                    <DetailsInfoFields fields={tab?.items} formatHref={formatHref} />
-                </Tab>
-            ))}
+            {filteredTabs.map((tab, idx) => {
+                const [ attributeData, setAttributeData ] = useState({ header: [], rows: [] });
+                if (tab.type === "attribute_table") {
+                    useEffect(() => {
+                        const getAttributes = async () => {
+                            if (resource.resource_type === "dataset") {
+                                const dataset = await getDatasetByPk(resource.pk);
+                                setAttributeData(parseAttributeData(dataset));
+                            }
+                        }
+                        getAttributes();
+                    })
+                }
+                return (
+                    <Tab key={idx} eventKey={tab?.id} title={<DetailInfoFieldLabel field={tab} />}>
+                        {tab.type === "attribute_table" 
+                            ? <Table head={attributeData.header} body={attributeData.rows} />
+                            : <DetailsInfoFields fields={tab?.items} formatHref={formatHref} />}
+                    </Tab>
+                )
+            })
+            }
         </Tabs>
     );
 }
