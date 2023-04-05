@@ -770,6 +770,11 @@
                             ]
                         },
                         {
+                            "type": "attribute-table",
+                            "id": "attributes",
+                            "labelId": "gnviewer.attributes"
+                        },
+                        {
                             "type": "linked-resources",
                             "id": "related",
                             "labelId": "gnviewer.linkedResources",
@@ -3315,6 +3320,11 @@
                                     "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "attribute-table",
+                            "id": "attributes",
+                            "labelId": "gnviewer.attributes"
                         },
                         {
                             "type": "linked-resources",
