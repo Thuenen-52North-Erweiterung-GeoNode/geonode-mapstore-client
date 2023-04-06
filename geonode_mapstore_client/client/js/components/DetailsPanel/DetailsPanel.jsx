@@ -280,7 +280,7 @@ function DetailsPanel({
                             : null}
                     </div>
                 </div>
-                <DetailsInfo tabs={tabs} formatHref={formatHref}/>
+                <DetailsInfo tabs={tabs} resource={resource} formatHref={formatHref}/>
             </section>
         </div>
     );
