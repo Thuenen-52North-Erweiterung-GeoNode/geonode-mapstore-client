@@ -55,7 +55,7 @@ function DetailsHTML({ value, placeholder }) {
         return (
             <div className={`gn-details-info-html${expand ? '' : ' collapsed'}`}>
                 {expand
-                    ? <div className="gn-details-info-html-value" dangerouslySetInnerHTML={{ __html: value }}/>
+                    ? <div className="gn-details-info-html-value" dangerouslySetInnerHTML={{ __html: value }} />
                     : <div className="gn-details-info-html-value">{placeholder}</div>}
                 <Button onClick={() => setExpand(!expand)}>
                     <Message msgId={expand ? 'gnviewer.readLess' : 'gnviewer.readMore'} />
@@ -63,7 +63,7 @@ function DetailsHTML({ value, placeholder }) {
             </div>);
     }
     return (
-        <div dangerouslySetInnerHTML={{ __html: value }}/>
+        <div dangerouslySetInnerHTML={{ __html: value }} />
     );
 }
 
@@ -110,7 +110,7 @@ function DetailsInfoFields({ fields, formatHref }) {
                 return (
                     <DetailsInfoField key={filedIndex} field={field}>
                         {(values) => values.map((value, idx) => (
-                            <DetailsHTML key={idx} value={value} placeholder={field.placeholder}/>
+                            <DetailsHTML key={idx} value={value} placeholder={field.placeholder} />
                         ))}
                     </DetailsInfoField>
                 );
@@ -132,8 +132,8 @@ function DetailsInfoFields({ fields, formatHref }) {
 const parseTabItems = (items) => {
     return (items || []).filter(({ value }) => {
         if (value?.length === 0
-        || value === 'None'
-        || !value) {
+            || value === 'None'
+            || !value) {
             return false;
         }
         return true;
@@ -162,7 +162,7 @@ const parseAttributeData = (dataset) => {
         return { header, rows };
     }
 
-    return {header: [], rows: [] };
+    return { header: [], rows: [] };
 };
 
 function DetailsInfo({
@@ -172,7 +172,7 @@ function DetailsInfo({
 }) {
     const filteredTabs = tabs
         .map((tab) => ({ ...tab, items: tab.type === "attribute_table" ? tab.items : parseTabItems(tab?.items) }))
-        //.filter(tab => tab?.items?.length > 0);
+    //.filter(tab => tab?.items?.length > 0);
     const selectedTabId = filteredTabs?.[0]?.id;
     return (
         <Tabs
@@ -181,7 +181,7 @@ function DetailsInfo({
             className="gn-details-info tabs-underline"
         >
             {filteredTabs.map((tab, idx) => {
-                const [ attributeData, setAttributeData ] = useState({ header: [], rows: [] });
+                const [attributeData, setAttributeData] = useState({ header: [], rows: [] });
                 if (tab.type === "attribute_table") {
                     useEffect(() => {
                         const getAttributes = async () => {
@@ -195,7 +195,7 @@ function DetailsInfo({
                 }
                 return (
                     <Tab key={idx} eventKey={tab?.id} title={<DetailInfoFieldLabel field={tab} />}>
-                        {tab.type === "attribute_table" 
+                        {tab.type === "attribute_table"
                             ? <Table head={attributeData.header} body={attributeData.rows} />
                             : <DetailsInfoFields fields={tab?.items} formatHref={formatHref} />}
                     </Tab>
