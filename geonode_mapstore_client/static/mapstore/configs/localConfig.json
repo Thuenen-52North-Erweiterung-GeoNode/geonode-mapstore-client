@@ -761,6 +761,11 @@
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "attribute_table",
+                            "id": "attributes",
+                            "labelId": "gnviewer.attributes"
                         }
                     ]
                 }
@@ -3243,6 +3248,11 @@
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "attribute_table",
+                            "id": "attributes",
+                            "labelId": "gnviewer.attributes"
                         }
                     ]
                 }
