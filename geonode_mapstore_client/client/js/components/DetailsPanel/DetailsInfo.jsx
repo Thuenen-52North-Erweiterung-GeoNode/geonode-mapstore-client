@@ -129,6 +129,14 @@ function DetailsInfoFields({ fields, formatHref }) {
     </div>);
 }
 
+function DetailsInfoTable({head, body}) {
+    return (
+        <div className="gn-details-info-table">
+            <Table head={head} body={body} />
+        </div>
+    )
+}
+
 const parseTabItems = (items) => {
     return (items || []).filter(({ value }) => {
         if (value?.length === 0
@@ -196,7 +204,7 @@ function DetailsInfo({
                 return (
                     <Tab key={idx} eventKey={tab?.id} title={<DetailInfoFieldLabel field={tab} />}>
                         {tab.type === "attribute_table"
-                            ? <Table head={attributeData.header} body={attributeData.rows} />
+                            ? <DetailsInfoTable head={attributeData.header} body={attributeData.rows} />
                             : <DetailsInfoFields fields={tab?.items} formatHref={formatHref} />}
                     </Tab>
                 )
