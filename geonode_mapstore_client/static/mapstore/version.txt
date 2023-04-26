@@ -1,1 +1,5 @@
+<<<<<<< HEAD
 geonode-mapstore-client-v4.0.0-c68f1aeafbbd0fa957f72604034d34f0bf9fdd8f
+=======
+geonode-mapstore-client-v4.0.0-608599b839dc427b65dd756680f0606e1ec85da7
+>>>>>>> feature/preview-tabular-data

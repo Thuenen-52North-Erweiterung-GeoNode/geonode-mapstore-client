@@ -1,1 +1,1 @@
-(self.webpackChunkgeonode_mapstore_client=self.webpackChunkgeonode_mapstore_client||[]).push([[8097],{63417:()=>{}}]);
+(self.webpackChunkgeonode_mapstore_client=self.webpackChunkgeonode_mapstore_client||[]).push([[60861],{660861:()=>{}}]);
