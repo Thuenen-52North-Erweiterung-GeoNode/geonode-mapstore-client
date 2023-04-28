@@ -14,24 +14,24 @@ import {
 } from '@js/utils/ResourceUtils';
 import get from 'lodash/get';
 
-function userListToCsv(users=[]) {
+function getUserResourceName(user) {
+    return user?.first_name !== '' && user?.last_name !== ''
+        ? `${user?.first_name} ${user?.last_name}`
+        : user?.username;
+}
+
+function userListToCsv(users = []) {
     if (!users) {
-        return ""
+        return "";
     }
 
-    users = !Array.isArray(users) ? [users] : users;
-    return users.map((user) => {
+    const userArray = !Array.isArray(users) ? [users] : users;
+    return userArray.map((user) => {
         return {
             href: '/messages/create/' + user.pk,
             value: getUserResourceName(user)
         };
     });
-}
-
-function getUserResourceName(user) {
-    return user?.first_name !== '' && user?.last_name !== ''
-        ? `${user?.first_name} ${user?.last_name}`
-        : user?.username
 }
 
 export const getPluginsContext = () => ({
