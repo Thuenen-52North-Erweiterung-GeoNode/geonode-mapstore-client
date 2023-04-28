@@ -68,9 +68,11 @@ function DetailsInfoFields({ fields, formatHref }) {
             if (field.type === 'link') {
                 return (
                     <DetailsInfoField key={filedIndex} field={field}>
-                        {(values) => values.map((value, idx) => (
-                            <a key={idx} href={field.href} target={field.target}>{value}</a>
-                        ))}
+                        {(values) => values.map((value, idx) => {
+                            return field.href
+                                ? <a key={idx} href={field.href}>{value}</a>
+                                : <a key={idx} href={value.href}>{value.value}</a>
+                        })}
                     </DetailsInfoField>
                 );
             }

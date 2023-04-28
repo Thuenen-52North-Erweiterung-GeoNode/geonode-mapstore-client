@@ -21,10 +21,17 @@ function userListToCsv(users=[]) {
 
     users = !Array.isArray(users) ? [users] : users;
     return users.map((user) => {
-        return user?.first_name !== '' && user?.last_name !== ''
-            ? `${user?.first_name} ${user?.last_name}`
-            : user?.username
-    }).join(", ");
+        return {
+            href: '/messages/create/' + user.pk,
+            value: getUserResourceName(user)
+        };
+    });
+}
+
+function getUserResourceName(user) {
+    return user?.first_name !== '' && user?.last_name !== ''
+        ? `${user?.first_name} ${user?.last_name}`
+        : user?.username
 }
 
 export const getPluginsContext = () => ({
@@ -34,5 +41,6 @@ export const getPluginsContext = () => ({
     resourceHasPermission,
     canCopyResource,
     userHasPermission: (user, perm) => user?.perms?.includes(perm),
+    getUserResourceName,
     getUserResourceNames: userListToCsv
 });

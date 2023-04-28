@@ -679,7 +679,7 @@
                                     "type": "link",
                                     "labelId": "gnviewer.owner",
                                     "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'owner.username')}",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'owner'))}",
+                                    "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'owner'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'owner.username')}"
                                 },
                                 {
@@ -721,7 +721,6 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
                                     "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
                                 },
                                 {
@@ -1533,7 +1532,7 @@
                                     "type": "link",
                                     "labelId": "gnviewer.owner",
                                     "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'owner.username')}",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'owner'))}",
+                                    "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'owner'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'owner.username')}"
                                 },
                                 {
@@ -1575,7 +1574,6 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
                                     "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
                                 },
                                 {
@@ -2163,7 +2161,7 @@
                                     "type": "link",
                                     "labelId": "gnviewer.owner",
                                     "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'owner.username')}",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'owner'))}",
+                                    "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'owner'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'owner.username')}"
                                 },
                                 {
@@ -2205,7 +2203,6 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
                                     "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
                                 },
                                 {
@@ -2451,7 +2448,7 @@
                                     "type": "link",
                                     "labelId": "gnviewer.owner",
                                     "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'owner.username')}",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'owner'))}",
+                                    "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'owner'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'owner.username')}"
                                 },
                                 {
@@ -2493,7 +2490,6 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
                                     "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
                                 },
                                 {
@@ -2657,7 +2653,7 @@
                                     "type": "link",
                                     "labelId": "gnviewer.owner",
                                     "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'owner.username')}",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'owner'))}",
+                                    "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'owner'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'owner.username')}"
                                 },
                                 {
@@ -2699,7 +2695,6 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
                                     "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
                                 },
                                 {
@@ -3156,7 +3151,7 @@
                                     "type": "link",
                                     "labelId": "gnviewer.owner",
                                     "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'owner.username')}",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'owner'))}",
+                                    "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'owner'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'owner.username')}"
                                 },
                                 {
@@ -3198,7 +3193,6 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
                                     "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
                                 },
                                 {
