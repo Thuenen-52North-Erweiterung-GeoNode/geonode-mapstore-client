@@ -146,6 +146,10 @@ const parseTabItems = (items) => {
 };
 const isDefaultTabType = (type) => type === 'tab';
 
+const canShowAttributeTab = ({resource, tab}) => {
+    return resource?.resource_type === 'dataset' && tab?.type === 'attribute-table'
+}
+
 function DetailsInfo({
     tabs = [],
     resource,
@@ -160,7 +164,7 @@ function DetailsInfo({
                 Component: tabTypes[tab.type] || tabTypes.tab
             }))
         // ensure tab has items .. attribute table loads them dynamically
-        .filter(tab => tab?.items?.length > 0 || tab.type === 'attribute-table' );
+        .filter(tab => tab?.items?.length > 0 || canShowAttributeTab({resource, tab}) );
     const selectedTabId = filteredTabs?.[0]?.id;
     return (
         <Tabs
