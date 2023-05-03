@@ -299,6 +299,10 @@
             "iso": "Métadonnées ISO",
             "dublinCore": "Métadonnées de Dublin Core",
             "owner": "Propriétaire",
+            "creation": "Création",
+            "publication": "Publication",
+            "revision": "Révision",
+            "date": "Date",
             "created": "Créé",
             "published": "Publié",
             "lastModified": "Dernière modification",
@@ -318,9 +322,11 @@
             "temporalExtent": "Etendue temporelle",
             "spatialRepresentationType": "Type de représentation spatiale",
             "supplementalInformation": "Informations supplémentaires",
+            "viewFullMetadata": "Afficher les métadonnées complètes",
             "abstract": "Résumé",
             "readMore": "En savoir plus",
-            "readLess": "Lire moins"
+            "readLess": "Lire moins",
+            "linkedResources": "Ressources liées"
         }
     }
 }

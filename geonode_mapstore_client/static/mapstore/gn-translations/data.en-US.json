@@ -300,9 +300,13 @@
             "iso": "ISO Metadata",
             "dublinCore": "Dublin Core Metadata",
             "owner": "Owner",
-            "created": "Created",
+            "creation": "Creation",
+            "publication": "Publication",
+            "revision": "Revision",
+            "date": "Date",
+            "created": "Added to catalog",
             "published": "Published",
-            "lastModified": "Last modified",
+            "lastModified": "Last catalog modification",
             "resourceType": "Resource type",
             "category": "Category",
             "pointOfContact": "Point of contact",
@@ -319,9 +323,11 @@
             "temporalExtent": "Temporal Extent",
             "spatialRepresentationType": "Spatial representation type",
             "supplementalInformation": "Supplemental information",
+            "viewFullMetadata": "View full metadata",
             "abstract": "Abstract",
             "readMore": "Read more",
-            "readLess": "Read less"
+            "readLess": "Read less",
+            "linkedResources": "Linked Resources"
         }
     }
 }

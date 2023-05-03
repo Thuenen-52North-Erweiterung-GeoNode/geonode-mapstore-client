@@ -438,6 +438,38 @@
                 margin-left: 0.5rem;
             }
         }
+        &.linked-resources {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        &.link {
+            border-bottom: none;
+            .gn-details-info-label {
+                padding: 0.25rem;
+                font-weight: bold;
+            }
+        }
+    }
+    
+}
+
+.gn-details-info-table {
+    padding: 0.5rem 0;
+    font-size: @font-size-small;
+    position: relative;
+    * {
+        position: relative;
+    }
+    .table {
+        thead > tr > th {
+            padding: 0.25rem;
+            font-weight: lighter;
+        }
+        tbody > tr > td {
+            padding: 0.25rem;
+            font-weight: lighter;
+        }
     }
 }
 

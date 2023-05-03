@@ -301,9 +301,13 @@
             "iso": "Metadati ISO",
             "dublinCore": "Metadati di Dublin Core",
             "owner": "Proprietario",
-            "created": "Creata",
+            "date": "Data",
+            "creation": "Creazione",
+            "publication": "Pubblicazione",
+            "revision": "Revisione",
+            "created": "Aggiunta al catalogo",
             "published": "Pubblicata",
-            "lastModified": "Ultima modifica",
+            "lastModified": "Ultima modifica nel catalogo",
             "resourceType": "Tipo di risorsa",
             "category": "Categoria",
             "pointOfContact": "Punto di contatto",
@@ -320,9 +324,11 @@
             "temporalExtent": "Estensione temporale",
             "spatialRepresentationType": "Tipo di rappresentazione spaziale",
             "supplementalInformation": "Informazioni supplementari",
+            "viewFullMetadata": "Visualizza i metadati completi",
             "abstract": "Astratto",
             "readMore": "Leggi di più",
-            "readLess": "Leggi di meno"
+            "readLess": "Leggi di meno",
+            "linkedResources": "Risorse collegate"
         }
     }
 }

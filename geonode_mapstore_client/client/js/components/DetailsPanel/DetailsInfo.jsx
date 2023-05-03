@@ -5,18 +5,15 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
-import React, { useState, useEffect } from 'react';
-import Message from '@mapstore/framework/components/I18N/Message';
-import moment from 'moment';
+import React, { useState } from 'react';
 import castArray from 'lodash/castArray';
-import Button from '@js/components/Button';
+import moment from 'moment';
 import { Tabs, Tab } from "react-bootstrap";
-import Table from '@js/components/Table';
 
-import {
-    getDatasetByPk
-} from '@js/api/geonode/v2'
+import Button from '@js/components/Button';
+import DetailsAttributeTable from '@js/components/DetailsPanel/DetailsAttributeTable';
+import DetailsLinkedResources from '@js/components/DetailsPanel/DetailsLinkedResources';
+import Message from '@mapstore/framework/components/I18N/Message';
 
 const replaceTemplateString = (properties, str) => {
     return Object.keys(properties).reduce((updatedStr, key) => {
@@ -31,20 +28,24 @@ const getDateRangeValue = (startValue, endValue, format) => {
     }
     return moment(startValue ? startValue : endValue).format(format);
 };
+const isEmptyValue = (value) => (value?.length === 0 || value === 'None' || !value);
+const isStyleLabel = (style) => style === "label";
+const isFieldLabelOnly = ({style, value}) => isEmptyValue(value) && isStyleLabel(style);
 
 const DetailInfoFieldLabel = ({ field }) => {
-    return (<>{field.labelId ? <Message msgId={field.labelId} /> : field.label}</>);
+    const label = field.labelId ? <Message msgId={field.labelId} /> : field.label;
+    return isStyleLabel(field.style) && field.href
+        ? (<a href={field.href} target={field.target}>{label}</a>)
+        : label;
 };
 
-function DetailsInfoField({
-    field,
-    children
-}) {
+function DetailsInfoField({ field, children }) {
     const values = castArray(field.value);
+    const isLinkLabel = isFieldLabelOnly(field);
     return (
-        <div className="gn-details-info-row">
-            <div className="gn-details-info-label"><DetailInfoFieldLabel field={field} /></div>
-            <div className="gn-details-info-value">{children(values)}</div>
+        <div className={`gn-details-info-row${isLinkLabel ? ' link' : ''}`}>
+            <div className={`gn-details-info-label`}><DetailInfoFieldLabel field={field} /></div>
+            {!isLinkLabel && <div className="gn-details-info-value">{children(values)}</div>}
         </div>
     );
 }
@@ -129,24 +130,21 @@ function DetailsInfoFields({ fields, formatHref }) {
     </div>);
 }
 
-function DetailsInfoTable({head, body}) {
-    return (
-        <div className="gn-details-info-table">
-            <Table head={head} body={body} />
-        </div>
-    )
-}
+const tabTypes = {
+    'attribute-table': DetailsAttributeTable,
+    'linked-resources': DetailsLinkedResources,
+    'tab': DetailsInfoFields
+};
 
 const parseTabItems = (items) => {
-    return (items || []).filter(({ value }) => {
-        if (value?.length === 0
-            || value === 'None'
-            || !value) {
+    return (items || []).filter(({value, style}) => {
+        if (isEmptyValue(value) && !isStyleLabel(style)) {
             return false;
         }
         return true;
     });
 };
+const isDefaultTabType = (type) => type === 'tab';
 
 const parseAttributeData = (dataset) => {
     if (dataset?.attribute_set) {
@@ -176,11 +174,18 @@ const parseAttributeData = (dataset) => {
 function DetailsInfo({
     tabs = [],
     resource,
-    formatHref
+    formatHref,
+    resourceTypesInfo
 }) {
     const filteredTabs = tabs
-        .map((tab) => ({ ...tab, items: tab.type === "attribute_table" ? tab.items : parseTabItems(tab?.items) }))
-    //.filter(tab => tab?.items?.length > 0);
+        .map((tab) =>
+            ({
+                ...tab,
+                items: isDefaultTabType(tab.type) ? parseTabItems(tab?.items) : tab?.items,
+                Component: tabTypes[tab.type] || tabTypes.tab
+            }))
+        // ensure tab has items .. attribute table loads them dynamically
+        .filter(tab => tab?.items?.length > 0 || tab.type === 'attribute-table' );
     const selectedTabId = filteredTabs?.[0]?.id;
     return (
         <Tabs
@@ -188,28 +193,15 @@ function DetailsInfo({
             bsStyle="pills"
             className="gn-details-info tabs-underline"
         >
-            {filteredTabs.map((tab, idx) => {
-                const [attributeData, setAttributeData] = useState({ header: [], rows: [] });
-                if (tab.type === "attribute_table") {
-                    useEffect(() => {
-                        const getAttributes = async () => {
-                            if (resource.resource_type === "dataset") {
-                                const dataset = await getDatasetByPk(resource.pk);
-                                setAttributeData(parseAttributeData(dataset));
-                            }
-                        }
-                        getAttributes();
-                    }, [])
-                }
-                return (
-                    <Tab key={idx} eventKey={tab?.id} title={<DetailInfoFieldLabel field={tab} />}>
-                        {tab.type === "attribute_table"
-                            ? <DetailsInfoTable head={attributeData.header} body={attributeData.rows} />
-                            : <DetailsInfoFields fields={tab?.items} formatHref={formatHref} />}
-                    </Tab>
-                )
-            })
-            }
+            {filteredTabs.map(({Component, ...tab}, idx) => (
+                <Tab key={idx} eventKey={tab?.id} title={<DetailInfoFieldLabel field={tab} />}>
+                    <Component 
+                        fields={tab?.items}
+                        resource={resource}
+                        formatHref={formatHref}
+                        resourceTypesInfo={resourceTypesInfo} />
+                </Tab>
+            ))}
         </Tabs>
     );
 }
