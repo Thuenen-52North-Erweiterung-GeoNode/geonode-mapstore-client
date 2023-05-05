@@ -157,14 +157,14 @@ function DetailsInfo({
     resourceTypesInfo
 }) {
     const filteredTabs = tabs
+        .filter((tab) => !tab?.disableIf)
         .map((tab) =>
             ({
                 ...tab,
                 items: isDefaultTabType(tab.type) ? parseTabItems(tab?.items) : tab?.items,
                 Component: tabTypes[tab.type] || tabTypes.tab
             }))
-        // ensure tab has items .. attribute table loads them dynamically
-        .filter(tab => tab?.items?.length > 0 || canShowAttributeTab({resource, tab}) );
+        .filter(tab => tab?.items?.length > 0);
     const selectedTabId = filteredTabs?.[0]?.id;
     return (
         <Tabs
@@ -174,9 +174,8 @@ function DetailsInfo({
         >
             {filteredTabs.map(({Component, ...tab}, idx) => (
                 <Tab key={idx} eventKey={tab?.id} title={<DetailInfoFieldLabel field={tab} />}>
-                    <Component 
+                    <Component
                         fields={tab?.items}
-                        resource={resource}
                         formatHref={formatHref}
                         resourceTypesInfo={resourceTypesInfo} />
                 </Tab>

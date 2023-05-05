@@ -5,19 +5,14 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree.
  */
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
-
-import {
-    getDatasetByPk
-} from '@js/api/geonode/v2'
-
 import Table from '@js/components/Table';
 
 
-const parseAttributeData = (dataset) => {
-    if (dataset?.attribute_set) {
+const parseAttributeData = (fields) => {
+    if (fields) {
         const header = [{
             value: "Name",
             key: "name"
@@ -27,13 +22,12 @@ const parseAttributeData = (dataset) => {
         }, {
             value: "Description",
             key: "description"
-        }]
-
-        const na = <FormattedMessage id="gnhome.na" defaultMessage="N/A" />
-        const rows = dataset.attribute_set.map(attribute => ({
+        }];
+        const na = <FormattedMessage id="gnhome.na" defaultMessage="N/A" />;
+        const rows = fields.map(attribute => ({
             name: attribute.attribute,
             label: attribute.attribute_label || na,
-            description: attribute.description || na,
+            description: attribute.description || na
         }));
 
         return { header, rows };
@@ -43,32 +37,21 @@ const parseAttributeData = (dataset) => {
 };
 
 
-const DetailsAttributeTable = ({
-    resource,
-}) => {
-    const [attributeData, setAttributeData] = useState({ header: [], rows: [] });
-    useEffect(() => {
-        const getAttributes = async () => {
-            if (resource.resource_type === "dataset") {
-                const dataset = await getDatasetByPk(resource.pk);
-                setAttributeData(parseAttributeData(dataset));
-            }
-        }
-        getAttributes();
-    }, [])
+const DetailsAttributeTable = ({ fields }) => {
+    const attributeData = parseAttributeData(fields);
     return (
         <div className="gn-details-info-table">
             <Table head={attributeData.header} body={attributeData.rows} />
         </div>
-    )
-}
+    );
+};
 
 DetailsAttributeTable.propTypes = {
-    resource: PropTypes.object
+    fields: PropTypes.array,
 };
 
 DetailsAttributeTable.defaultProps = {
-    resource: {}
+    fields: []
 };
 
 export default DetailsAttributeTable;
