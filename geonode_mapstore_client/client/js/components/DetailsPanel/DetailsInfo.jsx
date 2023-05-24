@@ -30,6 +30,9 @@ const getDateRangeValue = (startValue, endValue, format) => {
     return moment(startValue ? startValue : endValue).format(format);
 };
 const isEmptyValue = (value) => {
+    if (Array.isArray(value)) {
+        return isEmpty(value);
+    }
     if (typeof value === 'object') {
         return isEmpty(value) || (isEmpty(value.start) && isEmpty(value.end));
     }
