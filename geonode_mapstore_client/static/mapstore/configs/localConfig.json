@@ -684,19 +684,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -721,7 +721,8 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
+                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}",
+                                    "disableIf": "{!context.get(state('gnResourceData'), 'poc')}"
                                 },
                                 {
                                     "type": "query",
@@ -757,8 +758,37 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "attribute-table",
+                            "id": "attributes",
+                            "labelId": "gnviewer.attributes",
+                            "disableIf": "{context.get(state('gnResourceData'), 'resource_type') !== 'dataset'}",
+                            "items": "{context.get(state('gnResourceData'), 'attribute_set')}"
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
@@ -1537,19 +1567,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -1574,7 +1604,8 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
+                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}",
+                                    "disableIf": "{!context.get(state('gnResourceData'), 'poc')}"
                                 },
                                 {
                                     "type": "query",
@@ -1610,8 +1641,30 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
@@ -2166,19 +2219,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -2203,7 +2256,8 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
+                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}",
+                                    "disableIf": "{!context.get(state('gnResourceData'), 'poc')}"
                                 },
                                 {
                                     "type": "query",
@@ -2239,8 +2293,30 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
@@ -2453,19 +2529,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -2490,7 +2566,8 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
+                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}",
+                                    "disableIf": "{!context.get(state('gnResourceData'), 'poc')}"
                                 },
                                 {
                                     "type": "query",
@@ -2526,8 +2603,30 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
@@ -2658,19 +2757,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -2695,7 +2794,8 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
+                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}",
+                                    "disableIf": "{!context.get(state('gnResourceData'), 'poc')}"
                                 },
                                 {
                                     "type": "query",
@@ -2731,8 +2831,30 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
@@ -3156,19 +3278,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -3193,7 +3315,8 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}"
+                                    "value": "{context.getUserResourceNames(context.get(state('gnResourceData'), 'poc'))}",
+                                    "disableIf": "{!context.get(state('gnResourceData'), 'poc')}"
                                 },
                                 {
                                     "type": "query",
@@ -3229,8 +3352,37 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "attribute-table",
+                            "id": "attributes",
+                            "labelId": "gnviewer.attributes",
+                            "disableIf": "{context.get(state('gnResourceData'), 'resource_type') !== 'dataset'}",
+                            "items": "{context.get(state('gnResourceData'), 'attribute_set')}"
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
