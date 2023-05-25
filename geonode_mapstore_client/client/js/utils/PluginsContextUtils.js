@@ -20,9 +20,9 @@ function getUserResourceName(user) {
         : user?.username;
 }
 
-function userListToCsv(users = []) {
+function getUserResourceNames(users = []) {
     if (!users) {
-        return "";
+        return [];
     }
 
     const userArray = !Array.isArray(users) ? [users] : users;
@@ -42,5 +42,5 @@ export const getPluginsContext = () => ({
     canCopyResource,
     userHasPermission: (user, perm) => user?.perms?.includes(perm),
     getUserResourceName,
-    getUserResourceNames: userListToCsv
+    getUserResourceNames
 });
