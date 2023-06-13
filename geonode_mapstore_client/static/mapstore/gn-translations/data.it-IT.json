@@ -80,7 +80,6 @@
             "logOut": "Esci",
             "terms": "Termini e condizioni",
             "privacy": "Privacy",
-            "extent": "Estensione",
             "enableFilterByExtent": "Abilita filtro per estensione",
             "advancedSearch": "Ricerca avanzata",
             "apply": "Applica",
@@ -118,6 +117,8 @@
             "customFilterExample": "Filtro personalizzato (Global)",
             "copiedResourceUrl": "Url della risorsa copiato!",
             "copyResourceUrl": "Copia url della risorsa",
+            "copiedCapabilitiesUrl": "URL funzionalità WMS copiato!",
+            "copyCapabilitiesUrl": "Copia l'URL delle funzionalità WMS",
             "open": "Apri",
             "share": "Condividi",
             "update": "Aggiorna",
@@ -133,7 +134,9 @@
             "search": "Cerca...",
             "permissionsMissing": "Non hai i permessi per visualizzare o scaricare la risorsa",
             "filter": "Filtra",
-            "noPreview": "Un'anteprima non è disponibile per questa risorsa"
+            "noPreview": "Un'anteprima non è disponibile per questa risorsa",
+            "na": "N/D",
+            "emptyAccordion": "Nessun elemento da visualizzare"
         },
         "viewer": {
             "document": {
@@ -301,9 +304,13 @@
             "iso": "Metadati ISO",
             "dublinCore": "Metadati di Dublin Core",
             "owner": "Proprietario",
-            "created": "Creata",
+            "date": "Data",
+            "creation": "Creazione",
+            "publication": "Pubblicazione",
+            "revision": "Revisione",
+            "created": "Aggiunta al catalogo",
             "published": "Pubblicata",
-            "lastModified": "Ultima modifica",
+            "lastModified": "Ultima modifica nel catalogo",
             "resourceType": "Tipo di risorsa",
             "category": "Categoria",
             "pointOfContact": "Punto di contatto",
@@ -320,9 +327,16 @@
             "temporalExtent": "Estensione temporale",
             "spatialRepresentationType": "Tipo di rappresentazione spaziale",
             "supplementalInformation": "Informazioni supplementari",
+            "viewFullMetadata": "Visualizza i metadati completi",
             "abstract": "Astratto",
             "readMore": "Leggi di più",
-            "readLess": "Leggi di meno"
+            "readLess": "Leggi di meno",
+            "linkedResources": "Risorse collegate",
+            "extent": "Estensione",
+            "dateFilter": {
+                "from": "Data da",
+                "to": "Data a"
+            }
         }
     }
 }

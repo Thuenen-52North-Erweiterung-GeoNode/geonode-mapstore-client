@@ -79,7 +79,6 @@
             "logOut": "Log out",
             "terms": "Terms",
             "privacy": "Privacy",
-            "extent": "Extent",
             "enableFilterByExtent": "Enable filter by extent",
             "advancedSearch": "Advanced search",
             "apply": "Apply",
@@ -117,6 +116,8 @@
             "customFilterExample": "Custom filter (Global)",
             "copiedResourceUrl": "Resource url copied!",
             "copyResourceUrl": "Copy resource url",
+            "copiedCapabilitiesUrl": "WMS Capabilities url copied!",
+            "copyCapabilitiesUrl": "Copy WMS Capabilities url",
             "open": "Open",
             "share": "Share",
             "update": "Update",
@@ -132,7 +133,9 @@
             "search": "Search...",
             "permissionsMissing": "You don't have permission to view or download the resource",
             "filter": "Filter",
-            "noPreview": "A preview is not available for this resource"
+            "noPreview": "A preview is not available for this resource",
+            "na": "N/A",
+            "emptyAccordion": "No items to display"
         },
         "viewer": {
             "document": {
@@ -300,9 +303,13 @@
             "iso": "ISO Metadata",
             "dublinCore": "Dublin Core Metadata",
             "owner": "Owner",
-            "created": "Created",
+            "creation": "Creation",
+            "publication": "Publication",
+            "revision": "Revision",
+            "date": "Date",
+            "created": "Added to catalog",
             "published": "Published",
-            "lastModified": "Last modified",
+            "lastModified": "Last catalog modification",
             "resourceType": "Resource type",
             "category": "Category",
             "pointOfContact": "Point of contact",
@@ -319,9 +326,16 @@
             "temporalExtent": "Temporal Extent",
             "spatialRepresentationType": "Spatial representation type",
             "supplementalInformation": "Supplemental information",
+            "viewFullMetadata": "View full metadata",
             "abstract": "Abstract",
             "readMore": "Read more",
-            "readLess": "Read less"
+            "readLess": "Read less",
+            "linkedResources": "Linked Resources",
+            "extent": "Extent",
+            "dateFilter": {
+                "from": "Date from",
+                "to": "Date to"
+            }
         }
     }
 }

@@ -964,19 +964,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -1001,7 +1001,7 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
+                                    "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'poc.username')}",
                                     "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'poc'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'poc.username')}"
                                 },
@@ -1039,8 +1039,37 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "attribute-table",
+                            "id": "attributes",
+                            "labelId": "gnviewer.attributes",
+                            "disableIf": "{context.get(state('gnResourceData'), 'resource_type') !== 'dataset'}",
+                            "items": "{context.get(state('gnResourceData'), 'attribute_set')}"
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
@@ -1117,31 +1146,22 @@
                 "name": "Print",
                 "cfg": {
                     "useFixedScales": true,
-                    "mapWidth": 256
-                }
-            },
-            {
-                "name": "PrintOutputFormat",
-                "cfg": {
-                    "allowedFormats": [
-                        {
-                            "value": "pdf",
-                            "name": "PDF"
-                        },
-                        {
-                            "value": "png",
-                            "name": "PNG"
-                        },
-                        {
-                            "value": "jpg",
-                            "name": "JPEG"
-                        }
-                    ]
-                },
-                "override": {
-                    "Print": {
-                        "target": "left-panel",
-                        "position": 3
+                    "mapWidth": 256,
+                    "outputFormatOptions": {
+                        "allowedFormats": [
+                            {
+                                "value": "pdf",
+                                "name": "PDF"
+                            },
+                            {
+                                "value": "png",
+                                "name": "PNG"
+                            },
+                            {
+                                "value": "jpg",
+                                "name": "JPEG"
+                            }
+                        ]
                     }
                 }
             },
@@ -1819,19 +1839,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -1856,7 +1876,7 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
+                                    "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'poc.username')}",
                                     "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'poc'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'poc.username')}"
                                 },
@@ -1894,8 +1914,30 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
@@ -1960,31 +2002,22 @@
                 "name": "Print",
                 "cfg": {
                     "useFixedScales": true,
-                    "mapWidth": 256
-                }
-            },
-            {
-                "name": "PrintOutputFormat",
-                "cfg": {
-                    "allowedFormats": [
-                        {
-                            "value": "pdf",
-                            "name": "PDF"
-                        },
-                        {
-                            "value": "png",
-                            "name": "PNG"
-                        },
-                        {
-                            "value": "jpg",
-                            "name": "JPEG"
-                        }
-                    ]
-                },
-                "override": {
-                    "Print": {
-                        "target": "left-panel",
-                        "position": 3
+                    "mapWidth": 256,
+                    "outputFormatOptions": {
+                        "allowedFormats": [
+                            {
+                                "value": "pdf",
+                                "name": "PDF"
+                            },
+                            {
+                                "value": "png",
+                                "name": "PNG"
+                            },
+                            {
+                                "value": "jpg",
+                                "name": "JPEG"
+                            }
+                        ]
                     }
                 }
             },
@@ -2450,19 +2483,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -2487,7 +2520,7 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
+                                    "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'poc.username')}",
                                     "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'poc'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'poc.username')}"
                                 },
@@ -2525,8 +2558,30 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
@@ -2739,19 +2794,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -2776,7 +2831,7 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
+                                    "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'poc.username')}",
                                     "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'poc'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'poc.username')}"
                                 },
@@ -2814,8 +2869,30 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
@@ -2946,19 +3023,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -2983,7 +3060,7 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
+                                    "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'poc.username')}",
                                     "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'poc'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'poc.username')}"
                                 },
@@ -3021,8 +3098,30 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
@@ -3446,19 +3545,19 @@
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "{'gnviewer.'+context.get(state('gnResourceData'), 'date_type')}",
+                                    "value": "{context.get(state('gnResourceData'), 'date')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.created",
                                     "value": "{context.get(state('gnResourceData'), 'created')}"
                                 },
                                 {
                                     "type": "date",
-                                    "format": "MMMM Do YYYY",
-                                    "labelId": "gnviewer.published",
-                                    "value": "{context.get(state('gnResourceData'), 'date')}"
-                                },
-                                {
-                                    "type": "date",
-                                    "format": "MMMM Do YYYY",
+                                    "format": "YYYY-MM-DD HH:mm",
                                     "labelId": "gnviewer.lastModified",
                                     "value": "{context.get(state('gnResourceData'), 'last_updated')}"
                                 },
@@ -3483,7 +3582,7 @@
                                 {
                                     "type": "link",
                                     "labelId": "gnviewer.pointOfContact",
-                                    "href": "{'/messages/create/' + context.get(state('gnResourceData'), 'poc.pk')}",
+                                    "href": "{'/people/profile/' + context.get(state('gnResourceData'), 'poc.username')}",
                                     "value": "{context.getUserResourceName(context.get(state('gnResourceData'), 'poc'))}",
                                     "disableIf": "{!context.get(state('gnResourceData'), 'poc.username')}"
                                 },
@@ -3521,8 +3620,37 @@
                                     "type": "html",
                                     "labelId": "gnviewer.supplementalInformation",
                                     "value": "{context.get(state('gnResourceData'), 'supplemental_information')}"
+                                },
+                                {
+                                    "type": "date",
+                                    "format": "YYYY-MM-DD HH:mm",
+                                    "labelId": "gnviewer.temporalExtent",
+                                    "value": {
+                                        "start": "{context.get(state('gnResourceData'), 'temporal_extent_start')}",
+                                        "end": "{context.get(state('gnResourceData'), 'temporal_extent_end')}"
+                                    }
+                                },
+                                {
+                                    "type": "link",
+                                    "style": "label",
+                                    "labelId": "gnviewer.viewFullMetadata",
+                                    "href": "{context.getMetadataDetailUrl(state('gnResourceData'))}",
+                                    "disableIf": "{!context.getMetadataDetailUrl(state('gnResourceData'))}"
                                 }
                             ]
+                        },
+                        {
+                            "type": "attribute-table",
+                            "id": "attributes",
+                            "labelId": "gnviewer.attributes",
+                            "disableIf": "{context.get(state('gnResourceData'), 'resource_type') !== 'dataset'}",
+                            "items": "{context.get(state('gnResourceData'), 'attribute_set')}"
+                        },
+                        {
+                            "type": "linked-resources",
+                            "id": "related",
+                            "labelId": "gnviewer.linkedResources",
+                            "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
                     ]
                 }
