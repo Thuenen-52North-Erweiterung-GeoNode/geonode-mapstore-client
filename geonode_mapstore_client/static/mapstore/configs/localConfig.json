@@ -1435,6 +1435,9 @@
                 }
             },
             {
+              "name": "ExclusiveLayer"
+            },
+            {
                 "name": "MapThumbnail"
             },
             {
