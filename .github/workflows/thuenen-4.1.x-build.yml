@@ -1,15 +1,15 @@
 # This is a basic workflow to help you get started with Actions
 
-name: GeoNode Client 4.1.x CI (build)
+name: GeoNode Client thuenen_4.1.x CI (build)
 
 concurrency: 
-  group: "client_build_4.1.x"
+  group: "client_build_thuenen_4.1.x"
   cancel-in-progress: true
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push events but only for the 4.1.x branch
   push:
-    branches: [ 4.1.x ]
+    branches: [ thuenen_4.1.x ]
     paths: 
       - "geonode_mapstore_client/client/**"
       - "!geonode_mapstore_client/client/version.txt"
@@ -25,7 +25,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checking out"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Checkout submodules
         run: git submodule update --init --recursive
 
@@ -33,7 +33,7 @@ jobs:
       # SET UP 
       #########
       - name: "Setting up npm"
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
             node-version: '12.x'
 
@@ -41,7 +41,7 @@ jobs:
       # CACHING
       ##########
       - name: "Cache node modules"
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         env:
           cache-name: cache-node-modules
         with:
@@ -51,6 +51,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+              
       ###############
       # NPM BUILD
       #############
@@ -64,22 +65,14 @@ jobs:
 
       ###############
       # COMMIT
-      #############
+      ###############
       - name: "Stage files"
         run: git add --all
         
-      - name: "Generate temp GitHub token"
-        uses: tibdex/github-app-token@v1
-        id: generate-token
-        with:
-          app_id: ${{ secrets.TOKEN_APP_ID }}
-          private_key: ${{ secrets.TOKEN_APP_PRIVATE_KEY }}
-        
       - name: "Create Pull Request"
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v5
         with:
-          token: ${{ steps.generate-token.outputs.token }}
-          base: "4.1.x"
-          title: "[4.1.x] new client build"
-          body: "Automated client build from GeoNode Client 4.1.x CI"
-          branch: "4.1.x-create-pull-request/patch"
+          base: "thuenen_4.1.x"
+          title: "[thuenen_4.1.x] new client build"
+          body: "Automated client build from GeoNode Client thuenen_4.1.x CI"
+          delete-branch: true

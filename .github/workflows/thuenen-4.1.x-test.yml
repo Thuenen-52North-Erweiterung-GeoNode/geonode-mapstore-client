@@ -1,12 +1,12 @@
 # This is a basic workflow to help you get started with Actions
 
-name: GeoNode Client 4.1.x CI (tests)
+name: GeoNode Client thuenen_4.1.x CI (tests)
 
 # Controls when the workflow will run
 on:
   # Triggers the workflow pull request events but only for the 4.1.x branch
   pull_request:
-    branches: [ 4.1.x ]
+    branches: [ thuenen_4.1.x ]
     paths: 
       - "geonode_mapstore_client/client/**"
 
@@ -21,18 +21,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checking out"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Checkout submodules
         run: git submodule update --init --recursive
 
       - name: "Setting up npm"
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
             node-version: '12.x'
 
       ############
       # CACHING
-      ##########
+      ############
       - name: "Cache node modules"
         uses: actions/cache@v1
         env:
@@ -44,6 +44,7 @@ jobs:
             ${{ runner.os }}-build-${{ env.cache-name }}-
             ${{ runner.os }}-build-
             ${{ runner.os }}-
+
       ###############
       # NPM CHECKS
       #############
