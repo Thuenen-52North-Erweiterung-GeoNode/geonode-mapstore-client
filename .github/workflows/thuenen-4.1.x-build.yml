@@ -11,7 +11,6 @@ on:
   push:
     branches: [ thuenen_4.1.x ]
     paths: 
-      - ".github/workflows/**"
       - "geonode_mapstore_client/client/**"
       - "!geonode_mapstore_client/client/version.txt"
 
@@ -81,3 +80,4 @@ jobs:
           base: "thuenen_4.1.x"
           title: "[thuenen_4.1.x] new client build"
           body: "Automated client build from GeoNode client thuenen_4.1.x CI"
+          delete-branch: true
