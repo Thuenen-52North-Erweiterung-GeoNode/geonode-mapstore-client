@@ -80,4 +80,3 @@ jobs:
           base: "thuenen_4.1.x"
           title: "[thuenen_4.1.x] new client build"
           body: "Automated client build from GeoNode Client thuenen_4.1.x CI"
-          delete-branch: true
