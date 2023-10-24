@@ -149,13 +149,8 @@ const parseTabItems = (items) => {
 };
 const isDefaultTabType = (type) => type === 'tab';
 
-const canShowAttributeTab = ({resource, tab}) => {
-    return resource?.resource_type === 'dataset' && tab?.type === 'attribute-table'
-}
-
 function DetailsInfo({
     tabs = [],
-    resource,
     formatHref,
     resourceTypesInfo
 }) {

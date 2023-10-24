@@ -1,19 +1,12 @@
 import isObject from 'lodash/isObject';
 
-export const layerSelector = (state) => {
-    const layers = state.layers.flat.filter(layer => filterLayers(layer));
-    return layers;
-};
-
 function filterLayers(layer) {
-    if (layer.group != 'background') {
-        return layer;
-    }
+    return layer.group !== 'background' ? layer : undefined;
 }
 
-export const groupSelector = (state) => {
-    return returnGroup(state.layers.groups);
-}
+export const layerSelector = (state) => {
+    return state.layers.flat.filter(layer => filterLayers(layer));
+};
 
 const returnGroup = (groups) => {
     if ( Array.isArray(groups) ) {
@@ -33,6 +26,10 @@ const returnGroup = (groups) => {
     } else {
         return [];
     }
+}
+
+export const groupSelector = (state) => {
+    return returnGroup(state.layers.groups);
 }
 
 export const getStyleeditor = (state) => {
