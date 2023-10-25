@@ -2,6 +2,9 @@
 
 name: GeoNode Client thuenen_4.1.x CI (tests)
 
+concurrency: 
+  group: "client_test_thuenen_4.1.x"
+  cancel-in-progress: true
 # Controls when the workflow will run
 on:
   # Triggers the workflow pull request events but only for the 4.1.x branch
