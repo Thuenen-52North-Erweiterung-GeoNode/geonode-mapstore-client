@@ -72,7 +72,7 @@ function SelectGroup({
 function GeneralSettings({
     node = {},
     nodeType,
-    showTooltipOptions,
+    showTooltipOptions = true,
     onChange = () => {},
     groups,
     currentLocale
