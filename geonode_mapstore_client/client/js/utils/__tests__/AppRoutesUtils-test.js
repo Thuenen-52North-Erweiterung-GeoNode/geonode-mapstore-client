@@ -91,5 +91,8 @@ describe('Test App Routes Utils', () => {
         expect(catalogueRoutes[9].path).toEqual(['/upload/document']);
         expect(catalogueRoutes[9].name).toEqual('upload_document');
         expect(catalogueRoutes[9].shouldNotRequestResources).toEqual(true);
+        expect(catalogueRoutes[10].path).toEqual(['/tabular/:pk']);
+        expect(catalogueRoutes[10].name).toEqual('tabular_viewer');
+        expect(catalogueRoutes[10].shouldNotRequestResources).toEqual(true);
     });
 });
