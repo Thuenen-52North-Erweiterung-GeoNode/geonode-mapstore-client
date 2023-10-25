@@ -4,13 +4,14 @@ name: GeoNode Client thuenen_4.1.x CI (tests)
 
 # Controls when the workflow will run
 on:
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
   # Triggers the workflow pull request events but only for the 4.1.x branch
   pull_request:
     branches: [ thuenen_4.1.x ]
     paths: 
       - "geonode_mapstore_client/client/**"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -20,18 +21,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "Checking out"
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Checkout submodules
         run: git submodule update --init --recursive
 
       - name: "Setting up npm"
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
             node-version: '12.x'
 
       ############
       # CACHING
-      ##########
+      ############
       - name: "Cache node modules"
         uses: actions/cache@v1
         env:
