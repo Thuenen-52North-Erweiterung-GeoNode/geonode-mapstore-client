@@ -616,6 +616,10 @@
                                 {
                                     "type": "plugin",
                                     "name": "DublinCoreDownload"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "DataCiteDownload"
                                 }
                             ]
                         },

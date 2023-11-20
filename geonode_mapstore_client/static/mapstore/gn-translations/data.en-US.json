@@ -303,6 +303,7 @@
             "directLink": "Direct Link",
             "iso": "ISO Metadata",
             "dublinCore": "Dublin Core Metadata",
+            "dataCite": "DataCite Metadata",
             "owner": "Owner",
             "creation": "Creation",
             "publication": "Publication",
