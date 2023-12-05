@@ -970,6 +970,9 @@
                 "name": "DublinCoreDownload"
             },
             {
+                "name": "DataCiteDownload"
+            },
+            {
                 "name": "LayerDownload",
                 "cfg": {
                     "disablePluginIf": "{!state('selectedLayerPermissions').includes('download_resourcebase')}",

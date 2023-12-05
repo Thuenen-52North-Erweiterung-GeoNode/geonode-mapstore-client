@@ -11,7 +11,8 @@ import { DOWNLOAD_METADATA, DOWNLOAD_METADATA_COMPLETE } from '@js/actions/gndow
 const defaultState = {
     downloads: {
         ISO: {},
-        DublinCore: {}
+        DublinCore: {},
+        DataCite: {}
     }
 };
 
