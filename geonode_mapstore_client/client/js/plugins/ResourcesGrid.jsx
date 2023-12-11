@@ -46,7 +46,7 @@ import { processingDownload } from '@js/selectors/resourceservice';
 import {resourceHasPermission} from '@js/utils/ResourceUtils';
 import {downloadResource, setFavoriteResource} from '@js/actions/gnresource';
 import FiltersForm from '@js/components/FiltersForm';
-import {getCategories, getRegions, getOwners, getKeywords} from '@js/api/geonode/v2';
+import {getCategories, getRegions, getOwners, getKeywords, getGroups} from '@js/api/geonode/v2';
 import usePluginItems from '@js/hooks/usePluginItems';
 import { ProcessTypes } from '@js/utils/ResourceServiceUtils';
 import { replace } from 'connected-react-router';
@@ -72,6 +72,10 @@ const suggestionsRequestTypes = {
     owners: {
         filterKey: 'filter{owner.username.in}',
         loadOptions: params => getOwners(params, 'filter{owner.username.in}')
+    },
+    groups: {
+        filterKey: 'filter{group.name.in}',
+        loadOptions: params => getGroups(params, 'filter{group.name.in}')
     }
 };
 
@@ -411,6 +415,12 @@ function ResourcesGrid({
             placeholderId: 'gnhome.ownersPlaceholder',
             type: 'select',
             suggestionsRequestKey: 'owners'
+        },
+        {
+            labelId: 'gnhome.groups',
+            placeholderId: 'gnhome.groupsPlaceholder',
+            type: 'select',
+            suggestionsRequestKey: 'groups'
         },
         {
             type: "accordion",

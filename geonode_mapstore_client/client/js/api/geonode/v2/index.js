@@ -408,7 +408,7 @@ export const getGroups = ({
     page = 1,
     pageSize = 20,
     ...params
-} = {}) => {
+}, filterKey = 'group') => {
     return axios.get(
         parseDevHostname(endpoints[GROUPS]),
         {
@@ -424,10 +424,23 @@ export const getGroups = ({
             paramsSerializer
         })
         .then(({ data }) => {
+            const results = (data?.group_profiles || [])
+                .map((result) => {
+                    const selectOption = {
+                        value: result.title,
+                        label: addCountToLabel(result.title, result.count)
+                    };
+                    const group = {
+                        ...result,
+                        selectOption
+                    };
+                    setFilterById(filterKey + result.title, group);
+                    return group;
+                });
             return {
+                results,
                 total: data.total,
-                isNextPageAvailable: !!data.links.next,
-                groups: data.group_profiles
+                isNextPageAvailable: !!data.links.next
             };
         });
 };

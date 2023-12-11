@@ -92,6 +92,7 @@
             "regionsPlaceholder": "Select regions",
             "owners": "Owners",
             "ownersPlaceholder": "Select owners",
+            "groupsPlaceholder": "Select groups",
             "profile": "Profile",
             "recentActivity": "Recent activity",
             "favorites": "Favorites",
