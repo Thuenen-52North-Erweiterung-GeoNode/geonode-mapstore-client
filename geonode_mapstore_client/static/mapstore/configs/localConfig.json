@@ -878,6 +878,10 @@
                                 {
                                     "type": "plugin",
                                     "name": "DublinCoreDownload"
+                                },
+                                {
+                                    "type": "plugin",
+                                    "name": "DataCiteDownload"
                                 }
                             ]
                         },
@@ -1226,6 +1230,9 @@
             },
             {
                 "name": "DublinCoreDownload"
+            },
+            {
+                "name": "DataCiteDownload"
             },
             {
                 "name": "LayerDownload",
