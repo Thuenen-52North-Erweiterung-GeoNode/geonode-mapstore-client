@@ -3372,6 +3372,129 @@
                             "labelId": "gnviewer.linkedResources",
                             "items": "{context.get(state('gnResourceData'), 'linkedResources')}"
                         }
+                    ],
+                    "filtersFormItems": [
+                        {
+                            "type": "group",
+                            "labelId": "gnhome.customFiltersTitle",
+                            "items": [
+                                {
+                                    "id": "my-resources",
+                                    "labelId": "gnhome.myResources",
+                                    "type": "filter",
+                                    "disableIf": "{!state('user')}"
+                                },
+                                {
+                                    "id": "favorite",
+                                    "labelId": "gnhome.favorites",
+                                    "type": "filter",
+                                    "disableIf": "{!state('user')}"
+                                },
+                                {
+                                    "id": "featured",
+                                    "labelId": "gnhome.featuredList",
+                                    "type": "filter"
+                                },
+                                {
+                                    "id": "unpublished",
+                                    "labelId": "gnhome.unpublished",
+                                    "type": "filter",
+                                    "disableIf": "{!state('user')}"
+                                },
+                                {
+                                    "id": "pending-approval",
+                                    "labelId": "gnhome.pendingApproval",
+                                    "type": "filter",
+                                    "disableIf": "{!state('user')}"
+                                },
+                                {
+                                    "id": "dataset",
+                                    "labelId": "gnhome.datasets",
+                                    "type": "filter",
+                                    "items": [
+                                    {
+                                        "id": "store-vector",
+                                        "labelId": "gnhome.vector",
+                                        "type": "filter"
+                                    },
+                                    {
+                                        "id": "store-raster",
+                                        "labelId": "gnhome.raster",
+                                        "type": "filter"
+                                    },
+                                    {
+                                        "id": "store-remote",
+                                        "labelId": "gnhome.remote",
+                                        "type": "filter"
+                                    },
+                                    {
+                                        "id": "store-time-series",
+                                        "labelId": "gnhome.timeSeries",
+                                        "type": "filter"
+                                    }
+                                    ]
+                                },
+                                {
+                                    "id": "document",
+                                    "labelId": "gnhome.documents",
+                                    "type": "filter"
+                                },
+                                {
+                                    "id": "map",
+                                    "labelId": "gnhome.maps",
+                                    "type": "filter"
+                                },
+                                {
+                                    "id": "geostory",
+                                    "labelId": "gnhome.geostories",
+                                    "type": "filter"
+                                },
+                                {
+                                    "id": "dashboard",
+                                    "labelId": "gnhome.dashboards",
+                                    "type": "filter"
+                                },
+                                {
+                                    "id": "externalapplication",
+                                    "labelId": "externalapplications.filter",
+                                    "type": "filter"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "divider",
+                            "disableIf": "{!state('user')}"
+                        },
+                        {
+                            "labelId": "gnhome.categories",
+                            "placeholderId": "gnhome.categoriesPlaceholder",
+                            "type": "select",
+                            "suggestionsRequestKey": "categories"
+                        },
+                        {
+                            "labelId": "gnhome.keywords",
+                            "placeholderId": "gnhome.keywordsPlaceholder",
+                            "type": "select",
+                            "suggestionsRequestKey": "keywords"
+                        },
+                        {
+                            "labelId": "gnhome.regions",
+                            "placeholderId": "gnhome.regionsPlaceholder",
+                            "type": "select",
+                            "suggestionsRequestKey": "regions"
+                        },
+                        {
+                            "labelId": "gnhome.owners",
+                            "placeholderId": "gnhome.ownersPlaceholder",
+                            "type": "select",
+                            "suggestionsRequestKey": "owners"
+                        },
+                        {
+                            "labelId": "gnhome.groups",
+                            "placeholderId": "gnhome.groupsPlaceholder",
+                            "type": "select",
+                            "suggestionsRequestKey": "groups"
+                        }
                     ]
                 }
             },

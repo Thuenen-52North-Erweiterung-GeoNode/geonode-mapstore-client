@@ -496,7 +496,7 @@ export const getConfiguration = (configUrl = '/static/mapstore/configs/localConf
                 ...mergedLocalConfig,
                 plugins
             };
-
+            /*
             if (geoNodePageConfig.overrideLocalConfig) {
                 return geoNodePageConfig.overrideLocalConfig(localConfig, {
                     mergeWith,
@@ -507,7 +507,7 @@ export const getConfiguration = (configUrl = '/static/mapstore/configs/localConf
                     castArray,
                     get
                 });
-            }
+            }*/
             return localConfig;
         });
 };
