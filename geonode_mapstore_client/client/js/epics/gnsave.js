@@ -8,7 +8,7 @@
 
 import axios from '@mapstore/framework/libs/ajax';
 import { Observable } from 'rxjs';
-import { mapInfoSelector, mapSelector } from '@mapstore/framework/selectors/map';
+import { mapInfoSelector } from '@mapstore/framework/selectors/map';
 import { userSelector } from '@mapstore/framework/selectors/security';
 import {
     error as errorNotification,
@@ -55,7 +55,8 @@ import {
     getResourceData,
     getResourceId,
     getDataPayload,
-    getCompactPermissions
+    getCompactPermissions,
+    getExtentPayload
 } from '@js/selectors/resource';
 
 import {
@@ -77,9 +78,8 @@ import {
 } from '@js/utils/ResourceServiceUtils';
 import { setControlProperty } from '@mapstore/framework/actions/controls';
 
-function parseMapBody(body, map) {
-    const geoNodeMap = toGeoNodeMapConfig(body.data, map);
-    //console.log(body, map, geoNodeMap)
+function parseMapBody(body) {
+    const geoNodeMap = toGeoNodeMapConfig(body.data);
     return {
         ...body,
         ...geoNodeMap
@@ -88,11 +88,9 @@ function parseMapBody(body, map) {
 
 const SaveAPI = { 
     [ResourceTypes.MAP]: (state, id, body) => {
-        const map =  mapSelector(state) || {};
-        //console.log("saveAPI", state, id, body)
         return id
-            ? updateMap(id, { ...parseMapBody(body, map), id }) //step 9
-            : createMap(parseMapBody(body, map));
+            ? updateMap(id, { ...parseMapBody(body), id })
+            : createMap(parseMapBody(body));
     },
     [ResourceTypes.GEOSTORY]: (state, id, body) => {
         const user = userSelector(state);
@@ -129,11 +127,13 @@ export const gnSaveContent = (action$, store) =>
         .switchMap((action) => {
             const state = store.getState();
             const contentType = state.gnresource?.type || 'map';
-            const data = getDataPayload(state, contentType); //step 2
+            const data = getDataPayload(state, contentType);
+            const extent = getExtentPayload(state, contentType);
             const body = {
                 'title': action.metadata.name,
                 ...(action.metadata.description && { 'abstract': action.metadata.description }),
-                ...(data && { 'data': JSON.parse(JSON.stringify(data)) })
+                ...(data && { 'data': JSON.parse(JSON.stringify(data)) }),
+                ...(extent && { extent })
             };
             //console.log("gnSaveContent", body)
             const currentResource = getResourceData(state);

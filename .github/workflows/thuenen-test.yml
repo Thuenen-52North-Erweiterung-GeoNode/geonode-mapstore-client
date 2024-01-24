@@ -1,15 +1,15 @@
 # This is a basic workflow to help you get started with Actions
 
-name: GeoNode Client thuenen_4.1.x CI (tests)
+name: GeoNode Client thuenen_4.2.x CI (tests)
 
 concurrency: 
-  group: "client_test_thuenen_4.1.x"
+  group: "client_test_thuenen_4.2.x"
   cancel-in-progress: true
 # Controls when the workflow will run
 on:
-  # Triggers the workflow pull request events but only for the 4.1.x branch
+  # Triggers the workflow pull request events but only for the 4.2.x branch
   pull_request:
-    branches: [ thuenen_4.1.x ]
+    branches: [ thuenen_4.2.x ]
     paths: 
       - "geonode_mapstore_client/client/**"
 

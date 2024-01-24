@@ -10,7 +10,9 @@ import axios from '@mapstore/framework/libs/ajax';
 import {
     parseDevHostname,
     getApiToken,
-    paramsSerializer
+    paramsSerializer,
+    getGeoNodeConfig,
+    getGeoNodeLocalConfig
 } from '@js/utils/APIUtils';
 import merge from 'lodash/merge';
 import mergeWith from 'lodash/mergeWith';
@@ -18,12 +20,16 @@ import isArray from 'lodash/isArray';
 import isString from 'lodash/isString';
 import isObject from 'lodash/isObject';
 import castArray from 'lodash/castArray';
+import omit from 'lodash/omit';
 import get from 'lodash/get';
+import pick from 'lodash/pick';
+import isEmpty from 'lodash/isEmpty';
+import isNil from 'lodash/isNil';
 import { getUserInfo } from '@js/api/geonode/user';
-import { setFilterById } from '@js/utils/SearchUtils';
-import { ResourceTypes, availableResourceTypes, setAvailableResourceTypes } from '@js/utils/ResourceUtils';
+import { ResourceTypes, availableResourceTypes, setAvailableResourceTypes, getDownloadUrlInfo } from '@js/utils/ResourceUtils';
 import { getConfigProp } from '@mapstore/framework/utils/ConfigUtils';
 import { mergeConfigsPatch } from '@mapstore/patcher';
+import { parseIcon } from '@js/utils/SearchUtils';
 
 /**
  * Actions for GeoNode save workflow
@@ -57,19 +63,11 @@ const MAPS = 'maps';
 const GEOAPPS = 'geoapps';
 const USERS = 'users';
 const RESOURCE_TYPES = 'resource_types';
-const OWNERS = 'owners';
-const REGIONS = 'regions';
-const CATEGORIES = 'categories';
-const KEYWORDS = 'keywords';
 const GROUPS = 'groups';
 const UPLOADS = 'uploads';
 const STATUS = 'status';
 const EXECUTIONREQUEST = 'exectionRequest';
 const FACETS = 'facets';
-
-function addCountToLabel(name, count) {
-    return `${name} (${count || 0})`;
-}
 
 export const setEndpoints = (data) => {
     endpoints = { ...endpoints, ...data };
@@ -80,7 +78,8 @@ export const setEndpoints = (data) => {
  */
 export const getEndpoints = () => {
     const apikey = getApiToken();
-    return axios.get('/api/v2/', {
+    const endpointV2 = getGeoNodeLocalConfig('geoNodeApi.endpointV2', '/api/v2/');
+    return axios.get(parseDevHostname(endpointV2), {
         params: {
             ...(apikey && { apikey })
         }
@@ -115,7 +114,14 @@ function mergeCustomQuery(params, customQuery) {
     }
     return params;
 }
-
+export const getQueryParams = (params, customFilters) => {
+    const customQuery = customFilters
+        .filter(({ id }) => castArray(params?.f ?? []).indexOf(id) !== -1)
+        .reduce((acc, filter) => mergeCustomQuery(acc, filter.query || {}), {}) || {};
+    return {
+        ...mergeCustomQuery(omit(params, "f"), customQuery)
+    };
+};
 export const getResources = ({
     q,
     pageSize = 20,
@@ -125,13 +131,8 @@ export const getResources = ({
     customFilters = [],
     ...params
 }) => {
-
-    const customQuery = customFilters
-        .filter(({ id }) => castArray(f || []).indexOf(id) !== -1)
-        .reduce((acc, filter) => mergeCustomQuery(acc, filter.query || {}), {}) || {};
-    const _mergeCustomQueryParams = mergeCustomQuery(params, customQuery);
     const _params = {
-        ..._mergeCustomQueryParams,
+        ...getQueryParams({...params, f}, customFilters),
         ...(q && {
             search: q,
             search_fields: ['title', 'abstract']
@@ -296,7 +297,7 @@ export const getLinkedResourcesByPk = (pk) => {
             'page_size': 99999
         }
     })
-        .then(({ data }) => data.resources ?? []);
+        .then(({ data }) => data ?? {});
 };
 
 export const getResourceByUuid = (uuid) => {
@@ -457,10 +458,10 @@ export const getAccountInfo = () => {
         .catch(() => null);
 };
 
-export const getConfiguration = (configUrl = '/static/mapstore/configs/localConfig.json') => {
+export const getConfiguration = (configUrl = getGeoNodeLocalConfig('geoNodeSettings.staticPath', '/static/') + 'mapstore/configs/localConfig.json') => {
     return axios.get(configUrl)
         .then(({ data }) => {
-            const geoNodePageConfig = window.__GEONODE_CONFIG__ || {};
+            const geoNodePageConfig = getGeoNodeConfig();
             const geoNodePageLocalConfig = geoNodePageConfig.localConfig || {};
             const pluginsConfigPatchRules = geoNodePageConfig.pluginsConfigPatchRules || [];
 
@@ -616,140 +617,6 @@ export const getFeaturedResources = (page = 1, page_size =  4) => {
     }).then(({data}) => data);
 };
 
-export const getCategories = ({ q, includes, page, pageSize, config, ...params }, filterKey = 'categories') => {
-    return axios.get(parseDevHostname(`${endpoints[CATEGORIES]}`), {
-        ...config,
-        params: {
-            page_size: pageSize || 9999,
-            page,
-            ...params,
-            ...(includes && {'filter{identifier.in}': includes}),
-            ...(q && { 'filter{identifier.icontains}': q }),
-            with_resources: "True"
-        }
-    })
-        .then(({ data }) => {
-            const results = (data?.categories || [])
-                .map((result) => {
-                    const selectOption = {
-                        value: result.identifier,
-                        label: addCountToLabel(result.gn_description || result.gn_description_en, result.count)
-                    };
-                    const category = {
-                        ...result,
-                        selectOption
-                    };
-                    setFilterById(filterKey + result.identifier, category);
-                    return category;
-                });
-            return {
-                results,
-                total: data.total,
-                isNextPageAvailable: !!data.links.next
-            };
-        });
-};
-
-export const getRegions = ({ q, includes, page, pageSize, config, ...params }, filterKey = 'regions') => {
-    return axios.get(parseDevHostname(`${endpoints[REGIONS]}`), {
-        ...config,
-        params: {
-            page_size: pageSize || 9999,
-            page,
-            ...params,
-            ...(includes && {'filter{name.in}': includes}),
-            ...(q && { 'filter{name.icontains}': q }),
-            with_resources: "True"
-        }
-    })
-        .then(({ data }) => {
-            const results = (data?.regions || [])
-                .map((result) => {
-                    const selectOption = {
-                        value: result.name,
-                        label: addCountToLabel(result.name, result.count)
-                    };
-                    const region = {
-                        ...result,
-                        selectOption
-                    };
-                    setFilterById(filterKey + result.name, region);
-                    return region;
-                });
-            return {
-                results,
-                total: data.total,
-                isNextPageAvailable: !!data.links.next
-            };
-        });
-};
-
-export const getOwners = ({ q, includes, page, pageSize, config, ...params }, filterKey = 'owners') => {
-    return axios.get(parseDevHostname(`${endpoints[OWNERS]}`), {
-        ...config,
-        params: {
-            page_size: pageSize || 9999,
-            page,
-            ...params,
-            ...(includes && {'filter{username.in}': includes}),
-            ...(q && { 'filter{username.icontains}': q })
-        }
-    })
-        .then(({ data }) => {
-            const results = (data?.owners || [])
-                .map((result) => {
-                    const selectOption = {
-                        value: result.username,
-                        label: addCountToLabel(result.username, result.count)
-                    };
-                    const owner = {
-                        ...result,
-                        selectOption
-                    };
-                    setFilterById(filterKey + result.username, owner);
-                    return owner;
-                });
-            return {
-                results,
-                total: data.total,
-                isNextPageAvailable: !!data.links.next
-            };
-        });
-};
-
-export const getKeywords = ({ q, includes, page, pageSize, config, ...params }, filterKey =  'keywords') => {
-    return axios.get(parseDevHostname(`${endpoints[KEYWORDS]}`), {
-        ...config,
-        params: {
-            page_size: pageSize || 9999,
-            page,
-            ...params,
-            ...(includes && {'filter{slug.in}': includes}),
-            ...(q && { 'filter{slug.icontains}': q })
-        }
-    })
-        .then(({ data }) => {
-            const results = (data?.keywords || [])
-                .map((result) => {
-                    const selectOption = {
-                        value: result.slug,
-                        label: addCountToLabel(result.slug, result.count)
-                    };
-                    const keyword = {
-                        ...result,
-                        selectOption
-                    };
-                    setFilterById(filterKey + result.slug, keyword);
-                    return keyword;
-                });
-            return {
-                results,
-                total: data.total,
-                isNextPageAvailable: !!data.links.next
-            };
-        });
-};
-
 export const getCompactPermissionsByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[RESOURCES]}/${pk}/permissions`))
         .then(({ data }) => data);
@@ -779,7 +646,11 @@ export const copyResource = (resource) => {
 };
 
 export const downloadResource = (resource) => {
-    const url = resource.download_url || resource.href;
+    const { url, ajaxSafe } = getDownloadUrlInfo(resource);
+    if (!ajaxSafe) {
+        window.open(url, '_blank');
+        return Promise.reject(new Error("Not ajax safe"));
+    }
     return axios.get(url, {
         responseType: 'blob',
         headers: {
@@ -787,17 +658,6 @@ export const downloadResource = (resource) => {
         }
     })
         .then(({ data, headers }) => ({output: data, headers}));
-};
-
-export const getPendingUploads = () => {
-    return axios.get(parseDevHostname(endpoints[UPLOADS]), {
-        params: {
-            'filter{-state}': 'PROCESSED',
-            'page': 1,
-            'page_size': 99999
-        }
-    })
-        .then(({ data }) => data?.uploads);
 };
 
 export const getPendingExecutionRequests = () => {
@@ -863,11 +723,18 @@ export const uploadDataset = ({
 export const uploadDocument = ({
     title,
     file,
+    url,
+    extension,
     config
 }) => {
     const formData = new FormData();
     formData.append('title', title);
-    formData.append('doc_file', file);
+    if (file) {
+        formData.append('doc_file', file);
+    } else if (url) {
+        formData.append('doc_url', url);
+        formData.append('extension', extension);
+    }
     return axios.post(`/documents/upload?no__redirect=true`, formData, config)
         .then(({ data }) => (data));
 };
@@ -893,37 +760,81 @@ export const getResourceByTypeAndByPk = (type, pk) => {
     }
 };
 
-export const getFacetItemsByFacetName = ({ name: facetName, style, filterKey }, { config, ...params }) => {
-    return axios.get(`${parseDevHostname(endpoints[FACETS])}/${facetName}`, { ...config, params }).then(({data}) => {
-        const {page: _page = 0, items = [], total, page_size: size} = data?.topics ?? {};
+export const getFacetItemsByFacetName = ({ name: facetName, style, filterKey, filters, setFilters}, { config, ...params }, customFilters) => {
+    const updatedParams = getQueryParams(params, customFilters);
+    return axios.get(`${parseDevHostname(endpoints[FACETS])}/${facetName}`,
+        { ...config,
+            params: updatedParams,
+            paramsSerializer
+        }
+    ).then(({data}) => {
+        const {page: _page = 0, items: _items = [], total, page_size: size} = data?.topics ?? {};
         const page = Number(_page);
         const isNextPageAvailable = (Math.ceil(Number(total) / Number(size)) - (page + 1)) !== 0;
-        return {
-            page,
-            isNextPageAvailable,
-            items: items.map(({label, is_localized: isLocalized, key, count} = {})=> {
-                const item = {
+
+        // Add filter values as item even when count is 0
+        const filterKeys = Object.keys(updatedParams)
+            // filter params value can be array
+            ?.map(key => Array.isArray(updatedParams[key]) ? updatedParams[key].map(v => `${key}${v}`) : `${key}${updatedParams[key]}`)?.flat()
+            ?.filter(param => param?.includes(data?.filter));
+        const filtersPresent = Object.values(pick(filters, filterKeys))?.filter(f => f.facetName === data.name);
+
+        const items = isEmpty(_items) && !isEmpty(filtersPresent)
+            ? filtersPresent.map(item => ({
+                ...(item.labelId ? {labelId: item.labelId} : {label: item.label}),
+                type: "filter",
+                count: 0,
+                filterKey: item.filterKey ?? filterKey,
+                filterValue: isNil(item.filterValue) ? String(item.key) : String(item.filterValue),
+                style,
+                icon: parseIcon(item),
+                image: item.image
+            }))
+            : _items.map(({label, is_localized: isLocalized, key, count, fa_class: icon, image} = {})=> {
+                return {
                     type: "filter",
-                    ...(isLocalized ? { label } : { labelId: label }),
+                    ...(!isNil(isLocalized) && !isLocalized ? { labelId: label } : { label }), // TODO remove when api send isLocalized for all facets response
                     count,
                     filterKey,
                     filterValue: String(key),
-                    style
+                    style,
+                    icon: parseIcon(icon),
+                    image
                 };
-                setFilterById(filterKey + key, item);
-                return item;
-            })
+            });
+
+        // Update filters
+        setFilters(items.map((item) => ({[item.filterKey + item.filterValue]: {...item, facetName}})).reduce((f, c) => ({...f, ...c}), {}));
+
+        return {
+            page,
+            isNextPageAvailable,
+            items
         };
     });
 };
 
-export const getFacetItems = () => {
+export const getFacetsByKey = (facet, filterParams) => {
     return axios
-        .get(parseDevHostname(endpoints[FACETS]))
-        .then(({ data } = {}) =>
+        .get(parseDevHostname(endpoints[FACETS] + `/${facet}`), {params: {...filterParams}, paramsSerializer})
+        .then(({ data } = {}) => ({
+            ...data?.topics,
+            items: data?.topics?.items?.map(item => ({...item, facetName: facet}))
+        }));
+};
+
+export const getFacetItems = (customFilters) => {
+    return axios
+        .get(parseDevHostname(endpoints[FACETS]),
+            {
+                params: {
+                    include_config: true
+                }
+            }
+        ).then(({ data } = {}) =>
             data?.facets?.map((facet) => ({
                 ...facet,
-                loadItems: getFacetItemsByFacetName
+                loadItems: (...args) => getFacetItemsByFacetName(...args, customFilters)
             })) || []
         ).catch(() => []);
 };
@@ -953,17 +864,12 @@ export default {
     updateMap,
     getMapByPk,
     getMapsByPk,
-    getCategories,
-    getRegions,
-    getOwners,
-    getKeywords,
     getCompactPermissionsByPk,
     updateCompactPermissionsByPk,
     deleteResource,
     copyResource,
     downloadResource,
     getDatasets,
-    getPendingUploads,
     getPendingExecutionRequests,
     getProcessedUploadsById,
     getProcessedUploadsByImportId,
