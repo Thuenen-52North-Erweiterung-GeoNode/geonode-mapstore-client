@@ -303,6 +303,7 @@
             "directLink": "BLien direct",
             "iso": "Métadonnées ISO",
             "dublinCore": "Métadonnées de Dublin Core",
+            "dataCite": "Métadonnées de DataCite",
             "owner": "Propriétaire",
             "creation": "Création",
             "publication": "Publication",
