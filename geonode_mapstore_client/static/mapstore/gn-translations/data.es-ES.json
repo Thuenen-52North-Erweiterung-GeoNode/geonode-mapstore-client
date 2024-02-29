@@ -307,6 +307,7 @@
             "directLink": "Enlace Directo",
             "iso": "Metadatos iso",
             "dublinCore": "Metadatos de Dublin Core",
+            "dataCite": "Metadatos de DataCite",
             "owner": "Propietario",
             "creation": "Creación",
             "publication": "Publicación",

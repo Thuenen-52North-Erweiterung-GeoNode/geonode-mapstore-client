@@ -310,6 +310,7 @@
             "directLink": "Collegamento Diretto",
             "iso": "Metadati ISO",
             "dublinCore": "Metadati di Dublin Core",
+            "dataCite": "Metadati di DataCite",
             "owner": "Proprietario",
             "date": "Data",
             "creation": "Creazione",
