@@ -26,8 +26,12 @@ export const gnGetLayerLinkedResources = (action$, store) =>
         .switchMap((action) =>
             Observable.defer(() =>
                 getLinkedResourcesByPk(action.data.pk)
-                    .then((linkedResources) => linkedResources)
-                    .catch(() => [])
+                    .then((linkedResources) => {
+                        const linkedTo = linkedResources.linked_to ?? [];
+                        const linkedBy = linkedResources.linked_by ?? [];
+                        return isEmpty(linkedTo) && isEmpty(linkedBy) ? {} : ({ linkedTo, linkedBy });
+                    })
+                    .catch(e => {console.log(e)})
             ).switchMap((linkedResources) =>
                 Observable.of(
                     updateLayerResourceProperties({linkedResources})

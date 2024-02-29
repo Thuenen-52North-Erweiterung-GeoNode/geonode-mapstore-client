@@ -44,7 +44,7 @@ export const gnCheckSelectedDatasetPermissions = (action$, { getState } = {}) =>
             return layer
                 ? layerResourceId
                     ? Rx.Observable.defer(() =>
-                        getResourceByTypeAndByPk('dataset', layerResourceId)
+                        getResourceByPk(layerResourceId)
                             .then((layerDataset) => layerDataset)
                             .catch(() => [])
                     ).switchMap((layerDataset) =>
