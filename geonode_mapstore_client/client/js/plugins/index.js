@@ -8,13 +8,9 @@
 import omit from 'lodash/omit';
 import uniq from 'lodash/uniq';
 import {
-    PrintActionButton,
-    CatalogActionButton,
-    MeasureActionButton,
     LayerDownloadActionButton,
-    AnnotationsActionButton,
     FullScreenActionButton,
-    FilterLayerActionButton
+    AddWidgetActionButton
 } from '@js/plugins/actionnavbar/buttons';
 import { getPluginsContext } from '@js/utils/PluginsContextUtils';
 import { toModulePlugin as msToModulePlugin } from '@mapstore/framework/utils/ModulePluginsUtils';
@@ -94,23 +90,7 @@ export const plugins = {
     ),
     MetadataExplorerPlugin: toModulePlugin(
         'MetadataExplorer',
-        () => import(/* webpackChunkName: 'plugins/metadata-explorer' */ '@mapstore/framework/plugins/MetadataExplorer'),
-        {
-            overrides: {
-                containers: {
-                    ActionNavbar: {
-                        name: 'Catalog',
-                        Component: CatalogActionButton,
-                        priority: 1,
-                        doNotHide: true
-                    },
-                    TOC: {
-                        priority: 1,
-                        doNotHide: true
-                    }
-                }
-            }
-        }
+        () => import(/* webpackChunkName: 'plugins/metadata-explorer' */ '@mapstore/framework/plugins/MetadataExplorer')
     ),
     QueryPanelPlugin: toModulePlugin(
         'QueryPanel',
@@ -138,36 +118,11 @@ export const plugins = {
     ),
     FilterLayerPlugin: toModulePlugin(
         'FilterLayer',
-        () => import(/* webpackChunkName: 'plugins/filter-layer-plugin' */ '@mapstore/framework/plugins/FilterLayer'),
-        {
-            overrides: {
-                containers: {
-                    ActionNavbar: {
-                        name: 'FilterLayer',
-                        Component: FilterLayerActionButton,
-                        priority: 1
-                    },
-                    TOC: {
-                        name: "FilterLayer",
-                        priority: 2
-                    }
-                }
-            }
-        }
+        () => import(/* webpackChunkName: 'plugins/filter-layer-plugin' */ '@mapstore/framework/plugins/FilterLayer')
     ),
     MeasurePlugin: toModulePlugin(
         'Measure',
-        () => import(/* webpackChunkName: 'plugins/measure-plugin' */ '@mapstore/framework/plugins/Measure'),
-        {
-            overrides: {
-                containers: {
-                    ActionNavbar: {
-                        name: 'Measure',
-                        Component: MeasureActionButton
-                    }
-                }
-            }
-        }
+        () => import(/* webpackChunkName: 'plugins/measure-plugin' */ '@mapstore/framework/plugins/Measure')
     ),
     FullScreenPlugin: toModulePlugin(
         'FullScreen',
@@ -192,9 +147,9 @@ export const plugins = {
         'OmniBar',
         () => import(/* webpackChunkName: 'plugins/omni-bar-plugin' */ '@mapstore/framework/plugins/OmniBar')
     ),
-    BurgerMenuPlugin: toModulePlugin(
-        'BurgerMenu',
-        () => import(/* webpackChunkName: 'plugins/burger-menu-plugin' */ '@mapstore/framework/plugins/BurgerMenu')
+    SidebarMenuPlugin: toModulePlugin(
+        'SidebarMenu',
+        () => import(/* webpackChunkName: 'plugins/sidebar-menu-plugin' */ '@mapstore/framework/plugins/SidebarMenu')
     ),
     GeoStoryPlugin: toModulePlugin(
         'GeoStory',
@@ -282,12 +237,13 @@ export const plugins = {
         {
             overrides: {
                 containers: {
+                    /*
                     ActionNavbar: {
                         name: 'Print',
                         Component: PrintActionButton,
                         priority: 5,
                         doNotHide: true
-                    }
+                    }*/
                 }
             }
         }
@@ -350,7 +306,18 @@ export const plugins = {
     ),
     DashboardEditorPlugin: toModulePlugin(
         'DashboardEditor',
-        () => import(/* webpackChunkName: 'plugins/dashboard-editor-plugin' */ '@mapstore/framework/plugins/DashboardEditor')
+        () => import(/* webpackChunkName: 'plugins/dashboard-editor-plugin' */ '@mapstore/framework/plugins/DashboardEditor'),
+        {
+            overrides: {
+                containers: {
+                    ActionNavbar: {
+                        name: 'DashboardEditor',
+                        Component: AddWidgetActionButton,
+                        doNotHide: true
+                    }
+                }
+            }
+        }
     ),
     DashboardPlugin: toModulePlugin(
         'Dashboard',
@@ -362,15 +329,44 @@ export const plugins = {
         {
             overrides: {
                 containers: {
+                    /*
                     ActionNavbar: {
                         name: 'Annotations',
                         Component: AnnotationsActionButton,
-                        priority: 3,
                         doNotHide: true
                     }
+                    */
                 }
             }
         }
+    ),
+    GlobeViewSwitcherPlugin: toModulePlugin(
+        'GlobeViewSwitcher',
+        () => import(/* webpackChunkName: 'plugins/globe-view-switcher' */ '@mapstore/framework/plugins/GlobeViewSwitcher')
+    ),
+    ContextCreatorPlugin: toModulePlugin(
+        'ContextCreator',
+        () => import(/* webpackChunkName: 'plugins/context-creator' */ '@mapstore/framework/plugins/ContextCreator')
+    ),
+    UserExtensionsPlugin: toModulePlugin(
+        'UserExtensions',
+        () => import(/* webpackChunkName: 'plugins/user-extensions' */ '@mapstore/framework/plugins/UserExtensions')
+    ),
+    StreetViewPlugin: toModulePlugin(
+        'StreetView',
+        () => import(/* webpackChunkName: 'plugins/street-view' */ '@mapstore/framework/plugins/StreetView')
+    ),
+    MapViewsPlugin: toModulePlugin(
+        'MapViews',
+        () => import(/* webpackChunkName: 'plugins/map-views' */ '@mapstore/framework/plugins/MapViews')
+    ),
+    LongitudinalProfileToolPlugin: toModulePlugin(
+        'LongitudinalProfileTool',
+        () => import(/* webpackChunkName: 'plugins/longitudinal-profile-tool' */ '@mapstore/framework/plugins/LongitudinalProfileTool')
+    ),
+    GeoProcessingPlugin: toModulePlugin(
+        'GeoProcessing',
+        () => import(/* webpackChunkName: 'plugins/geo-processing' */ '@mapstore/framework/plugins/GeoProcessing')
     ),
     DeleteResourcePlugin: toModulePlugin(
         'DeleteResource',
@@ -391,6 +387,10 @@ export const plugins = {
     LegendPlugin: toModulePlugin(
         'Legend',
         () => import(/* webpackChunkName: 'plugins/legend-plugin' */ '@js/plugins/Legend')
+    ),
+    MapViewerConfigurationPlugin: toModulePlugin(
+        'MapViewerConfiguration',
+        () => import(/* webpackChunkName: 'plugins/map-viewer-configuration' */ '@js/plugins/MapViewerConfiguration')
     ),
     DatasetsCatalogPlugin: toModulePlugin(
         'DatasetsCatalog',
@@ -424,9 +424,29 @@ export const plugins = {
         'FeaturedResourcesGrid',
         () => import(/* webpackChunkName: 'plugins/featured-resources-grid' */ '@js/plugins/FeaturedResourcesGrid')
     ),
-    ExclusiveLayerPlugin: toModulePlugin(
-        'ExclusiveLayer',
-        () => import(/* webpackChunkName: 'plugins/exclusive-layer' */ '@js/plugins/ExclusiveLayer')
+    MapViewersCatalogPlugin: toModulePlugin(
+        'MapViewersCatalog',
+        () => import(/* webpackChunkName: 'plugins/map-viewers-catalog' */ '@js/plugins/MapViewersCatalog')
+    ),
+    MapExportPlugin: toModulePlugin(
+        'MapExport',
+        () => import(/* webpackChunkName: 'plugins/mapExport' */ '@mapstore/framework/plugins/MapExport')
+    ),
+    MapImportPlugin: toModulePlugin(
+        'MapImport',
+        () => import(/* webpackChunkName: 'plugins/mapImport' */ '@mapstore/framework/plugins/MapImport')
+    ),
+    SearchByBookmarkPlugin: toModulePlugin(
+        'SearchByBookmark',
+        () => import(/* webpackChunkName: 'plugins/searchByBookmark' */ '@mapstore/framework/plugins/SearchByBookmark')
+    ),
+    CRSSelectorPlugin: toModulePlugin(
+        'CRSSelector',
+        () => import(/* webpackChunkName: 'plugins/CRSSelector' */ '@mapstore/framework/plugins/CRSSelector')
+    ),
+    SettingsPlugin: toModulePlugin(
+        'Settings',
+        () => import(/* webpackChunkName: 'plugins/settings' */ '@mapstore/framework/plugins/Settings')
     ),
     TabularPreviewPlugin: toModulePlugin(
         'TabularPreview',

@@ -8,6 +8,7 @@
 
 import isEqual from 'lodash/isEqual';
 import isEmpty from 'lodash/isEmpty';
+import isNil from 'lodash/isNil';
 
 import {
     RESOURCE_LOADING,
@@ -32,7 +33,11 @@ import {
     UPDATE_RESOURCE_COMPACT_PERMISSIONS,
     RESET_GEO_LIMITS,
     ENABLE_MAP_THUMBNAIL_VIEWER,
-    SET_RESOURCE_EXTENT
+    SET_RESOURCE_EXTENT,
+    SET_RESOURCE_PATH_PARAMETERS,
+    SET_MAP_VIEWER_LINKED_RESOURCE,
+    SET_DEFAULT_VIEWER_PLUGINS,
+    SET_SELECTED_LAYER_DATASET
 } from '@js/actions/gnresource';
 import {
     cleanCompactPermissions,
@@ -251,6 +256,26 @@ function gnresource(state = defaultState, action) {
                     coords: action.coords
                 }
             }
+        };
+    case SET_RESOURCE_PATH_PARAMETERS:
+        return {
+            ...state,
+            params: action.params
+        };
+    case SET_MAP_VIEWER_LINKED_RESOURCE:
+        return {
+            ...state,
+            viewerLinkedResource: action.resource
+        };
+    case SET_DEFAULT_VIEWER_PLUGINS:
+        return {
+            ...state,
+            defaultViewerPlugins: action.plugins
+        };
+    case SET_SELECTED_LAYER_DATASET:
+        return {
+            ...state,
+            selectedLayerIsDataset: !isNil(action.layer?.extendedParams?.pk)
         };
     default:
         return state;

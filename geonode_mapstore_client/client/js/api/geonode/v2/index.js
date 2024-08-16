@@ -12,7 +12,8 @@ import {
     getApiToken,
     paramsSerializer,
     getGeoNodeConfig,
-    getGeoNodeLocalConfig
+    getGeoNodeLocalConfig,
+    API_PRESET
 } from '@js/utils/APIUtils';
 import merge from 'lodash/merge';
 import mergeWith from 'lodash/mergeWith';
@@ -141,11 +142,11 @@ export const getResources = ({
         page,
         page_size: pageSize,
         'filter{metadata_only}': false, // exclude resources such as services
-        include: ['executions']
+        api_preset: API_PRESET.CATALOGS
     };
     return axios.get(parseDevHostname(endpoints[RESOURCES]), {
         params: _params,
-        paramsSerializer
+        ...paramsSerializer()
     })
         .then(({ data }) => {
             return {
@@ -178,9 +179,10 @@ export const getMaps = ({
                     }),
                     ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
                     page,
-                    page_size: pageSize
+                    page_size: pageSize,
+                    api_preset: API_PRESET.MAPS
                 },
-                paramsSerializer
+                ...paramsSerializer()
             })
         .then(({ data }) => {
             return {
@@ -213,9 +215,10 @@ export const getDatasets = ({
                     }),
                     ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
                     page,
-                    page_size: pageSize
+                    page_size: pageSize,
+                    api_preset: API_PRESET.DATASETS
                 },
-                paramsSerializer
+                ...paramsSerializer()
             })
         .then(({ data }) => {
             return {
@@ -249,9 +252,10 @@ export const getDocumentsByDocType = (docType = 'image', {
                     ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
                     'filter{subtype}': [docType],
                     page,
-                    page_size: pageSize
+                    page_size: pageSize,
+                    api_preset: API_PRESET.DOCUMENTS
                 },
-                paramsSerializer
+                ...paramsSerializer()
             })
         .then(({ data }) => {
             return {
@@ -284,7 +288,7 @@ export const setFavoriteResource = (pk, favorite) => {
 export const getResourceByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[RESOURCES]}/${pk}`), {
         params: {
-            include: ['executions']
+            api_preset: API_PRESET.VIEWER_COMMON
         }
     })
         .then(({ data }) => data.resource);
@@ -300,25 +304,50 @@ export const getLinkedResourcesByPk = (pk) => {
         .then(({ data }) => data ?? {});
 };
 
+export const setLinkedResourcesByPk = (sourcePk, targetPks) => {
+    return axios.post(parseDevHostname(`${endpoints[RESOURCES]}/${sourcePk}/linked_resources`),
+        {
+            target: castArray(targetPks)
+        }
+    )
+        .then(({ data }) => data ?? {});
+};
+
+export const removeLinkedResourcesByPk = (sourcePk, targetPks) => {
+    return axios.delete(parseDevHostname(`${endpoints[RESOURCES]}/${sourcePk}/linked_resources`), {
+        data: {
+            target: castArray(targetPks)
+        }
+    })
+        .then(({ data }) => data ?? {});
+};
+
 export const getResourceByUuid = (uuid) => {
     return axios.get(parseDevHostname(`${endpoints[RESOURCES]}`), {
         params: {
-            'filter{uuid}': uuid
+            'filter{uuid}': uuid,
+            api_preset: API_PRESET.VIEWER_COMMON
         }
     })
         .then(({ data }) => data?.resources?.[0]);
 };
 
 export const getDatasetByPk = (pk) => {
-    return axios.get(parseDevHostname(`${endpoints[DATASETS]}/${pk}`))
+    return axios.get(parseDevHostname(`${endpoints[DATASETS]}/${pk}`), {
+        params: {
+            api_preset: [API_PRESET.VIEWER_COMMON, API_PRESET.DATASET]
+        },
+        ...paramsSerializer()
+    })
         .then(({ data }) => data.dataset);
 };
 
 export const getDocumentByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[DOCUMENTS]}/${pk}`), {
         params: {
-            include: ['executions']
-        }
+            api_preset: [API_PRESET.VIEWER_COMMON, API_PRESET.DOCUMENT]
+        },
+        ...paramsSerializer()
     })
         .then(({ data }) => data.document);
 };
@@ -328,9 +357,10 @@ export const getDocumentsByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[DOCUMENTS]}/`), {
         params: {
             'filter{pk.in}': pks,
-            page_size: pks.length
+            page_size: pks.length,
+            api_preset: [API_PRESET.VIEWER_COMMON, API_PRESET.DOCUMENT]
         },
-        paramsSerializer
+        ...paramsSerializer()
     })
         .then(({ data }) => data.documents);
 };
@@ -344,16 +374,52 @@ export const createGeoApp = (body) => {
         .then(({ data }) => data.geoapp);
 };
 
-export const getGeoAppByPk = (pk) => {
+export const getGeoAppByPk = (pk, params) => {
     return axios.get(parseDevHostname(`${endpoints[GEOAPPS]}/${pk}`), {
         params: {
             full: true,
-            include: ['data']
+            api_preset: API_PRESET.VIEWER_COMMON,
+            include: ['data'],
+            ...params
         }
     })
         .then(({ data }) => data.geoapp);
 };
 
+export const getGeoApps = ({
+    q,
+    pageSize = 20,
+    page = 1,
+    sort,
+    ...params
+}) => {
+    return axios
+        .get(
+            parseDevHostname(endpoints[GEOAPPS]), {
+                // axios will format query params array to `key[]=value1&key[]=value2`
+                params: {
+                    ...params,
+                    ...(q && {
+                        search: q,
+                        search_fields: ['title', 'abstract']
+                    }),
+                    ...(sort && { sort: isArray(sort) ? sort : [ sort ]}),
+                    page,
+                    page_size: pageSize
+                },
+                ...paramsSerializer()
+            })
+        .then(({ data }) => {
+            return {
+                totalCount: data.total,
+                isNextPageAvailable: !!data.links.next,
+                resources: (data.geoapps || [])
+                    .map((resource) => {
+                        return resource;
+                    })
+            };
+        });
+};
 
 export const updateGeoApp = (pk, body) => {
     return axios.patch(parseDevHostname(`${endpoints[GEOAPPS]}/${pk}`), body, {
@@ -393,7 +459,7 @@ export const getUsers = ({
                 page,
                 page_size: pageSize
             },
-            paramsSerializer
+            ...paramsSerializer()
         })
         .then(({ data }) => {
             return {
@@ -422,7 +488,7 @@ export const getGroups = ({
                 page,
                 page_size: pageSize
             },
-            paramsSerializer
+            ...paramsSerializer()
         })
         .then(({ data }) => {
             return {
@@ -513,7 +579,12 @@ export const getResourceTypes = () => {
 
 export const getDatasetByName = name => {
     const url = parseDevHostname(`${endpoints[DATASETS]}/?filter{alternate}=${name}`);
-    return axios.get(url)
+    return axios.get(url, {
+        params: {
+            exclude: ['*'],
+            include: ['pk', 'perms', 'alternate']
+        }
+    })
         .then(({data}) => data?.datasets[0]);
 };
 
@@ -522,7 +593,9 @@ export const getDatasetsByName = names => {
     return axios.get(url, {
         params: {
             page_size: names.length,
-            'filter{alternate.in}': names
+            'filter{alternate.in}': names,
+            exclude: ['*'],
+            include: ['pk', 'perms', 'alternate']
         }
     })
         .then(({data}) => data?.datasets);
@@ -580,15 +653,17 @@ export const updateMap = (id, body = {}) => {
 /**
 * Get a map configuration
 * @memberof api.geonode.adapter
-* @param {number|string} id resource id
+* @param {number|string} pk resource id
+* @param {string[]} includes property to be included in the response
 * @return {promise} it returns an object with the success map object response
 */
 export const getMapByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[MAPS]}/${pk}/`),
         {
             params: {
-                include: ['data']
-            }
+                api_preset: [API_PRESET.VIEWER_COMMON, API_PRESET.MAP]
+            },
+            ...paramsSerializer()
         })
         .then(({ data }) => data?.map);
 };
@@ -598,11 +673,11 @@ export const getMapsByPk = (pk) => {
     return axios.get(parseDevHostname(`${endpoints[MAPS]}/`),
         {
             params: {
-                include: ['data'],
                 'filter{pk.in}': pks,
-                page_size: pks.length
+                page_size: pks.length,
+                api_preset: API_PRESET.MAPS
             },
-            paramsSerializer
+            ...paramsSerializer()
         })
         .then(({ data }) => data?.maps);
 };
@@ -612,7 +687,8 @@ export const getFeaturedResources = (page = 1, page_size =  4) => {
         params: {
             page_size,
             page,
-            'filter{featured}': true
+            'filter{featured}': true,
+            api_preset: API_PRESET.CATALOGS
         }
     }).then(({data}) => data);
 };
@@ -765,7 +841,7 @@ export const getFacetItemsByFacetName = ({ name: facetName, style, filterKey, fi
     return axios.get(`${parseDevHostname(endpoints[FACETS])}/${facetName}`,
         { ...config,
             params: updatedParams,
-            paramsSerializer
+            ...paramsSerializer()
         }
     ).then(({data}) => {
         const {page: _page = 0, items: _items = [], total, page_size: size} = data?.topics ?? {};
@@ -816,7 +892,7 @@ export const getFacetItemsByFacetName = ({ name: facetName, style, filterKey, fi
 
 export const getFacetsByKey = (facet, filterParams) => {
     return axios
-        .get(parseDevHostname(endpoints[FACETS] + `/${facet}`), {params: {...filterParams}, paramsSerializer})
+        .get(parseDevHostname(endpoints[FACETS] + `/${facet}`), {params: {...filterParams}, ...paramsSerializer()})
         .then(({ data } = {}) => ({
             ...data?.topics,
             items: data?.topics?.items?.map(item => ({...item, facetName: facet}))
@@ -844,6 +920,8 @@ export default {
     getResources,
     getResourceByPk,
     getLinkedResourcesByPk,
+    setLinkedResourcesByPk,
+    removeLinkedResourcesByPk,
     getResourceByUuid,
     createGeoApp,
     getGeoAppByPk,

@@ -18,7 +18,7 @@ import { getDatasetByName, getDatasetsByName, getResourceByTypeAndByPk } from '@
 import { MAP_CONFIG_LOADED } from '@mapstore/framework/actions/config';
 import { setPermission } from '@mapstore/framework/actions/featuregrid';
 import { SELECT_NODE, updateNode, ADD_LAYER } from '@mapstore/framework/actions/layers';
-import { setSelectedDatasetPermissions, setLayerResource } from '@js/actions/gnresource';
+import { setSelectedDatasetPermissions, setSelectedLayerType } from '@js/actions/gnresource';
 import { updateMapLayoutEpic as msUpdateMapLayoutEpic } from '@mapstore/framework/epics/maplayout';
 
 // We need to include missing epics. The plugins that normally include this epic is not used.
@@ -42,28 +42,17 @@ export const gnCheckSelectedDatasetPermissions = (action$, { getState } = {}) =>
             const canEditStyles = permissions.includes("change_dataset_style");
             const canEdit = permissions.includes("change_dataset_data");
             return layer
-                ? layerResourceId
-                    ? Rx.Observable.defer(() =>
-                        getResourceByTypeAndByPk('dataset', layerResourceId)
-                            .then((layerDataset) => layerDataset)
-                            .catch(() => [])
-                    ).switchMap((layerDataset) =>
-                        Rx.Observable.of(
-                            setLayerResource(layerDataset),
-                            setPermission({canEdit}),
-                            setEditPermissionStyleEditor(canEditStyles),
-                            setSelectedDatasetPermissions(permissions)
-                        )
-                    )
-                    : Rx.Observable.of(
-                        setPermission({canEdit}),
-                        setEditPermissionStyleEditor(canEditStyles),
-                        setSelectedDatasetPermissions(permissions)
-                    )
+                ? Rx.Observable.of(
+                    setPermission({canEdit}),
+                    setEditPermissionStyleEditor(canEditStyles),
+                    setSelectedDatasetPermissions(permissions),
+                    setSelectedLayerType(layer)
+                )
                 : Rx.Observable.of(
                     setPermission({canEdit: false}),
                     setEditPermissionStyleEditor(false),
-                    setSelectedDatasetPermissions([])
+                    setSelectedDatasetPermissions([]),
+                    setSelectedLayerType(null)
                 );
         });
 
@@ -76,7 +65,10 @@ export const gnSetDatasetsPermissions = (actions$, { getState = () => {}} = {}) 
     actions$.ofType(MAP_CONFIG_LOADED, ADD_LAYER)
         .switchMap((action) => {
             if (action.type === MAP_CONFIG_LOADED) {
-                const layerNames = action.config?.map?.layers?.filter((l) => l?.group !== "background").map((l) => l.name);
+                const layerNames = action.config?.map?.layers?.filter((l) => l?.group !== "background")?.map((l) => l.name) ?? [];
+                if (layerNames.length === 0) {
+                    return Rx.Observable.empty();
+                }
                 return Rx.Observable.defer(() => getDatasetsByName(layerNames))
                     .switchMap((layers = []) => {
                         const stateLayers = layers.map((l) => ({

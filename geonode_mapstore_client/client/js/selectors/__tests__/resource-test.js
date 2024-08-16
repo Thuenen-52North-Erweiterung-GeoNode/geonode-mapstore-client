@@ -16,8 +16,11 @@ import {
     updatingThumbnailResource,
     isThumbnailChanged,
     canEditPermissions,
-    canManageResourcePermissions
+    canManageResourcePermissions,
+    isNewMapViewerResource,
+    defaultViewerPluginsSelector
 } from '../resource';
+import { ResourceTypes } from '@js/utils/ResourceUtils';
 
 const testState = {
     gnresource: {
@@ -88,5 +91,18 @@ describe('resource selector', () => {
         state.gnresource.data.perms = ['change_resourcebase', 'view_resourcebase'];
         expect(canManageResourcePermissions(state)).toBeFalsy();
         state.gnresource.data.perms = undefined;
+    });
+    it('test isNewMapViewerResource', () => {
+        let state = {...testState, gnresource: {...testState.gnresource, type: ResourceTypes.VIEWER, params: {pk: "new"}}};
+        expect(isNewMapViewerResource(state)).toBeTruthy();
+        state.gnresource.params.pk = '1';
+        expect(isNewMapViewerResource(state)).toBeFalsy();
+    });
+    it('test defaultViewerPluginsSelector', () => {
+        let state = {...testState};
+        state.gnresource = {...state.gnresource, defaultViewerPlugins: ["TOC"]};
+        expect(defaultViewerPluginsSelector(state)).toEqual(["TOC"]);
+        state.gnresource = {...state.gnresource, defaultViewerPlugins: undefined};
+        expect(defaultViewerPluginsSelector(state)).toEqual([]);
     });
 });

@@ -9,6 +9,7 @@
 import uuid from 'uuid';
 import url from 'url';
 import isEmpty from 'lodash/isEmpty';
+import omit from 'lodash/omit';
 import { getConfigProp, convertFromLegacy, normalizeConfig } from '@mapstore/framework/utils/ConfigUtils';
 import { getGeoNodeLocalConfig, parseDevHostname } from '@js/utils/APIUtils';
 import { ProcessTypes, ProcessStatus } from '@js/utils/ResourceServiceUtils';
@@ -51,6 +52,22 @@ export const GXP_PTYPES = {
 };
 
 export const FEATURE_INFO_FORMAT = 'TEMPLATE';
+
+const datasetAttributeSetToFields = ({ attribute_set: attributeSet = [] }) => {
+    return attributeSet
+        .filter(({ attribute_type: type }) => !type.includes('gml:'))
+        .map(({
+            attribute,
+            attribute_label: alias,
+            attribute_type: type
+        }) => {
+            return {
+                name: attribute,
+                alias: alias,
+                type: type
+            };
+        });
+};
 
 /**
 * convert resource layer configuration to a mapstore layer object
@@ -124,6 +141,7 @@ export const resourceToLayerConfig = (resource) => {
             defaultLayerFormat = 'image/png',
             defaultTileSize = 512
         } = getConfigProp('geoNodeSettings') || {};
+        const fields = datasetAttributeSetToFields(resource);
         return {
             perms,
             id: uuid(),
@@ -151,7 +169,8 @@ export const resourceToLayerConfig = (resource) => {
             visibility: true,
             ...(params && { params }),
             ...(dimensions.length > 0 && ({ dimensions })),
-            extendedParams
+            extendedParams,
+            ...(fields && { fields })
         };
     }
 };
@@ -250,7 +269,8 @@ export const ResourceTypes = {
     MAP: 'map',
     DOCUMENT: 'document',
     GEOSTORY: 'geostory',
-    DASHBOARD: 'dashboard'
+    DASHBOARD: 'dashboard',
+    VIEWER: 'mapviewer'
 };
 
 export const isDocumentExternalSource = (resource) => {
@@ -266,7 +286,8 @@ export const ResourceTypesInfos = {
         })),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         name: 'Dataset',
-        formatMetadataUrl: (resource) => (`/datasets/${resource.store ? resource.store + ":" : ''}${resource.alternate}/metadata`)
+        formatMetadataUrl: (resource) => (`/datasets/${resource.store ? resource.store + ":" : ''}${resource.alternate}/metadata`),
+        catalogPageUrl: '/datasets'
     },
     [ResourceTypes.MAP]: {
         icon: 'map',
@@ -276,7 +297,8 @@ export const ResourceTypesInfos = {
             config: 'map_preview'
         })),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
-        formatMetadataUrl: (resource) => (`/maps/${resource.pk}/metadata`)
+        formatMetadataUrl: (resource) => (`/maps/${resource.pk}/metadata`),
+        catalogPageUrl: '/maps'
     },
     [ResourceTypes.DOCUMENT]: {
         icon: 'file',
@@ -286,7 +308,8 @@ export const ResourceTypesInfos = {
         formatEmbedUrl: (resource) => isDocumentExternalSource(resource) ? undefined : resource?.embed_url && parseDevHostname(resource.embed_url),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         formatMetadataUrl: (resource) => (`/documents/${resource.pk}/metadata`),
-        metadataPreviewUrl: (resource) => (`/documents/${resource.pk}/metadata_detail?preview`)
+        metadataPreviewUrl: (resource) => (`/documents/${resource.pk}/metadata_detail?preview`),
+        catalogPageUrl: '/documents'
     },
     [ResourceTypes.GEOSTORY]: {
         icon: 'book',
@@ -294,7 +317,8 @@ export const ResourceTypesInfos = {
         canPreviewed: (resource) => resourceHasPermission(resource, 'view_resourcebase'),
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
-        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`)
+        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`),
+        catalogPageUrl: '/geostories'
     },
     [ResourceTypes.DASHBOARD]: {
         icon: 'dashboard',
@@ -302,7 +326,17 @@ export const ResourceTypesInfos = {
         canPreviewed: (resource) => resourceHasPermission(resource, 'view_resourcebase'),
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
-        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`)
+        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`),
+        catalogPageUrl: '/dashboards'
+    },
+    [ResourceTypes.VIEWER]: {
+        icon: 'cogs',
+        name: 'MapViewer',
+        canPreviewed: (resource) => resourceHasPermission(resource, 'view_resourcebase'),
+        formatEmbedUrl: () => false,
+        formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
+        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`),
+        catalogPageUrl: '/all'
     },
     ["externalapplication"]: {
         icon: 'link',
@@ -729,4 +763,27 @@ export const getCataloguePath = (path = '') => {
         return path.replace('/catalogue/', catalogPagePath);
     }
     return path;
+};
+
+export const getResourceWithLinkedResources = (resource = {}) => {
+    let linkedResources = resource.linked_resources ?? {};
+    if (!isEmpty(linkedResources)) {
+        const linkedTo = linkedResources.linked_to ?? [];
+        const linkedBy = linkedResources.linked_by ?? [];
+        linkedResources = isEmpty(linkedTo) && isEmpty(linkedBy) ? {} : ({ linkedTo, linkedBy });
+        return { ...omit(resource, 'linked_resources'), linkedResources };
+    }
+    return resource;
+};
+
+export const onDeleteRedirectTo = (resources = []) => {
+    let redirectUrl = '/';
+    if (!isEmpty(resources) && resources?.length === 1) {
+        const types = getResourceTypesInfo();
+        const { catalogPageUrl } = types[resources[0].resource_type] ?? {};
+        if (catalogPageUrl) {
+            redirectUrl = catalogPageUrl;
+        }
+    }
+    return redirectUrl;
 };
