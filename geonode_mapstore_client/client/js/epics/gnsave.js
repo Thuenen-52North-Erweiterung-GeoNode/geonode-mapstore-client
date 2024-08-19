@@ -148,7 +148,6 @@ export const gnSaveContent = (action$, store) =>
                 ...(data && { 'data': JSON.parse(JSON.stringify(data)) }),
                 ...(extent && { extent })
             };
-            //console.log("gnSaveContent", body)
             const currentResource = getResourceData(state);
             return Observable.defer(() => SaveAPI[contentType](state, action.id, body, action.reload)) //step 8
                 .switchMap((resource) => {

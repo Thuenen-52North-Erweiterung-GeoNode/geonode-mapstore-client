@@ -140,7 +140,7 @@ export const getDataPayload = (state, resourceType) => {
     switch (type) {
     case ResourceTypes.MAP: {
         const isMapAvailable = !!mapSelector(state);
-        return isMapAvailable ? mapSaveSelector(state) : null; //step3
+        return isMapAvailable ? mapSaveSelector(state) : null;
     }
     case ResourceTypes.GEOSTORY: {
         return currentStorySelector(state);

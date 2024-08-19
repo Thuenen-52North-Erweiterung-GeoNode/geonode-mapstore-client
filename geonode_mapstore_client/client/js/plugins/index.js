@@ -380,10 +380,6 @@ export const plugins = {
         'VisualStyleEditor',
         () => import(/* webpackChunkName: 'plugins/visual-style-editor-plugin' */ '@js/plugins/VisualStyleEditor')
     ),
-    LayerDetailViewerPlugin: toModulePlugin(
-        'LayerDetailViewer',
-        () => import(/* webpackChunkName: 'plugins/detail-viewer-plugin' */ '@js/plugins/LayerDetailViewer')
-    ),
     LegendPlugin: toModulePlugin(
         'Legend',
         () => import(/* webpackChunkName: 'plugins/legend-plugin' */ '@js/plugins/Legend')
@@ -411,10 +407,6 @@ export const plugins = {
     DublinCoreDownloadPlugin: toModulePlugin(
         'DublinCoreDownload',
         () => import(/* webpackChunkName: 'plugins/iso-download-plugin' */ '@js/plugins/downloads/DublinCoreDownload')
-    ),
-    DataCiteDownloadPlugin: toModulePlugin(
-        'DataCiteDownload',
-        () => import('@js/plugins/downloads/DataCiteDownload')
     ),
     ResourcesGridPlugin: toModulePlugin(
         'ResourcesGrid',
@@ -451,6 +443,14 @@ export const plugins = {
     TabularPreviewPlugin: toModulePlugin(
         'TabularPreview',
         () => import(/* webpackChunkName: 'plugins/tabular-preview-plugin' */ '@js/plugins/TabularPreview')
+    ),
+    LayerDetailViewerPlugin: toModulePlugin(
+        'LayerDetailViewer',
+        () => import(/* webpackChunkName: 'plugins/detail-viewer-plugin' */ '@js/plugins/LayerDetailViewer')
+    ),
+    DataCiteDownloadPlugin: toModulePlugin(
+        'DataCiteDownload',
+        () => import('@js/plugins/downloads/DataCiteDownload')
     )
 };
 
