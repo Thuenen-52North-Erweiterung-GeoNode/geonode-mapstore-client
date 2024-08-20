@@ -406,7 +406,8 @@
                         "linkResource": "Die verknüpfte Ressource konnte nicht gespeichert werden"
                     }
                 }
-            }
+            },
+            "allResources": "All resources"
         }
     }
 }

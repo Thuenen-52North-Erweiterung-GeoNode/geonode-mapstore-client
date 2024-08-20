@@ -407,7 +407,8 @@
                         "linkResource": "Impossibile salvare la risorsa collegata"
                     }
                 }
-            }
+            },
+            "allResources": "All resources"
         }
     }
 }
