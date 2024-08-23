@@ -48,7 +48,6 @@ const ConnectedGeoNodeStyleSelector = connect(
  * @example
  */
 function LayerSettings({
-    showTooltipOptions=true,
     node,
     onChange,
     style,
@@ -93,7 +92,6 @@ function LayerSettings({
                 <Settings
                     {...props}
                     node={node}
-                    showTooltipOptions={showTooltipOptions}
                     onChange={handleChange}
                     styleSelectorComponent={<ConnectedGeoNodeStyleSelector
                         {...props}

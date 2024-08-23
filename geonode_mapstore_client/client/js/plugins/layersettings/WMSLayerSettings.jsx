@@ -25,7 +25,6 @@ import SettingsSection from '@js/plugins/layersettings/SettingsSection';
 import useLocalStorage from '@js/hooks/useLocalStorage';
 
 function WMSLayerSettings({
-    showTooltipOptions,
     node = {},
     resolutions,
     projection,
@@ -125,7 +124,6 @@ function WMSLayerSettings({
                 onChange={handleChangeSection.bind(null, 'general')}
             >
                 <GeneralSettings
-                    showTooltipOptions={showTooltipOptions}
                     node={node}
                     onChange={onChange}
                     nodeType="layer"

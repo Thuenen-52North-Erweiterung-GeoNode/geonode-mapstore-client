@@ -2097,8 +2097,7 @@
                 "name": "LayerSettings",
                 "mandatory": true,
                 "cfg": {
-                    "disablePluginIf":"{!state('isSelectedLayerDataset')}",
-                    "showTooltipOptions": true
+                    "disablePluginIf":"{!state('isSelectedLayerDataset')}"
                 }
             },
             {
