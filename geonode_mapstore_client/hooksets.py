@@ -112,7 +112,12 @@ class MapStoreHookSet(BaseHookSet):
         return resource_list_url("map")
 
     def map_detail_url(self, resource):
-        return resource_detail_url("map", resource.id)
+        map_resource_type = self.get_map_resource_type(resource)
+        return resource_detail_url(map_resource_type, resource.id)
+
+    def get_map_resource_type(self, resource):
+        return "tabular-collection" if resource.subtype == "tabular-collection" else "map"
+
 
     # def map_download_template(self, context=None):
     #    return 'geonode-mapstore-client/legacy/map_view.html'
@@ -178,5 +183,7 @@ class MapStoreHookSet(BaseHookSet):
                 request, resource_identifier, "base.change_resourcebase", "Not allowed"
             )
         resource_identifier = resource.id
-        resource_type = resource.resource_type
+        resource_type = "tabular" if resource.subtype == "tabular" else resource.resource_type
+        if resource.resource_type == "map":
+            resource_type = self.get_map_resource_type(resource)
         return resource_detail_url(resource_type, resource_identifier)

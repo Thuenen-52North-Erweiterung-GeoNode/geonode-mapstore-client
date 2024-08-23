@@ -435,10 +435,6 @@ export const plugins = {
         'Settings',
         () => import(/* webpackChunkName: 'plugins/settings' */ '@mapstore/framework/plugins/Settings')
     ),
-    TabularPreviewPlugin: toModulePlugin(
-        'TabularPreview',
-        () => import(/* webpackChunkName: 'plugins/tabular-preview-plugin' */ '@js/plugins/TabularPreview')
-    ),
     LayerDetailViewerPlugin: toModulePlugin(
         'LayerDetailViewer',
         () => import(/* webpackChunkName: 'plugins/detail-viewer-plugin' */ '@js/plugins/LayerDetailViewer')
@@ -446,6 +442,14 @@ export const plugins = {
     DataCiteDownloadPlugin: toModulePlugin(
         'DataCiteDownload',
         () => import('@js/plugins/downloads/DataCiteDownload')
+    ),
+    TabularPreviewPlugin: toModulePlugin(
+        'TabularPreview',
+        () => import(/* webpackChunkName: 'plugins/tabular-preview-plugin' */ '@js/plugins/TabularPreview')
+    ),
+    TabularCollectionViewerPlugin: toModulePlugin(
+        'TabularCollectionViewer',
+        () => import(/* webpackChunkName: 'plugins/tabular-collection-plugin' */ '@js/plugins/TabularCollectionViewer')
     )
 };
 

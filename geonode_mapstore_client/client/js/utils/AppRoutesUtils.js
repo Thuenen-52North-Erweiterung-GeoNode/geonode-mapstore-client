@@ -37,6 +37,34 @@ export const MAP_ROUTES = [
     }
 ];
 
+export const TABULAR_ROUTES = [
+    {
+        name: 'tabular_embed',
+        path: [
+            '/'
+        ],
+        pageConfig: {
+            resourceType: ResourceTypes.DATASET
+        },
+        component: appRouteComponentTypes.VIEWER,
+        shouldNotRequestResources: true
+    }
+]
+
+export const TABULARCOLLECTION_ROUTES = [
+    {
+        name: 'tabular-collection_embed',
+        path: [
+            '/'
+        ],
+        pageConfig: {
+            resourceType: ResourceTypes.MAP
+        },
+        component: appRouteComponentTypes.VIEWER,
+        shouldNotRequestResources: true
+    }
+]
+
 export const DASHBOARD_ROUTES = [{
     name: 'dashboard_embed',
     path: [
@@ -79,6 +107,30 @@ export const CATALOGUE_ROUTES = [
         ],
         pageConfig: {
             resourceType: ResourceTypes.DATASET
+        },
+        component: appRouteComponentTypes.VIEWER,
+        shouldNotRequestResources: true
+    },
+    {
+        // tabular view needs an extra route
+        name: 'tabular_viewer',
+        path: [
+            '/tabular/:pk'
+        ],
+        pageConfig: {
+            resourceType: ResourceTypes.DATASET
+        },
+        component: appRouteComponentTypes.VIEWER,
+        shouldNotRequestResources: true
+    },
+    {
+        // tabular-collection needs an extra route
+        name: 'tabular-collection_viewer',
+        path: [
+            '/tabular-collection/:pk'
+        ],
+        pageConfig: {
+            resourceType: ResourceTypes.MAP
         },
         component: appRouteComponentTypes.VIEWER,
         shouldNotRequestResources: true

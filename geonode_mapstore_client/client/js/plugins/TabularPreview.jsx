@@ -32,7 +32,9 @@ function rowsFromFeatures(data) {
 };
 
 
-function TableComponent({ owsUrl, typeName }) {
+
+
+export function TableComponent({ owsUrl, typeName }) {
     const [header, setHeader] = useState();
     const [rows, setRows] = useState();
     const [error, setError] = useState();
@@ -42,12 +44,14 @@ function TableComponent({ owsUrl, typeName }) {
                 const data = await getFeatureSimple(owsUrl, { typeName });
                 setHeader(headerFromFeatures(data));
                 setRows(rowsFromFeatures(data));
-            } catch(e) {
-                setError(e)
+            } catch(error) {
+                setError(error)
             }
         }
-        getFeatures()
-    }, [])
+        if (owsUrl) {
+            getFeatures()
+        }
+    }, [owsUrl, typeName])
 
     if (error) {
         console.error(error);
@@ -66,9 +70,8 @@ function TableComponent({ owsUrl, typeName }) {
 };
 
 TableComponent.propTypes = {
-    header: PropTypes.array,
-    rows: PropTypes.array,
-    error: PropTypes.string
+    owsUrl: PropTypes.string,
+    typeName: PropTypes.string,
 };
 
 const TabularPreviewPlugin = connect(

@@ -126,6 +126,38 @@ export const resourceToLayerConfig = (resource) => {
         const { url: wmsUrl } = links.find(({ link_type: linkType }) => linkType === 'OGC:WMS') || {};
         const { url: wmtsUrl } = links.find(({ link_type: linkType }) => linkType === 'OGC:WMTS') || {};
 
+        if (resource.subtype === "tabular") {
+            return {
+                perms,
+                id: uuid(),
+                pk,
+                type: 'wfs',
+                name: alternate,
+                url: wfsUrl || '',
+                format: defaultLayerFormat,
+                ...(wfsUrl && {
+                    search: {
+                        type: 'wfs',
+                        url: wfsUrl
+                    }
+                }),
+                ...(bbox ? { bbox } : { bboxError: true }),
+                ...(template && {
+                    featureInfo: {
+                        format: FEATURE_INFO_FORMAT,
+                        template
+                    }
+                }),
+                style: defaultStyleParams?.defaultStyle?.name || '',
+                title,
+                tileSize: defaultTileSize,
+                visibility: true,
+                ...(params && { params }),
+                extendedParams,
+                ...(fields && { fields })
+            };
+        }
+    
         const dimensions = [
             ...(hasTime ? [{
                 name: 'time',
@@ -345,6 +377,24 @@ export const getResourceTypesInfo = () => ({
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         formatMetadataUrl: (resource) => resource.url
+    },
+    ["tabular"]: {
+        icon: 'table',
+        name: 'Table',
+        canPreviewed: (resource) => resourceHasPermission(resource, 'view_resourcebase'),
+        formatEmbedUrl: () => false,
+        formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
+        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`),
+        catalogPageUrl: '/all'
+    },
+    ["tabular-collection"]: {
+        icon: 'files-o',
+        name: 'TableCollection',
+        canPreviewed: (resource) => resourceHasPermission(resource, 'view_resourcebase'),
+        formatEmbedUrl: () => false,
+        formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
+        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`),
+        catalogPageUrl: '/all'
     }
 });
 
@@ -476,6 +526,8 @@ export function toGeoNodeMapConfig(data) {
     const maplayers = getGeoNodeMapLayers(data);
     return {
         maplayers
+        //serializer field "thumbnail_url" is readonly :( 
+        //thumbnail_url: tabular ? "/static/importer_datapackage/table-icon.jpg" : undefined
     };
 }
 
