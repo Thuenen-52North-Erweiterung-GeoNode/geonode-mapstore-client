@@ -195,6 +195,7 @@ def run_setup_hooks(*args, **kwargs):
             "date",
             "date_type",
             "detail_url",
+            "doi",
             "download_urls",
             "embed_url",
             "executions",

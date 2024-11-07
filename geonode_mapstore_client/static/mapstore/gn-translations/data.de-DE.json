@@ -409,7 +409,8 @@
                     }
                 }
             },
-            "allResources": "All resources"
+            "allResources": "All resources",
+            "doi": "DOI"
         }
     }
 }
