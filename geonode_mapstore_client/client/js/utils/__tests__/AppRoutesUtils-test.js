@@ -69,7 +69,9 @@ describe('Test App Routes Utils', () => {
             mapViewerRoute,
             catalogueRoute,
             uploadDatasetRoute,
-            uploadDocumentRoute
+            uploadDocumentRoute,
+            tabularRoute,
+            tabularCollectionRoute
         ] = routeUtils.CATALOGUE_ROUTES;
         expect(datasetSubtypeRoute.path).toEqual(['/dataset/:subtype/:pk']);
         expect(datasetSubtypeRoute.name).toEqual('dataset_viewer');
@@ -116,5 +118,11 @@ describe('Test App Routes Utils', () => {
         expect(uploadDocumentRoute.path).toEqual(['/upload/document']);
         expect(uploadDocumentRoute.name).toEqual('upload_document');
         expect(uploadDocumentRoute.shouldNotRequestResources).toEqual(true);
+        expect(tabularRoute.path).toEqual(['/tabular/:pk']);
+        expect(tabularRoute.name).toEqual('tabular_viewer');
+        expect(tabularRoute.shouldNotRequestResources).toEqual(true);
+        expect(tabularCollectionRoute.path).toEqual(['/tabular-collection/:pk']);
+        expect(tabularCollectionRoute.name).toEqual('tabular-collection_viewer');
+        expect(tabularCollectionRoute.shouldNotRequestResources).toEqual(true);
     });
 });
