@@ -50,7 +50,6 @@ Label.contextTypes = {
 function Facet({
     item,
     active,
-    label,
     onChange
 }) {
     const filterValue = item.filterValue || item.id;

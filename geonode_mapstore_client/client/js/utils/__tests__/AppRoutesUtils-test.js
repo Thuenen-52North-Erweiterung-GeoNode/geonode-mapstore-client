@@ -69,7 +69,9 @@ describe('Test App Routes Utils', () => {
             mapViewerRoute,
             catalogueRoute,
             uploadDatasetRoute,
-            uploadDocumentRoute
+            uploadDocumentRoute,
+            tabularRoute,
+            tabularCollectionRoute
         ] = routeUtils.CATALOGUE_ROUTES;
         expect(datasetSubtypeRoute.path).toEqual(['/dataset/:subtype/:pk']);
         expect(datasetSubtypeRoute.name).toEqual('dataset_viewer');
@@ -109,15 +111,18 @@ describe('Test App Routes Utils', () => {
             '/detail/:ctype/:pk',
             '/:page'
         ]);
-        expect(catalogueRoutes[7].name).toEqual('catalogue');
-        expect(catalogueRoutes[8].path).toEqual(['/upload/dataset']);
-        expect(catalogueRoutes[8].name).toEqual('upload_dataset');
-        expect(catalogueRoutes[8].shouldNotRequestResources).toEqual(true);
-        expect(catalogueRoutes[9].path).toEqual(['/upload/document']);
-        expect(catalogueRoutes[9].name).toEqual('upload_document');
-        expect(catalogueRoutes[9].shouldNotRequestResources).toEqual(true);
-        expect(catalogueRoutes[10].path).toEqual(['/tabular/:pk']);
-        expect(catalogueRoutes[10].name).toEqual('tabular_viewer');
-        expect(catalogueRoutes[10].shouldNotRequestResources).toEqual(true);
+        expect(catalogueRoute.name).toEqual('catalogue');
+        expect(uploadDatasetRoute.path).toEqual(['/upload/dataset']);
+        expect(uploadDatasetRoute.name).toEqual('upload_dataset');
+        expect(uploadDatasetRoute.shouldNotRequestResources).toEqual(true);
+        expect(uploadDocumentRoute.path).toEqual(['/upload/document']);
+        expect(uploadDocumentRoute.name).toEqual('upload_document');
+        expect(uploadDocumentRoute.shouldNotRequestResources).toEqual(true);
+        expect(tabularRoute.path).toEqual(['/tabular/:pk']);
+        expect(tabularRoute.name).toEqual('tabular_viewer');
+        expect(tabularRoute.shouldNotRequestResources).toEqual(true);
+        expect(tabularCollectionRoute.path).toEqual(['/tabular-collection/:pk']);
+        expect(tabularCollectionRoute.name).toEqual('tabular-collection_viewer');
+        expect(tabularCollectionRoute.shouldNotRequestResources).toEqual(true);
     });
 });

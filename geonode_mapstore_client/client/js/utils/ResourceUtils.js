@@ -402,7 +402,6 @@ export const getResourceTypesInfo = () => ({
         formatEmbedUrl: () => false,
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`),
-        catalogPageUrl: '/all'
     },
     ["tabular-collection"]: {
         icon: 'files-o',
@@ -544,8 +543,6 @@ export function toGeoNodeMapConfig(data) {
     const maplayers = getGeoNodeMapLayers(data);
     return {
         maplayers
-        //serializer field "thumbnail_url" is readonly :( 
-        //thumbnail_url: tabular ? "/static/importer_datapackage/table-icon.jpg" : undefined
     };
 }
 

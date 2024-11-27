@@ -20,9 +20,9 @@ import { isLocalizedLayerStylesEnabledSelector } from '@mapstore/framework/selec
 import { getScales } from '@mapstore/framework/utils/MapUtils';
 
 function applyVersionParamToLegend(layer) {
-   // we need to pass a parameter that invalidate the cache for GetLegendGraphic
-   // all layer inside the dataset viewer apply a new _v_ param each time we switch page
-   return { ...layer, legendParams: { ...layer?.legendParams, _v_: layer?._v_ } };
+    // we need to pass a parameter that invalidate the cache for GetLegendGraphic
+    // all layer inside the dataset viewer apply a new _v_ param each time we switch page
+    return { ...layer, legendParams: { ...layer?.legendParams, _v_: layer?._v_ } };
 }
 
 function Legend({
@@ -34,11 +34,11 @@ function Legend({
     currentLocale
 }) {
 
-   const [expandLegend, setExpandLegend] = useState(false);
+    const [expandLegend, setExpandLegend] = useState(false);
 
-   const expand = () => {
-       setExpandLegend(ex => !ex);
-   };
+    const expand = () => {
+        setExpandLegend(ex => !ex);
+    };
 
     if (!layers.length) {
         return null;
@@ -102,12 +102,12 @@ const ConnectedLegend = connect(
     {
         onUpdateNode: updateNode
 
-   }
+    }
 )(Legend);
 
 export default createPlugin('Legend', {
-   component: ConnectedLegend,
-   containers: {},
-   epics: {},
-   reducers: {}
+    component: ConnectedLegend,
+    containers: {},
+    epics: {},
+    reducers: {}
 });

@@ -87,7 +87,7 @@ function parseMapBody(body) {
     };
 }
 
-const SaveAPI = { 
+const SaveAPI = {
     [ResourceTypes.MAP]: (state, id, body) => {
         return id
             ? updateMap(id, { ...parseMapBody(body), id })
@@ -149,7 +149,7 @@ export const gnSaveContent = (action$, store) =>
                 ...(extent && { extent })
             };
             const currentResource = getResourceData(state);
-            return Observable.defer(() => SaveAPI[contentType](state, action.id, body, action.reload)) //step 8
+            return Observable.defer(() => SaveAPI[contentType](state, action.id, body, action.reload))
                 .switchMap((resource) => {
                     if (action.reload) {
                         if (contentType === ResourceTypes.VIEWER) {
