@@ -341,8 +341,7 @@ export const getResourceTypesInfo = () => ({
         name: 'Dataset',
         formatMetadataUrl: (resource) => isDefaultDatasetSubtype(resource?.subtype)
             ? `/datasets/${resource.store ? resource.store + ":" : ''}${resource.alternate}/metadata`
-            : `/resources/${resource.pk}/metadata`,
-        catalogPageUrl: '/datasets'
+            : `/resources/${resource.pk}/metadata`
     },
     [ResourceTypes.MAP]: {
         icon: 'map',
@@ -352,8 +351,7 @@ export const getResourceTypesInfo = () => ({
             config: 'map_preview'
         })),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
-        formatMetadataUrl: (resource) => (`/maps/${resource.pk}/metadata`),
-        catalogPageUrl: '/maps'
+        formatMetadataUrl: (resource) => (`/maps/${resource.pk}/metadata`)
     },
     [ResourceTypes.DOCUMENT]: {
         icon: 'file',
@@ -363,8 +361,7 @@ export const getResourceTypesInfo = () => ({
         formatEmbedUrl: (resource) => isDocumentExternalSource(resource) ? undefined : resource?.embed_url && parseDevHostname(resource.embed_url),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         formatMetadataUrl: (resource) => (`/documents/${resource.pk}/metadata`),
-        metadataPreviewUrl: (resource) => (`/documents/${resource.pk}/metadata_detail?preview`),
-        catalogPageUrl: '/documents'
+        metadataPreviewUrl: (resource) => (`/documents/${resource.pk}/metadata_detail?preview`)
     },
     [ResourceTypes.GEOSTORY]: {
         icon: 'book',
@@ -372,8 +369,7 @@ export const getResourceTypesInfo = () => ({
         canPreviewed: (resource) => resourceHasPermission(resource, 'view_resourcebase'),
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
-        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`),
-        catalogPageUrl: '/geostories'
+        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`)
     },
     [ResourceTypes.DASHBOARD]: {
         icon: 'dashboard',
@@ -381,8 +377,7 @@ export const getResourceTypesInfo = () => ({
         canPreviewed: (resource) => resourceHasPermission(resource, 'view_resourcebase'),
         formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
-        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`),
-        catalogPageUrl: '/dashboards'
+        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`)
     },
     [ResourceTypes.VIEWER]: {
         icon: 'cogs',
@@ -390,8 +385,7 @@ export const getResourceTypesInfo = () => ({
         canPreviewed: (resource) => resourceHasPermission(resource, 'view_resourcebase'),
         formatEmbedUrl: () => false,
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
-        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`),
-        catalogPageUrl: '/all'
+        formatMetadataUrl: (resource) => (`/apps/${resource.pk}/metadata`)
     },
     ["tabular"]: {
         icon: 'table',
@@ -855,14 +849,6 @@ export const getResourceAdditionalProperties = (_resource = {}) => {
     };
 };
 
-export const onDeleteRedirectTo = (resources = []) => {
-    let redirectUrl = '/';
-    if (!isEmpty(resources) && resources?.length === 1) {
-        const types = getResourceTypesInfo();
-        const { catalogPageUrl } = types[resources[0].resource_type] ?? {};
-        if (catalogPageUrl) {
-            redirectUrl = catalogPageUrl;
-        }
-    }
-    return redirectUrl;
+export const onDeleteRedirectTo = () => {
+    return '/';
 };
