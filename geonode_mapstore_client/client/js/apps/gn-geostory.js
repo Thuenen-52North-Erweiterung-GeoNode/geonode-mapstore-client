@@ -32,7 +32,7 @@ import {
     getPluginsConfigOverride
 } from '@js/utils/AppUtils';
 import { ResourceTypes } from '@js/utils/ResourceUtils';
-import pluginsDefinition, { storeEpicsNamesToExclude } from '@js/plugins/index';
+import pluginsDefinition, { storeEpicsNamesToExclude, cleanEpics } from '@js/plugins/index';
 import ReactSwipe from 'react-swipeable-views';
 import SwipeHeader from '@mapstore/framework/components/data/identify/SwipeHeader';
 const requires = {
@@ -74,65 +74,60 @@ document.addEventListener('DOMContentLoaded', function() {
                         pluginsConfigKey,
                         geoNodePageConfig,
                         configEpics,
-                        mapType = 'openlayers',
                         onStoreInit,
                         targetId = 'ms-container',
                         settings
                     }) => {
 
-                        const appEpics = {
+                        const appEpics = cleanEpics({
                             ...configEpics,
                             ...gnresourceEpics
-                        };
+                        });
 
                         storeEpicsNamesToExclude(appEpics);
 
-                        // register custom arcgis layer
-                        import('@js/map/' + mapType + '/plugins/ArcGisMapServer')
-                            .then(() => {
-                                main({
-                                    targetId,
-                                    appComponent: withRoutes(routes)(ConnectedRouter),
-                                    pluginsConfig: getPluginsConfigOverride(getPluginsConfiguration(localConfig.plugins, pluginsConfigKey)),
-                                    loaderComponent: MainLoader,
-                                    pluginsDef: {
-                                        plugins: {
-                                            ...pluginsDefinition.plugins
-                                        },
-                                        requires: {
-                                            ...requires,
-                                            ...pluginsDefinition.requires
-                                        }
+                        main({
+                            targetId,
+                            appComponent: withRoutes(routes)(ConnectedRouter),
+                            pluginsConfig: getPluginsConfigOverride(getPluginsConfiguration(localConfig.plugins, pluginsConfigKey)),
+                            loaderComponent: MainLoader,
+                            pluginsDef: {
+                                plugins: {
+                                    ...pluginsDefinition.plugins
+                                },
+                                requires: {
+                                    ...requires,
+                                    ...pluginsDefinition.requires
+                                }
+                            },
+                            initialState: {
+                                defaultState: {
+                                    maptype: {
+                                        mapType: 'openlayers'
                                     },
-                                    initialState: {
-                                        defaultState: {
-                                            maptype: {
-                                                mapType: 'openlayers'
-                                            },
-                                            ...securityState
-                                        }
-                                    },
-                                    themeCfg: null,
-                                    appReducers: {
-                                        geostory,
-                                        gnresource,
-                                        gnsettings,
-                                        security,
-                                        maptype
-                                    },
-                                    appEpics,
-                                    onStoreInit,
-                                    geoNodeConfiguration,
-                                    initialActions: [
-                                    // add some settings in the global state to make them accessible in the monitor state
-                                    // later we could use expression in localConfig
-                                        updateGeoNodeSettings.bind(null, settings),
-                                        ...(geoNodePageConfig.resourceId !== undefined
-                                            ? [ requestResourceConfig.bind(null, ResourceTypes.GEOSTORY, geoNodePageConfig.resourceId) ]
-                                            : [])
-                                    ]
-                                });
-                            });
+                                    ...securityState
+                                }
+                            },
+                            themeCfg: null,
+                            appReducers: {
+                                geostory,
+                                gnresource,
+                                gnsettings,
+                                security,
+                                maptype
+                            },
+                            appEpics,
+                            onStoreInit,
+                            geoNodeConfiguration,
+                            initialActions: [
+                            // add some settings in the global state to make them accessible in the monitor state
+                            // later we could use expression in localConfig
+                                updateGeoNodeSettings.bind(null, settings),
+                                ...(geoNodePageConfig.resourceId !== undefined
+                                    ? [ requestResourceConfig.bind(null, ResourceTypes.GEOSTORY, geoNodePageConfig.resourceId) ]
+                                    : [])
+                            ]
+                        });
                     });
 
             })
