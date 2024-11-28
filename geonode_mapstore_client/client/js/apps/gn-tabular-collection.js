@@ -70,7 +70,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         onStoreInit,
                         geoNodePageConfig,
                         targetId = 'ms-container',
-                        settings
+                        settings,
+                        query
                     }) => {
 
                         const appEpics = {
