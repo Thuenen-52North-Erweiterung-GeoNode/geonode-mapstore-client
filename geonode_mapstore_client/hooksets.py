@@ -195,9 +195,11 @@ class MapStoreHookSet(BaseHookSet):
                 request, resource_identifier, "base.change_resourcebase", "Not allowed"
             )
         resource_identifier = resource.id
-        resource_type = "tabular" if resource.subtype == "tabular" else resource.resource_type
         if resource.subtype == '3dtiles':
             return resource_detail_url(resource.subtype, resource_identifier)
+        
+        resource_type = resource.resource_type
+        resource_type = "tabular" if resource.subtype == "tabular" else resource.resource_type
         if resource.resource_type == "map":
             resource_type = self.get_map_resource_type(resource)
         return resource_detail_url(resource_type, resource_identifier)
