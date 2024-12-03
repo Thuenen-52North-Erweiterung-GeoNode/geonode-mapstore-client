@@ -700,12 +700,6 @@
                                 "href": "{context.get(state('gnResourceData'), 'href')}"
                             },
                             {
-                                "type": "link",
-                                "labelId": "gnviewer.doi",
-                                "href": "{'https://doi.org/' + context.get(state('gnResourceData'), 'doi')}",
-                                "value": "{context.get(state('gnResourceData'), 'doi')}"
-                            },
-                            {
                                 "type": "query",
                                 "labelId": "gnviewer.category",
                                 "value": "{context.get(state('gnResourceData'), 'category.gn_description')}",
@@ -991,12 +985,6 @@
                                   "labelId": "gnviewer.sourceType",
                                   "value": "{context.get(state('gnResourceData'), 'sourcetype', '').toLowerCase()}",
                                   "href": "{context.get(state('gnResourceData'), 'href')}"
-                              },
-                              {
-                                  "type": "link",
-                                  "labelId": "gnviewer.doi",
-                                  "href": "{'https://doi.org/' + context.get(state('gnResourceData'), 'doi')}",
-                                  "value": "{context.get(state('gnResourceData'), 'doi')}"
                               },
                               {
                                   "type": "query",
@@ -1356,12 +1344,6 @@
                                     "labelId": "gnviewer.sourceType",
                                     "value": "{context.get(state('gnResourceData'), 'sourcetype', '').toLowerCase()}",
                                     "href": "{context.get(state('gnResourceData'), 'href')}"
-                                },
-                                {
-                                    "type": "link",
-                                    "labelId": "gnviewer.doi",
-                                    "href": "{'https://doi.org/' + context.get(state('gnResourceData'), 'doi')}",
-                                    "value": "{context.get(state('gnResourceData'), 'doi')}"
                                 },
                                 {
                                     "type": "query",
@@ -2266,12 +2248,6 @@
                                     "href": "{context.get(state('gnResourceData'), 'href')}"
                                 },
                                 {
-                                    "type": "link",
-                                    "labelId": "gnviewer.doi",
-                                    "href": "{'https://doi.org/' + context.get(state('gnResourceData'), 'doi')}",
-                                    "value": "{context.get(state('gnResourceData'), 'doi')}"
-                                },
-                                {
                                     "type": "query",
                                     "labelId": "gnviewer.category",
                                     "value": "{context.get(state('gnResourceData'), 'category.gn_description')}",
@@ -2970,12 +2946,6 @@
                                     "href": "{context.get(state('gnResourceData'), 'href')}"
                                 },
                                 {
-                                    "type": "link",
-                                    "labelId": "gnviewer.doi",
-                                    "href": "{'https://doi.org/' + context.get(state('gnResourceData'), 'doi')}",
-                                    "value": "{context.get(state('gnResourceData'), 'doi')}"
-                                },
-                                {
                                     "type": "query",
                                     "labelId": "gnviewer.category",
                                     "value": "{context.get(state('gnResourceData'), 'category.gn_description')}",
@@ -3317,12 +3287,6 @@
                                     "href": "{context.get(state('gnResourceData'), 'href')}"
                                 },
                                 {
-                                    "type": "link",
-                                    "labelId": "gnviewer.doi",
-                                    "href": "{'https://doi.org/' + context.get(state('gnResourceData'), 'doi')}",
-                                    "value": "{context.get(state('gnResourceData'), 'doi')}"
-                                },
-                                {
                                     "type": "query",
                                     "labelId": "gnviewer.category",
                                     "value": "{context.get(state('gnResourceData'), 'category.gn_description')}",
@@ -3590,12 +3554,6 @@
                                     "labelId": "gnviewer.sourceType",
                                     "value": "{context.get(state('gnResourceData'), 'sourcetype', '').toLowerCase()}",
                                     "href": "{context.get(state('gnResourceData'), 'href')}"
-                                },
-                                {
-                                    "type": "link",
-                                    "labelId": "gnviewer.doi",
-                                    "href": "{'https://doi.org/' + context.get(state('gnResourceData'), 'doi')}",
-                                    "value": "{context.get(state('gnResourceData'), 'doi')}"
                                 },
                                 {
                                     "type": "query",
@@ -4158,12 +4116,6 @@
                                     "labelId": "gnviewer.sourceType",
                                     "value": "{context.get(state('gnResourceData'), 'sourcetype', '').toLowerCase()}",
                                     "href": "{context.get(state('gnResourceData'), 'href')}"
-                                },
-                                {
-                                    "type": "link",
-                                    "labelId": "gnviewer.doi",
-                                    "href": "{'https://doi.org/' + context.get(state('gnResourceData'), 'doi')}",
-                                    "value": "{context.get(state('gnResourceData'), 'doi')}"
                                 },
                                 {
                                     "type": "query",
@@ -4953,12 +4905,6 @@
                                     "labelId": "gnviewer.sourceType",
                                     "value": "{context.get(state('gnResourceData'), 'sourcetype', '').toLowerCase()}",
                                     "href": "{context.get(state('gnResourceData'), 'href')}"
-                                },
-                                {
-                                    "type": "link",
-                                    "labelId": "gnviewer.doi",
-                                    "href": "{'https://doi.org/' + context.get(state('gnResourceData'), 'doi')}",
-                                    "value": "{context.get(state('gnResourceData'), 'doi')}"
                                 },
                                 {
                                     "type": "query",
