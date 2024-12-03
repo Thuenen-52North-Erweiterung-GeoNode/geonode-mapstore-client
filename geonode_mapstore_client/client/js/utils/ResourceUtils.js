@@ -391,7 +391,7 @@ export const getResourceTypesInfo = () => ({
         icon: 'link',
         name: 'ExternalApplication',
         canPreviewed: (resource) => resourceHasPermission(resource, 'view_resourcebase'),
-        formatEmbedUrl: (resource) => resource?.embed_url && parseDevHostname(resource.embed_url),
+        formatEmbedUrl: () => false,
         formatDetailUrl: (resource) => resource?.detail_url && parseDevHostname(resource.detail_url),
         formatMetadataUrl: (resource) => resource.url
     },
