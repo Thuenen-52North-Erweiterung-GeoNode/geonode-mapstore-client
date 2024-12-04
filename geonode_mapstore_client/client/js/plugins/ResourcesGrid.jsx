@@ -308,6 +308,12 @@ function ResourcesGrid({
                     value: 'remote',
                     type: 'link',
                     href: '/services/?limit=5'
+                },
+                {
+                    labelId: "externalapplications.register",
+                    value: "externalapplication",
+                    type: "link",
+                    href: "/externalapplications/create"
                 }
             ]
         },
