@@ -376,6 +376,10 @@ export const plugins = {
         'VisualStyleEditor',
         () => import(/* webpackChunkName: 'plugins/visual-style-editor-plugin' */ '@js/plugins/VisualStyleEditor')
     ),
+    LayerDetailViewerPlugin: toModulePlugin(
+        'LayerDetailViewer',
+        () => import(/* webpackChunkName: 'plugins/detail-viewer-plugin' */ '@js/plugins/LayerDetailViewer')
+    ),
     LegendPlugin: toModulePlugin(
         'Legend',
         () => import(/* webpackChunkName: 'plugins/legend-plugin' */ '@js/plugins/Legend')
@@ -435,10 +439,6 @@ export const plugins = {
     SettingsPlugin: toModulePlugin(
         'Settings',
         () => import(/* webpackChunkName: 'plugins/settings' */ '@mapstore/framework/plugins/Settings')
-    ),
-    LayerDetailViewerPlugin: toModulePlugin(
-        'LayerDetailViewer',
-        () => import(/* webpackChunkName: 'plugins/detail-viewer-plugin' */ '@js/plugins/LayerDetailViewer')
     ),
     DataCiteDownloadPlugin: toModulePlugin(
         'DataCiteDownload',
