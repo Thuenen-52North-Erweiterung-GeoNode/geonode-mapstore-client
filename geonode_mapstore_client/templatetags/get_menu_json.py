@@ -45,7 +45,7 @@ def get_base_left_topbar_menu():
         },
         {
             "type": "link", 
-            "href": "/catalogue/#/maps", 
+            "href": "/catalogue/#/maps",
             "label": "Maps"
         },
         {
@@ -53,15 +53,20 @@ def get_base_left_topbar_menu():
             "href": "/catalogue/#/documents",
             "label": "Documents",
         },
+        # {
+        #     "type": "link",
+        #     "href": "/catalogue/#/geostories",
+        #     "label": "GeoStories",
+        # },
+        # {
+        #     "type": "link",
+        #     "href": "/catalogue/#/dashboards",
+        #     "label": "Dashboards",
+        # }
         {
             "type": "link",
-            "href": "/catalogue/#/geostories",
-            "label": "GeoStories",
-        },
-        {
-            "type": "link",
-            "href": "/catalogue/#/dashboards",
-            "label": "Dashboards",
+            "href": "/atlanten",
+            "label": "Atlanten"
         }
     ]
 
@@ -73,39 +78,73 @@ def get_base_right_topbar_menu(context):
     if is_mobile:
         return []
 
-    about = {
-        "label": "About",
-        "type": "dropdown",
-        "items": [
-            {"type": "link", "href": "/people/", "label": "People"},
-            {"type": "link", "href": "/groups/", "label": "Groups"},
-        ],
+    home = {
+        "type": "link",
+        "href": "/",
+        "label": "Home"
     }
 
-    user = _get_request_user(context)
-
-    if user and user.is_authenticated and not Configuration.load().read_only:
-        about["items"].extend(
-            [
-                {"type": "divider"},
+    about = {
+            "label": "About",
+            "type": "dropdown",
+            "items": [
                 {
                     "type": "link",
-                    "href": "/invitations/geonode-send-invite/",
-                    "label": "Invite users",
+                    "href": "/developer/",
+                    "label": "Developer"
+                },
+                {
+                    "type": "divider"
                 },
                 {
                     "type": "link",
-                    "href": "/admin/people/profile/add/",
-                    "label": "Add user",
+                    "href": "/legal_notice/",
+                    "label": "Legal notice"
+                },
+                {
+                    "type": "link",
+                    "href": "/accessibility/",
+                    "label": "Accessibility"
+                },
+                {
+                    "type": "link",
+                    "href": "/privacy_cookies/",
+                    "label": "Privacy & Cookies Policy"
                 }
-                if user.is_superuser
-                else None,
-                {"type": "link", "href": "/groups/create/", "label": "Create group"}
-                if user.is_superuser
-                else None,
             ]
-        )
-    return [about]
+        }
+    
+    user = _get_request_user(context)
+    if user.is_authenticated and not Configuration.load().read_only:
+        about['items'].extend([
+            {
+                "type": "divider"
+            },
+            {
+                "type": "link",
+                "href": "/people/",
+                "label": "People"
+            },
+            {
+                "type": "link",
+                "href": "/groups/",
+                "label": "Groups"
+            },
+            {
+                "type": "divider"
+            } if user.is_superuser else None,
+            {
+                "type": "link",
+                "href": "/admin/people/profile/add/",
+                "label": "Add user"
+            } if user.is_superuser else None,
+            {
+                "type": "link",
+                "href": "/groups/create/",
+                "label": "Create group"
+            }if user.is_superuser else None,
+        ])
+    return [home, about]
 
 
 @register.simple_tag(takes_context=True)
